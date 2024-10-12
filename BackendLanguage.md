@@ -17,6 +17,28 @@ What language will be used to code the backend of the solution in? This is the m
 * PHP
 * Python/Flask
 
+## Pros and Cons of the Options
+
+### C-Sharp
+
+* Good as it can be used with the MVC Framework for web applications, which makes development more structured and is used in a wide array of web applications
+* Good as documentation is easily avaialble
+* Bad as development will be slower with unfamiliar developers
+
+### PHP
+
+* Good as it is specifically designed for web applications
+* Good as developers are all already familiar with the language
+* Bad as it is less effecient for heavy processing tasks
+* Bad as security is a big concern with this language
+
+### Python/Flask
+
+* Good as the framework is designed for web development
+* Good as developers have familiarity with the language
+* Bad due to reliance on external libraries
+
+
 ## Decision Outcome
 
 Chosen option: Python/Flask due to the choice of Architectural Style being a Web App
@@ -24,30 +46,6 @@ Chosen option: Python/Flask due to the choice of Architectural Style being a Web
 ### Consequences
 
 * Good, because it will allow the solution to be coded faster due to developer pre-knowledge
-* Bad, because of reliance on libraries in python
-
-## Pros and Cons of the Options
-
-### C-Sharp
-
-<!-- This is an optional element. Feel free to remove. -->
-{example | description | pointer to more information | …}
-
-* Good, because it can be used with the MVC Framework to create web applications
-* Good, because it is a widely used language for web applications and therefore needed documentation is easier to find
-* Bad, as it can be more difficult to code in
-
-### {title of other option}
-
-{example | description | pointer to more information | …}
-
-* Good, because {argument a}
-* Good, because {argument b}
-* Neutral, because {argument c}
-* Bad, because {argument d}
-* …
-
-<!-- This is an optional element. Feel free to remove. -->
-## More Information
-
-{You might want to provide additional evidence/confidence for the decision outcome here and/or document the team agreement on the decision and/or define when/how this decision the decision should be realized and if/when it should be re-visited. Links to other decisions and resources might appear here as well.}
+* Good as it will avoid the security issues in PHP
+* Good as it will be able to perform more complex tasks
+* Bad, because of reliance on libraries in Python

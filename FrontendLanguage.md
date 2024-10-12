@@ -17,6 +17,25 @@ and the page layouts
 * JavaScript
 * React
 
+## Pros and Cons of the Options
+
+### HTML/CSS
+
+* Good as developer familiarity will make development less complex and faster
+* Good as it is commonly used and therefore resources are plentiful and easy to access
+* Bad as it is simple and may lack some more advanced desired features 
+
+### JavaScript
+
+* Good as it can handle both styling and interactive elements
+* Good as it can be used with other languages
+* Bad as it can increase development complexity and time
+
+### React
+
+* Good as it uses a more structure and component based approach
+* Bad as developers aren't familiar with the language which would increase development time
+
 ## Decision Outcome
 
 Chosen option: HTML/CSS, due to developer familiarity
