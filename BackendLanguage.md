@@ -9,7 +9,16 @@ decision-makers: {Connor Wright, Waris Ali, David Ani}
 
 ## Context and Problem Statement
 
-What language will be used to code the backend of the solution in? This is the main bulk of the code that will perform the various functions of the AML
+What language will be used to code the backend of the solution in?
+What language will be the most optimum for the requirements of the system? 
+This is the main bulk of the code that will perform the various functions of the AML
+
+## Decision Drivers
+
+* Scalability, the system will need to be able to handle it if the demand grows
+* Developer Profeciency, as this will affect not only the quality of code written but also the speed at which the system can be developed
+* Integration, the chosen language needs to interact well both with the Architectural Style chosen as well as the front-end/database systems being used
+* Performance, the chosen language should be ideal for large amounts of processing
 
 ## Considered Options
 
@@ -43,9 +52,14 @@ What language will be used to code the backend of the solution in? This is the m
 
 Chosen option: Python/Flask due to the choice of Architectural Style being a Web App
 
+### Confirmation
+
+* Check github repository, backend files should all be written in python/Flask
+
 ### Consequences
 
 * Good, because it will allow the solution to be coded faster due to developer pre-knowledge
 * Good as it will avoid the security issues in PHP
 * Good as it will be able to perform more complex tasks
 * Bad, because of reliance on libraries in Python
+

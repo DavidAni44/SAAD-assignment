@@ -11,6 +11,12 @@ decision-makers: {Waris Ali, Connor Wright, David Ani}
 What language will be used to create the front-end of the system that users interact with? This includes the styling elements
 and the page layouts
 
+## Decision Drivers
+
+* Developer Profeciency, the more experienced the developers are with the language the less time is spent on learning and implementing the required features
+* Scalability, as the system grows to handle more users/take on more inputs it needs to be able to handle this
+* Backend integration, the langauge chosen needs to be compatible with the backend language
+
 ## Considered Options
 
 * HTML/CSS
@@ -48,4 +54,5 @@ Chosen option: HTML/CSS, due to developer familiarity
 
 ### Confirmation
 
-{Describe how the implementation of/compliance with the ADR can/will be confirmed. Is the chosen design and its implementation in line with the decision? E.g., a design/code review or a test with a library such as ArchUnit can help validate this. Note that although we classify this element as optional, it is included in many ADRs.}
+* Github repistory should show that all front-end features are created in HTML/CSS
+* ADR to be reviewed as more detailed functions are developed - may choose to work with other languages as well

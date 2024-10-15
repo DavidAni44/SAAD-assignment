@@ -16,6 +16,12 @@ What architectural style will be used to create the framework for the AML?
 * Web Based Application
 * Three Tier Architecture
 
+## Decision Drivers
+
+* Scalability, the style chosen should be suitable for a growing system
+* Ease of updates, if changes need to be made to the system then the architectural style chosen should be one that makes updating the system as simple as possible
+* Development Time, the style that allows the system to be developed in the shortest time frame
+
 ## Pros and Cons of the Options
 
 ### Desktop/Database Application
@@ -42,7 +48,6 @@ What architectural style will be used to create the framework for the AML?
 * Bad as it will increase development time and complexity
 
 
-
 ## Decision Outcome
 
 Chosen option: Web Based Application
@@ -55,8 +60,4 @@ Chosen option: Web Based Application
 * Bad because it is dependent upon a stable internet connection
 * Bad because security will need to be a special consideration 
 
-
-### Confirmation
-
-{Describe how the implementation of/compliance with the ADR can/will be confirmed. Is the chosen design and its implementation in line with the decision? E.g., a design/code review or a test with a library such as ArchUnit can help validate this. Note that although we classify this element as optional, it is included in many ADRs.}
 
