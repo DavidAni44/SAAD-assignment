@@ -21,10 +21,10 @@ decision-makers: {Connor Wright, Waris Ali, David Ani}
 
 ## Pros and Cons of the Options
 
-### Option1
-
+### Option 1
 * 
-
+### Option 2
+*
 
 ## Decision Outcome
 
