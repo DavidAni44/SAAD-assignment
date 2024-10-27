@@ -13,7 +13,7 @@ What database will be used to store data for our solution? What database will be
 ## Decision Drivers
 
 * Scalability - The application needs to be scalable currently with 20% of England's population using ALM with an expected growth of 10% annually and have no downtime while scaling
-* Avalability - Maintain consistent performance and Ensure high availability
+* Availability - Maintain consistent performance and Ensure high availability
 * Autonomy - Automatically scale up server capacity & databases
 
 ## Considered Options
