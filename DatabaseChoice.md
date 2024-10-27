@@ -33,8 +33,15 @@ What database will be used to store data for our solution? What database will be
 *Cons
 ### MySQL
 *Pros
+High Performance – MySQL can handle large amounts of data and traffic without slowing down
+User-Friendly - MySQL is known for being relatively easy to install, set up, and manage, especially for new users
+Strong Security Features – MySQL offers strong security features, including user authentication, encryption, and access control
+
 
 *Cons
+ Poor Performance in High Loads -  for such high volumes of data MySQL does not provide adequate support for reading/write operations
+ Single Point of Failure - MySQL uses a master-slave replication model by default, where all writes go to a single master server. This can create a bottleneck and limit scalability, as the master server can become a single point of failure.
+ Data Consistency - Replication Lags in master-slave setups, leading to delays in data consistency across instances, especially under heavy load.
 
 ## Decision Outcome
 
@@ -42,8 +49,12 @@ Chosen option: Dynamo DB
 
 ### Confirmation
 
-* 
+* Check github repository, database will be in DynamoDB
 
 ### Consequences
 
-* 
+
+### References
+https://feeddi.com/why-is-mysql-not-scalable
+https://aspiringyouths.com/advantages-disadvantages/mysql/#google_vignette
+
