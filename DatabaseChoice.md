@@ -69,8 +69,8 @@ What database will be used to store data for our solution? What database will be
 *  Tt may lead to high costs for applications with unpredictable or extremely high traffic however ALM doesnt mention any cost contraints with regards to the new system and traffic volumes dont seem like they would majorily spike at any point. Also as a  AWS service, using DynamoDB may lead to vendor lock-in, making it challenging to migrate to other database systems or platforms in the future.
 
 ### References
-* https://feeddi.com/why-is-mysql-not-scalable
+* Why is MySQL not scalable. (n.d.). https://feeddi.com/why-is-mysql-not-scalable
 * https://aspiringyouths.com/advantages-disadvantages/mysql/#google_vignette
-* https://www.geeksforgeeks.org/mongodb-advantages-disadvantages/
+* GeeksforGeeks. (2023, December 1). MongoDB Advantages & Disadvantages. GeeksforGeeks. https://www.geeksforgeeks.org/mongodb-advantages-disadvantages/
 * https://thinkcloudly.com/blogs/aws/advantages-disadvantages-aws-dynamodb/?v=7885444af42e
 * https://docs.aws.amazon.com/dynamodb/
