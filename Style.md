@@ -13,7 +13,7 @@ What architectural style will be used to create the framework for the AML?
 ## Considered Options
 
 * Desktop/Database Application
-* Web Based Application
+* Microservice
 * Three Tier Architecture
 
 ## Decision Drivers
@@ -32,13 +32,13 @@ What architectural style will be used to create the framework for the AML?
 * Bad, because working with external systems (e.g. stock procurement) will require more effort
 * Bad as it isn't portable and makes accessibility harder
 
-### Web Application
+### Microservice
 
-* Good, it will allow the solution to be more portable and make availability easier
-* Good, developers are familiar with web dev skills, making development faster and allowing more features to be implemented within the deadline
-* Good, database can be updated in real time
-* Bad, as scalability may be a concern
-* Bad, internet access will always be needed to use it
+* Good, as they are more scalable with new components being able to be introduced without creating downtime for others
+* Good as it is easier to identify and fix faults that appear
+* Good as it allows for easier development with each developer having a fixed goal
+* Bad as it increases complexity of the system
+* Bad as it communication considerations increase 
 
 ### Three Tier Architecture
 
@@ -50,14 +50,16 @@ What architectural style will be used to create the framework for the AML?
 
 ## Decision Outcome
 
-Chosen option: Web Based Application
+Chosen option: Microservice
 
 ### Consequences
 
-* Good because it will allow the solution to be more portable. It can be accessed anywhere with a stable internet connection which in turn makes it more accessible.
-* Good because it is a more cost effective option and doesn't require any specailist hardware
-* Good because it will be easier to make updates in real time
-* Bad because it is dependent upon a stable internet connection
-* Bad because security will need to be a special consideration 
+* Good because it will allow us to focus on the different areas of the system more effeciently
+* Good because it will be more cost effecient than mantaining a whole monolothic system
+* Good as it will be more scalable
+* Bad as it may increase the overall complexity of the system
 
+### References
 
+* Atlassian. (n.d.). 5 Advantages of Microservices [+ Disadvantages] | Atlassian. https://www.atlassian.com/microservices/cloud-computing/advantages-of-microservices
+* Qa. (2023, July 17). Advantages and disadvantages of microservices architecture. https://www.qa.com/resources/blog/microservices-architecture-challenge-advantage-drawback/ 
