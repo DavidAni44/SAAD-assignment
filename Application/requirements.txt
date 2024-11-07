@@ -1,0 +1,6 @@
+Flask
+pymongo[srv]
+Flask-PyMongo
+flask
+flask_sessions
+python-dotenv
