@@ -14,8 +14,8 @@ app.secret_key = os.getenv("SECRET_KEY")
 
 # MongoDB connection
 client = MongoClient(f'mongodb+srv://{os.getenv("DBUSERNAME")}:{os.getenv("DBPASSWORD")}@saaddatabase.8f32e.mongodb.net/?retryWrites=true&w=majority&appName=SAADdatabase')
-db = client["LibraryDB"]
-collection = db["Media"]
+db = client["AMLdb"]
+collection = db["AMLDB"]
 
 @app.route('/')
 def index():
