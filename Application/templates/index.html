@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library Media Collection</title>
+</head>
+<body>
+    <h1>Library Media Collection</h1>
+    <ul>
+        {% for media in media_items %}
+            <li>
+                <strong>Title:</strong> {{ media.title }}<br>
+                <strong>Status:</strong> {{ media.status }}<br>
+                {% if media.status == "available" %}
+                    <a href="{{ url_for('borrow_media', media_id=media._id) }}">Borrow</a>
+                {% else %}
+                    <em>Currently Unavailable</em>
+                {% endif %}
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Borrow Media</title>
+</head>
+<body>
+    <h1>Borrow "{{ media_item.title }}"</h1>
+    <form action="" method="post">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br><br>
+
+        <label for="phone">Phone (Optional):</label>
+        <input type="tel" name="phone" id="phone"><br><br>
+
+        <label for="pickup_option">Pickup Option:</label>
+        <select name="pickup_option" id="pickup_option">
+            <option value="in-branch">In-branch Pickup</option>
+            <option value="home-delivery">Home Delivery</option>
+        </select><br><br>
+
+        <button type="submit">Confirm Borrowing</button>
+    </form>
+</body>
+</html>
