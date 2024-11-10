@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Media</title>
+</head>
+<body>
+    <h1>Edit Media</h1>
+        <form method="POST">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" value="{{ media_item['title'] }}" required><br>
+        
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author" value="{{ media_item['author'] }}" required><br>
+        
+            <label for="genre">Genre:</label>
+            <input type="text" id="genre" name="genre" value="{{ media_item['genre'] }}" required><br>
+        
+            <label for="status">Status:</label>
+            <input type="text" id="status" name="status" value="{{ media_item['status'] }}" required><br>
+        
+            <label for="type">Type:</label>
+            <input type="text" id="type" name="type" value="{{ media_item['type'] }}" required><br>
+        
+            <label for="description">Description:</label>
+            <textarea id="description" name="description">{{ media_item['description'] }}</textarea><br>
+        
+            <label for="year_published">Year Published:</label>
+            <input type="text" id="year_published" name="year_published" value="{{ media_item['year_published'] }}" required><br>
+        
+            <button type="submit">Update Media</button>
+        </form>
+    
+</body>
+</html>
