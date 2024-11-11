@@ -1,0 +1,60 @@
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "5000:5000"
+    depends_on:
+      - borrow-service
+      - reserve-service
+      - subscription-service
+      - media-procurement-service
+    environment:
+      - DBUSERNAME=${DBUSERNAME}
+      - DBPASSWORD=${DBPASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+
+  borrow-service:
+    build: ./borrow-service
+    ports:
+      - "5001:5001"
+    environment:
+      - DBUSERNAME=${DBUSERNAME}
+      - DBPASSWORD=${DBPASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+
+  reserve-service:
+    build: ./reserve-service
+    ports:
+      - "5002:5002"
+    environment:
+      - DBUSERNAME=${DBUSERNAME}
+      - DBPASSWORD=${DBPASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+
+  subscription-service:
+    build: ./subscription-service
+    ports:
+      - "5003:5003"
+    environment:
+      - DBUSERNAME=${DBUSERNAME}
+      - DBPASSWORD=${DBPASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+
+  media-procurement-service:
+    build: ./media-procurement-service
+    ports:
+      - "5004:5004"
+    environment:
+      - DBUSERNAME=${DBUSERNAME}
+      - DBPASSWORD=${DBPASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+
+  mongodb:
+    image: mongo
+    container_name: mongo-db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DBUSERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${DBPASSWORD}
+    ports:
+      - "27017:27017"
