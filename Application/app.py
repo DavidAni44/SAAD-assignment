@@ -27,7 +27,7 @@ def home():
 # View Account Information (for hardcoded user)
 @app.route('/account')
 def account():
-    user = user_collection.find({"_id": ObjectId(hardcoded_user_id)})
+    user = user_collection.find_one({"_id": hardcoded_user_id})
     return render_template('account.html', user=user)
 
 # Borrow Media (for hardcoded user)

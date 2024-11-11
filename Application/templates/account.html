@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,20 +7,21 @@
 </head>
 <body>
     <h2>Account Information</h2>
-    <p><strong>Name:</strong> {{ user['name'] }}</p>
-    <p><strong>Email:</strong> {{ user['email'] }}</p>
-    <p><strong>Address:</strong> {{ user['address'] }}</p>
-    <p><strong>Role:</strong> {{ user['role'] }}</p>
+    <p><strong>Name:</strong> {{ user.name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Address:</strong> {{ user.address }}</p>
+    <p><strong>Role:</strong> {{ user.role }}</p>
     
     <h3>Borrowed Media</h3>
     <ul>
-        {% for media in user['borrowed_media'] %}
+        {% for media in user.borrowed_media %}
             <li>
-                {{ media['title'] }}
-                <a href="{{ url_for('return_media', media_id=media['_id']) }}">Return</a>
+                {{ media }}
+                <a href="{{ url_for('return_media', media_id=media) }}">Return</a>
             </li>
         {% endfor %}
     </ul>
+
     <a href="{{ url_for('borrow_media') }}">Browse Media</a>
 </body>
 </html>
