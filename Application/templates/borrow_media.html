@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrow Media</title>
+</head>
+<body>
+    <h2>Borrow Media</h2>
+    <ul>
+        {% for media in available_media %}
+            <li>
+                {{ media['title'] }}
+                <form action="{{ url_for('borrow_media') }}" method="POST" style="display:inline;">
+                    <input type="hidden" name="media_id" value="{{ media['_id'] }}">
+                    <button type="submit">Borrow</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('account') }}">Back to Account</a>
+</body>
+</html>
+

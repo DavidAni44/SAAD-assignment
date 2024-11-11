@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h2>Admin Dashboard</h2>
+    <h3>Users and Borrowed Media</h3>
+    <ul>
+        {% for user in users %}
+            <li>
+                <strong>{{ user.name }}</strong> ({{ user.role }})
+                <ul>
+                    {% for media in user.borrowed_media %}
+                        <li>{{ media }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
