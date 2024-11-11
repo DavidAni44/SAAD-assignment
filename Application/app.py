@@ -1,178 +1,94 @@
 from flask import Flask, render_template, redirect, request, url_for, flash
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from datetime import datetime
 import os
-import smtplib
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
 
-
-app = Flask(__name__, template_folder='templates', static_folder='static')
-
-secret_key = os.getenv("SECRET_KEY")
-if not secret_key:
-    print("No secret key found. Using fallback key.")
-    secret_key = "supersecretkey1234"  # Use a fallback key (only for development)
-
-app.secret_key = secret_key
+app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY", "a_random_fallback_secret_key")  # Replace with a real secret key in production
 
 # MongoDB connection
 client = MongoClient(f'mongodb+srv://{os.getenv("DBUSERNAME")}:{os.getenv("DBPASSWORD")}@saaddatabase.8f32e.mongodb.net/?retryWrites=true&w=majority&appName=SAADdatabase')
 db = client["AMLdb"]
-media_collection = db["Media Data"]  # Media collection
-user_collection = db["User Data"]   # Users collection
+user_collection = db["User Data"]
+media_collection = db["Media Data"]
 
+# Hardcoded user ID
+hardcoded_user_id = "6731ff43268d647e801147bf"
+
+# Home Page
 @app.route('/')
+def home():
+    return render_template('home.html')
 
-def index():
-    # Retrieve all media documents from MongoDB
-    media_items = list(media_collection.find())
+# View Account Information (for hardcoded user)
+@app.route('/account')
+def account():
+    user = user_collection.find({"_id": ObjectId(hardcoded_user_id)})
+    return render_template('account.html', user=user)
 
-# Convert ObjectId to string in Python before passing to template
-    for item in media_items:
-        item['_id'] = str(item['_id'])
+# Borrow Media (for hardcoded user)
+@app.route('/borrow_media', methods=['GET', 'POST'])
+def borrow_media():
+    user = user_collection.find_one({"_id": ObjectId(hardcoded_user_id)})
+    
 
-    return render_template('index.html', media_items=media_items)
-
-# Option 1: View All Media
-@app.route('/view_all_media')
-def view_all_media():
-    media_items = list(media_collection.find())
-
-    # Convert ObjectId to string before passing to template
-    for item in media_items:
-        item['_id'] = str(item['_id'])  # Convert ObjectId to string
-
-    return render_template('view_all_media.html', media_items=media_items)
-
-
-# Option 2: View All Users and Search by Name
-@app.route('/view_all_users', methods=['GET', 'POST'])
-def view_all_users():
-    search_name = None
     if request.method == 'POST':
-        search_name = request.form.get('name')
-        user_items = list(user_collection.find({"name": {"$regex": search_name, "$options": "i"}}))  # Case-insensitive search
+        media_id = request.form['media_id']
+        media = media_collection.find_one({"_id": ObjectId(media_id)})
+
+        if media and media.get('availability', False):
+            # Update borrowed_media in user document
+            user_collection.update_one(
+                {"_id": ObjectId(hardcoded_user_id)},
+                {"$push": {"borrowed_media": {"_id": media["_id"], "title": media["title"]}}}
+            )
+            # Update media availability
+            media_collection.update_one(
+                {"_id": ObjectId(media_id)},
+                {"$set": {"availability": False}}
+            )
+            flash(f"You've successfully borrowed {media['title']}", 'success')
+            return redirect(url_for('borrow_media'))
+
+        flash("Media is not available or doesn't exist.", 'error')
+        return redirect(url_for('borrow_media'))
+
+    available_media = media_collection.find({"availability": True})
+    return render_template('borrow_media.html', available_media=available_media, user=user)
+
+# Return Media (for hardcoded user)
+@app.route('/return_media/<media_id>', methods=['GET'])
+def return_media(media_id):
+    user = user_collection.find_one({"_id": ObjectId(hardcoded_user_id)})
+
+    # Find the media item in user's borrowed_media
+    media = media_collection.find_one({"_id": ObjectId(media_id)})
+    if media:
+        # Remove media from user's borrowed list
+        user_collection.update_one(
+            {"_id": ObjectId(hardcoded_user_id)},
+            {"$pull": {"borrowed_media": {"_id": media["_id"], "title": media["title"]}}}
+        )
+        # Set media availability to True
+        media_collection.update_one(
+            {"_id": ObjectId(media_id)},
+            {"$set": {"availability": True}}
+        )
+        flash(f"You've successfully returned {media['title']}.", 'success')
     else:
-        user_items = list(user_collection.find())
+        flash("Media not found.", 'error')
 
-    # Convert ObjectId to string before passing to template
-    for item in user_items:
-        item['_id'] = str(item['_id'])
+    return redirect(url_for('account'))
 
-    # Flag to check if there are any users found
-    no_users_found = len(user_items) == 0 and search_name
-
-    return render_template('view_all_users.html', user_items=user_items, no_users_found=no_users_found)
-
-
-# Option 3: Add Media
-@app.route('/add_media', methods=['GET', 'POST'])
-def add_media():
-    if request.method == 'POST':
-        title = request.form['title']
-        author = request.form['author']
-        genre = request.form['genre']
-        status = request.form['status']
-        media_type = request.form['type']
-        description = request.form['description']
-        year_published = request.form['year_published']
-
-        media_item = {
-            "title": title,
-            "author": author,
-            "genre": genre,
-            "status": status,
-            "type": media_type,
-            "description": description,
-            "year_published": year_published
-        }
-
-        media_collection.insert_one(media_item)
-        flash(f"{title} has been added to the collection.")
-        return redirect(url_for('index'))
-
-    return render_template('add_media.html')
-
-# Option 4: Delete Media
-@app.route('/delete_media/<media_id>', methods=['POST'])
-def delete_media(media_id):
-    media_collection.delete_one({"_id": ObjectId(media_id)})
-    flash("Media has been deleted.")
-    return redirect(url_for('view_all_media'))  # or redirect to any other page
-
-
-@app.route('/edit_media/<media_id>', methods=['GET', 'POST'])
-def edit_media(media_id):
-    # Convert media_id from string to ObjectId
-    media_item = media_collection.find_one({"_id": ObjectId(media_id)})
-
-    if not media_item:
-        flash("Media not found!")
-        return redirect(url_for('view_all_media'))
-
-    if request.method == 'POST':
-        # Update the media item with the form data
-        media_item['title'] = request.form['title']
-        media_item['author'] = request.form['author']
-        media_item['genre'] = request.form['genre']
-        media_item['status'] = request.form['status']
-        media_item['type'] = request.form['type']
-        media_item['description'] = request.form['description']
-        media_item['year_published'] = request.form['year_published']
-        
-        # Update the media in the collection
-        media_collection.update_one({"_id": ObjectId(media_id)}, {"$set": media_item})
-        flash(f"{media_item['title']} has been updated.")
-        return redirect(url_for('view_all_media'))
-
-    return render_template('edit_media.html', media_item=media_item)
-
-
-# Option 6: Delete User
-@app.route('/delete_user/<user_id>', methods=['POST'])
-def delete_user(user_id):
-    user_collection.delete_one({"_id": ObjectId(user_id)})
-    flash("User has been deleted.")
-    return redirect(url_for('view_all_users'))
-
-# Option 7: Edit User
-@app.route('/edit_user/<user_id>', methods=['GET', 'POST'])
-def edit_user(user_id):
-    user = user_collection.find_one({"_id": ObjectId(user_id)})
-
-    if request.method == 'POST':
-        user['name'] = request.form['name']
-        user['email'] = request.form['email']
-        user['address'] = request.form['address']
-        user_collection.update_one({"_id": ObjectId(user_id)}, {"$set": user})
-        flash(f"{user['name']} has been updated.")
-        return redirect(url_for('view_all_users'))
-
-    return render_template('edit_user.html', user=user)
-
-# Option 8: Add New User
-@app.route('/add_user', methods=['GET', 'POST'])
-def add_user():
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        address = request.form['address']
-
-        new_user = {
-            "name": name,
-            "email": email,
-            "address": address
-        }
-
-        user_collection.insert_one(new_user)
-        flash(f"{name} has been added as a new user.")
-        return redirect(url_for('index'))
-
-    return render_template('add_user.html')
+# Admin Dashboard
+@app.route('/admin_dashboard')
+def admin_dashboard():
+    users = user_collection.find()
+    return render_template('admin_dashboard.html', users=users)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(debug=True)
