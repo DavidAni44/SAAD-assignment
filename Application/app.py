@@ -30,8 +30,6 @@ user_collection = db["User Data"]   # Users collection
 def index():
     # Retrieve all media documents from MongoDB
     media_items = list(media_collection.find())
-    # In the Python backend, before passing to the template
-    media_items = list(media_collection.find())
 
 # Convert ObjectId to string in Python before passing to template
     for item in media_items:
@@ -54,17 +52,22 @@ def view_all_media():
 # Option 2: View All Users and Search by Name
 @app.route('/view_all_users', methods=['GET', 'POST'])
 def view_all_users():
+    search_name = None
     if request.method == 'POST':
-        name = request.form.get('name')
-        user = user_collection.find_one({"name": name})
-        if user:
-            return render_template('view_user.html', user=user)
-        else:
-            flash("User not found")
-            return redirect(url_for('view_all_users'))
-    
-    users = list(user_collection.find())
-    return render_template('view_all_users.html', users=users)
+        search_name = request.form.get('name')
+        user_items = list(user_collection.find({"name": {"$regex": search_name, "$options": "i"}}))  # Case-insensitive search
+    else:
+        user_items = list(user_collection.find())
+
+    # Convert ObjectId to string before passing to template
+    for item in user_items:
+        item['_id'] = str(item['_id'])
+
+    # Flag to check if there are any users found
+    no_users_found = len(user_items) == 0 and search_name
+
+    return render_template('view_all_users.html', user_items=user_items, no_users_found=no_users_found)
+
 
 # Option 3: Add Media
 @app.route('/add_media', methods=['GET', 'POST'])
