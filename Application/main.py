@@ -1,16 +1,13 @@
 from flask import Flask, request, jsonify
+from app import create_app
 import requests
 import os
 
-app = Flask(__name__)
+app = create_app()
 
-# Load environment variables
-DBUSERNAME = os.getenv("DBUSERNAME")
-DBPASSWORD = os.getenv("DBPASSWORD")
-MEDIA_SERVICE_URL = os.getenv("MEDIA_SERVICE_URL")
 
 # Define routes to forward requests to the appropriate microservices
-
+'''
 # Borrow Media
 @app.route('/borrow_media', methods=['POST'])
 def borrow_media():
@@ -49,6 +46,9 @@ def procure_media():
     # Forward to Procurement Service
     response = requests.post(f"{MEDIA_SERVICE_URL}/procure_media", json=media_details)
     return jsonify(response.json()), response.status_code
+'''
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

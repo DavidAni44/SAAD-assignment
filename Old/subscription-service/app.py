@@ -5,7 +5,8 @@ import os
 app = Flask(__name__)
 
 # Connect to MongoDB
-client = MongoClient(f'mongodb+srv://{os.getenv("DBUSERNAME")}:{os.getenv("DBPASSWORD")}@your-cluster-url')
+client = MongoClient(f'mongodb+srv://{os.getenv("DBUSERNAME")}:{os.getenv("DBPASSWORD")}@saaddatabase.8f32e.mongodb.net/?retryWrites=true&w=majority&appName=SAADdatabase')
+
 db = client["AMLdb"]
 user_collection = db["User Data"]
 

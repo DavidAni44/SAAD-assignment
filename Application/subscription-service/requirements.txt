@@ -1,7 +1,0 @@
-Flask==2.0.3
-Werkzeug==2.0.3
-requests==2.26.0
-MarkupSafe==2.1.1  # MarkupSafe should also be updated to support Flask 2.x
-Jinja2==3.0.3
-itsdangerous==2.0.1
-pymongo==3.12.0
