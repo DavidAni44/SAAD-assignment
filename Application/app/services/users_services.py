@@ -1,4 +1,4 @@
-from app.services.database import user_collection, media_collection
+from app.services.database import user_collection, media_collection, transaction_collection, branch_collection, library_collection
 from bson import ObjectId
 
 def get_user_by_id(user_id):
