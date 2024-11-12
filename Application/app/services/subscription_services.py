@@ -1,4 +1,4 @@
-from app.services.database import user_collection, media_collection
+from app.services.database import user_collection, media_collection, transaction_collection, branch_collection, library_collection
 from flask import request, jsonify
 
 def manage_subscription(user_id, action):
