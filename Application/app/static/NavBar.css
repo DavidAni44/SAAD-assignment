@@ -1,0 +1,49 @@
+  
+  /* Basic styling */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Navbar container */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+
+  /* Left side links */
+  .navbar 
+  {
+  .left-items {
+    display: flex;
+  }
+  .right-items {
+    display: flex;
+    margin-bottom: -13px;
+  }
+}
+
+
+  /* Individual link styles */
+  .navbar a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    height: 20px;
+  }
+
+  /* Hover effect */
+  .navbar a:hover {
+    background-color: #ffdcad;
+    border-radius: 4px;
+  }
+
+  img
+  {
+    width:50px;
+    height:40px;
+
+  }

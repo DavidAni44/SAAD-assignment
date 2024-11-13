@@ -1,0 +1,99 @@
+<iframe src="AdminNavbar.html" width="100%" frameborder="0"></iframe>
+<link href="../static/ManageSubscription.css" rel="stylesheet" type="text/css" />
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+
+<div class="SearchFilter">
+    <select class="SelectFilters" name="FilterResults" id="Filters">
+        <option value="MemberID">MemberID</option>
+        <option value="FirstName">First Name</option>
+        <option value="LastName">Last Name</option>
+        <option value="PPM">Price Per Month</option>
+        <option value="SubscriptionPrice">Subscription Price</option>
+        <option value="StartDate">Start Date</option>
+        <option value="Type">Subscription Type</option>
+    </select>
+    <div class="search-container">
+        <input type="text" id="search" name="search" placeholder="Search...">
+    </div>
+</div>
+<!--
+http://127.0.0.1:5000/api/users/user_1
+
+<a href="http://127.0.0.1:5000/api/users/user_1"> testing summat </a>
+-->
+
+<table>
+
+   <tr>
+      <th>Library Member ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Price Per Month</th>
+      <th>Subscription Type</th>
+      <th>Membership Start Date</th>
+      <th>Edit User</th>
+    </tr>
+    <tr>
+        <td>user_1</td>
+        <td>Alice</td>
+        <td>Johnson</td>
+        <td>5.99</td>
+        <td>Student</td>
+        <td>19/09/2022</td>
+        <td>Edit</td>
+      </tr>
+      <tr>
+        <td>user_2</td>
+        <td>Bob</td>
+        <td>Smith</td>
+        <td>7.99</td>
+        <td>Regular</td>
+        <td>05/02/2023</td>
+        <td>Edit</td>
+      </tr>
+      <tr>
+        <td>user_3</td>
+        <td>Carol</td>
+        <td>White</td>
+        <td>10.99</td>
+        <td>Premium</td>
+        <td>22/11/2021</td>
+        <td>Edit</td>
+      </tr>
+      <tr>
+        <td>user_4</td>
+        <td>David</td>
+        <td>Brown</td>
+        <td>5.99</td>
+        <td>Student</td>
+        <td>15/08/2022</td>
+        <td>Edit</td>
+      </tr>
+      <tr>
+        <td>user_5</td>
+        <td>Emily</td>
+        <td>Jones</td>
+        <td>7.99</td>
+        <td>Regular</td>
+        <td>12/12/2022</td>
+        <td>Edit</td>
+      </tr>
+      <tr>
+        <td>user_6</td>
+        <td>Frank</td>
+        <td>Miller</td>
+        <td>10.99</td>
+        <td>Premium</td>
+        <td>03/07/2021</td>
+        <td>Edit</td>
+      </tr>
+      
+  </table>
+
+
+</body>
