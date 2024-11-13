@@ -1,0 +1,57 @@
+<iframe src="NavBar.html" width="100%" frameborder="0"></iframe>
+<link href="../static/BorrowMedia.css" rel="stylesheet" type="text/css" />
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <script>
+
+        function setCookie(deviceType) {
+        document.cookie = "DeviceType =" + deviceType
+        }
+          
+          // Usage
+        setCookie("Desktop")
+
+
+        if (document.cookie.includes("DeviceType=Mobile")) 
+        {
+            console.log("two");
+        }
+        else
+        {
+            console.log("one")
+        }
+        
+        
+          
+    </script>
+    
+
+    <div class="search-container">
+        <input type="text" id="search" name="search" placeholder="Search...">
+        <button class = "SearchButton" type="submit" onclick="searchFunction()">Search</button>
+      </div>
+
+<!-- 
+need some kinda function that this takes the first 6 titles in the database
+and then during the demo update the database and show that this is updated      
+-->
+      <div class="grid-container">
+        <a class="gridLink" href="{{ url_for('borrow_media') }}" method="POST"><div class="grid-item">Item 1</div></a>
+        <div class="grid-item">
+            <p>Placeholder for image</p>
+            <h2>Item Name</h2>
+            <p>Paragraph of info</p>
+        </div>
+        <div class="grid-item">Item 3</div>
+        <div class="grid-item">Item 4</div>
+        <div class="grid-item">Item 5</div>
+        <div class="grid-item">Item 6</div>
+    </div>
+
+
+</body>
+</html>

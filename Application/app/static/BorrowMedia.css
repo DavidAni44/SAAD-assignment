@@ -1,0 +1,44 @@
+body {
+    /* background-color: hotpink; */
+
+    p
+    {
+        color: white;
+    }
+}
+
+p
+{
+color: black;
+}
+
+.SearchButton {
+    background-image: url("saadtest/Images/SearchIcon.png");
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-gap: 10px; /* Space between grid items */
+    height: 57%;
+    width: 80%;
+    float: right;
+}
+.grid-item {
+    background-color: lightblue;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+    background-image: url("plusIcon.png");
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: 100% 100%;
+}
+
+.grid-item:hover {
+   background-color: hotpink;
+}
+
+a.gridLink{
+    display: grid;
+}
