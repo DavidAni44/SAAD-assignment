@@ -1,0 +1,36 @@
+<iframe src="AdminNavbar.html" width="100%" frameborder="0"></iframe>
+<link href="../static/EditUser.css" rel="stylesheet" type="text/css" />
+
+<div class="headliner">
+    <a class="returnButton" href="javascript:history.back()">&#8592; Return</a>
+</div>
+
+
+<h1 class="selectedUser">Selected User: #1989</h1>
+<div class="userDetails">
+<h2>User Details</h2>
+    <div class="mainUserOverview">
+        <li>First Name: Alison</li>
+        <li>Last Name: Swift</li>
+        <li>Home Branch: London</li>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<div class="editSubscription">
+    <h2>Edit Subscription</h2>
+    <div class="subscriptionOverview">
+        <h3>Subscription</h3>
+        <select class="SelectFilters" name="FilterResults" id="Filters">
+            <option value="Regular">Regular</option>
+            <option value="Premium">Premium</option>
+            <option value="Student">Student</option>
+        </select>
+        <h3>Price Per Month</h3>
+        <input type="text" id="PPM" name="PPM">
+    </div>
+</div>
+
+
+<button class="saveChanges" onclick="window.location.href='ManageSubscription.html'">Save Changes</button>
