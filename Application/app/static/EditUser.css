@@ -1,0 +1,62 @@
+.returnButton
+{
+    padding-bottom: 30px;
+    margin-left: 100px;
+    display: block;
+    background-image: url('/Images/backArrow.png');
+    color: black;
+    text-decoration: none;
+}
+
+.mainUserOverview{
+    background-color: #f1f1f1;
+    width: 80%;
+    height: 13%;
+    margin-left: 100px;
+}
+
+.subscriptionOverview
+{
+    background-color: #f1f1f1;
+    width: 80%;
+    height: 20%;
+    margin-left: 100px;
+
+
+    
+}
+
+.saveChanges
+{
+    background-color: orange;
+    display: flex;
+    position: relative;
+    margin: 3% 0 0 45%;
+    height: 40px;
+    width: 100px;
+    justify-content: center;
+}
+
+.userDetails, .editSubscription {
+    margin-left: 60px;
+}
+
+h2{
+    margin-left: 100px;
+}
+
+h1{
+    padding-left: 40%;
+}
+
+h3, input, select, li{
+    margin-left: 10px;
+    font-size: 18px;
+    display: flex;
+    padding-top: 14px;
+}
+
+input, select{
+    padding-top: 0 !important;
+}
+
