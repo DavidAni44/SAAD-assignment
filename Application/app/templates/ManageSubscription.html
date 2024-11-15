@@ -7,6 +7,16 @@
 </head>
 <body>
 
+  <script>
+    function setUserData(event, id, firstName, lastName, price, subscription, date) {
+      event.preventDefault(); // Prevent the default link behavior
+      const userData = { id, firstName, lastName, price, subscription, date };
+      localStorage.setItem('editUser', JSON.stringify(userData)); // Save user data to localStorage
+      window.location.href = "EditUser.html"; // Redirect to EditUser.html
+    }
+    
+  </script>
+
 <div class="SearchFilter">
     <select class="SelectFilters" name="FilterResults" id="Filters">
         <option value="MemberID">MemberID</option>
@@ -38,14 +48,15 @@ http://127.0.0.1:5000/api/users/user_1
       <th>Membership Start Date</th>
       <th>Edit User</th>
     </tr>
-    <tr>
+    
+      <tr>
         <td>user_1</td>
         <td>Alice</td>
         <td>Johnson</td>
         <td>5.99</td>
         <td>Student</td>
         <td>19/09/2022</td>
-        <td><a href="EditUser.html">Edit</td>
+        <td><a href="EditUser.html" onclick="setUserData(event, 'user_1', 'Alice', 'Johnson', '5.99', 'Student', '19/09/2022')">Edit</a></td>
       </tr>
       <tr>
         <td>user_2</td>
@@ -54,7 +65,7 @@ http://127.0.0.1:5000/api/users/user_1
         <td>7.99</td>
         <td>Regular</td>
         <td>05/02/2023</td>
-        <td><a href="EditUser.html">Edit</td>
+        <td><a href="EditUser.html" onclick="setUserData(event, 'user_2', 'Bob', 'Smith', '7.99', 'Regular', '05/02/2023')">Edit</a></td>
       </tr>
       <tr>
         <td>user_3</td>
@@ -63,7 +74,7 @@ http://127.0.0.1:5000/api/users/user_1
         <td>10.99</td>
         <td>Premium</td>
         <td>22/11/2021</td>
-        <td><a href="EditUser.html">Edit</td>
+        <td><a href="EditUser.html" onclick="setUserData(event, 'user_3', 'Carol', 'White', '10.99', 'Premium', '22/11/2021')">Edit</a></td>
       </tr>
       <tr>
         <td>user_4</td>
@@ -72,7 +83,7 @@ http://127.0.0.1:5000/api/users/user_1
         <td>5.99</td>
         <td>Student</td>
         <td>15/08/2022</td>
-        <td><a href="EditUser.html">Edit</td>
+        <td><a href="EditUser.html" onclick="setUserData(event, 'user_4', 'David', 'Brown', '5.99', 'Student', '15/08/2022')">Edit</a></td>
       </tr>
       <tr>
         <td>user_5</td>
@@ -81,7 +92,7 @@ http://127.0.0.1:5000/api/users/user_1
         <td>7.99</td>
         <td>Regular</td>
         <td>12/12/2022</td>
-        <td><a href="EditUser.html">Edit</td>
+        <td><a href="EditUser.html" onclick="setUserData(event, 'user_5', 'Emily', 'Jones', '7.99', 'Regular', '12/12/2022')">Edit</a></td>
       </tr>
       <tr>
         <td>user_6</td>
@@ -90,8 +101,9 @@ http://127.0.0.1:5000/api/users/user_1
         <td>10.99</td>
         <td>Premium</td>
         <td>03/07/2021</td>
-        <td><a href="EditUser.html">Edit</td>
+        <td><a href="EditUser.html" onclick="setUserData(event, 'user_6', 'Frank', 'Miller', '10.99', 'Premium', '03/07/2021')">Edit</a></td>
       </tr>
+    
       
   </table>
 
