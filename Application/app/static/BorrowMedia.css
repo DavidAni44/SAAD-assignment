@@ -25,7 +25,7 @@ color: black;
     float: right;
 }
 .grid-item {
-    background-color: lightblue;
+    background-color: #ddd;
     padding: 20px;
     text-align: center;
     border: 1px solid #ddd;
@@ -36,7 +36,7 @@ color: black;
 }
 
 .grid-item:hover {
-   background-color: hotpink;
+   background-color: #ffdcad;
 }
 
 a.gridLink{
@@ -56,4 +56,9 @@ button.gridLink
 form
 {
     display: contents;
+}
+
+.thumbnail{
+    height: 114px;
+    width: 91px;
 }

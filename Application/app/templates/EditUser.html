@@ -4,16 +4,47 @@
 <div class="headliner">
     <a class="returnButton" href="javascript:history.back()">&#8592; Return</a>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const userData = JSON.parse(localStorage.getItem('editUser'));
+      
+        if (userData) {
+          // Update the fields dynamically
+          const firstNameElement = document.getElementById('firstName');
+          const lastNameElement = document.getElementById('lastName');
+          const homeBranchElement = document.getElementById('homeBranch');
+      
+          if (firstNameElement) firstNameElement.textContent = `First Name: ${userData.firstName}`;
+          if (lastNameElement) lastNameElement.textContent = `Last Name: ${userData.lastName}`;
+          if (homeBranchElement) homeBranchElement.textContent = `Home Branch: ${userData.subscription}`;
+        
+            // Set the subscription type in the select field
+    const subscriptionSelect = document.getElementById('Filters');
+    if (subscriptionSelect) {
+      subscriptionSelect.value = userData.subscription;
+    }
 
+    // Set the price in the input field
+    const priceInput = document.getElementById('PPM');
+    if (priceInput) {
+      priceInput.value = userData.price;
+    }
+        } else {
+          console.error('No user data found in localStorage');
+        }
+      });
+      
+
+</script>
 
 <h1 class="selectedUser">Selected User: #1989</h1>
 <div class="userDetails">
 <h2>User Details</h2>
-    <div class="mainUserOverview">
-        <li>First Name: Alison</li>
-        <li>Last Name: Swift</li>
-        <li>Home Branch: London</li>
-    </div>
+<div class="mainUserOverview">
+    <li id="firstName">First Name: </li>
+    <li id="lastName">Last Name: </li>
+    <li id="homeBranch">Home Branch: </li>
+</div>
 </div>
 <br>
 <br>
