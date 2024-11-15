@@ -30,7 +30,7 @@ color: black;
     text-align: center;
     border: 1px solid #ddd;
     background-image: url("plusIcon.png");
-    background-size: 20px 20px;
+    background-size: 30px 30px;
     background-repeat: no-repeat;
     background-position: 100% 100%;
 }
@@ -41,4 +41,19 @@ color: black;
 
 a.gridLink{
     display: grid;
+}
+
+.search-container
+{
+    margin-bottom: 60px;
+}
+
+button.gridLink
+{
+    display: contents;
+}
+
+form
+{
+    display: contents;
 }

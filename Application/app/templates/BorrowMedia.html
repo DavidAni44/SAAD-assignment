@@ -25,8 +25,37 @@
             console.log("one")
         }
         
-        
-          
+        function borrowMedia(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const mediaId = event.target.querySelector('input[name="media_id"]').value;
+            const userId = event.target.querySelector('input[name="user_id"]').value;
+
+            // Create a JSON object with media_id and user_id
+            const requestData = {
+                media_id: mediaId,
+                user_id: userId
+            };
+
+            // Send the POST request with the JSON body
+            fetch('http://127.0.0.1:5000/api/media/borrow', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())  // Parse the response as JSON
+            .then(data => {
+                // Handle the response data here
+                console.log('Success:', data);
+                alert(`Success: ${JSON.stringify(data)}`);
+            })
+            .catch(error => {
+                // Handle any errors here
+                console.error('Error:', error);
+            });
+        }
     </script>
     
 
@@ -40,15 +69,25 @@ need some kinda function that this takes the first 6 titles in the database
 and then during the demo update the database and show that this is updated      
 -->
       <div class="grid-container">
-        <a class="gridLink" href="{{ url_for('borrow_media') }}" method="POST"><div class="grid-item">Item 1</div></a>
+        <form onsubmit="borrowMedia(event)">
+            <input type="hidden" name="media_id" value="67339ffc268d647e800b6fda">
+            <input type="hidden" name="user_id" value="user_1">
+            <button type="submit" class="gridLink">
+                <div class="grid-item">
+                    <p>Item 1</p>
+                    <p>Placeholder for image</p>
+                    <h2>Item Name</h2>
+                    <p>Paragraph of info</p>
+                </div>
+            </button>
+        </form>
+        <div class="grid-item">Item 3</div>
+        <div class="grid-item">Item 4</div>
         <div class="grid-item">
             <p>Placeholder for image</p>
             <h2>Item Name</h2>
             <p>Paragraph of info</p>
         </div>
-        <div class="grid-item">Item 3</div>
-        <div class="grid-item">Item 4</div>
-        <div class="grid-item">Item 5</div>
         <div class="grid-item">Item 6</div>
     </div>
 
