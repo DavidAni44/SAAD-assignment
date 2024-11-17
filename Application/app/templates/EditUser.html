@@ -1,38 +1,84 @@
-<iframe src="AdminNavbar.html" width="100%" frameborder="0"></iframe>
+<iframe src="AdminNavbar" width="100%" frameborder="0"></iframe>
 <link href="../static/EditUser.css" rel="stylesheet" type="text/css" />
 
 <div class="headliner">
     <a class="returnButton" href="javascript:history.back()">&#8592; Return</a>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const userData = JSON.parse(localStorage.getItem('editUser'));
-      
-        if (userData) {
-          // Update the fields dynamically
-          const firstNameElement = document.getElementById('firstName');
-          const lastNameElement = document.getElementById('lastName');
-          const homeBranchElement = document.getElementById('homeBranch');
-      
-          if (firstNameElement) firstNameElement.textContent = `First Name: ${userData.firstName}`;
-          if (lastNameElement) lastNameElement.textContent = `Last Name: ${userData.lastName}`;
-          if (homeBranchElement) homeBranchElement.textContent = `Home Branch: ${userData.subscription}`;
-        
-            // Set the subscription type in the select field
-    const subscriptionSelect = document.getElementById('Filters');
-    if (subscriptionSelect) {
-      subscriptionSelect.value = userData.subscription;
-    }
+  const userData = JSON.parse(localStorage.getItem('editUser'));
+  document.addEventListener('DOMContentLoaded', () => 
+  {
 
-    // Set the price in the input field
-    const priceInput = document.getElementById('PPM');
-    if (priceInput) {
-      priceInput.value = userData.price;
+      
+    if (userData) 
+    {
+    // Update the fields dynamically
+      const firstNameElement = document.getElementById('firstName');
+      const lastNameElement = document.getElementById('lastName');
+      const homeBranchElement = document.getElementById('homeBranch');
+      console.log(userData);
+      
+      if (firstNameElement) firstNameElement.textContent = `First Name: ${userData.firstName}`;
+      if (lastNameElement) lastNameElement.textContent = `Last Name: ${userData.lastName}`;
+      if (homeBranchElement) homeBranchElement.textContent = `Home Branch: ${userData.subscription}`;
+        
+      // Set the subscription type in the select field
+      const subscriptionSelect = document.getElementById('Filters');
+      if (subscriptionSelect) 
+      {
+        subscriptionSelect.value = userData.subscription;
+      }
+
+      // Set the price in the input field
+      const priceInput = document.getElementById('PPM');
+      if (priceInput) 
+      {
+        priceInput.value = userData.price;
+      }
+    } 
+    
+    else 
+    {
+      console.error('No user data found in localStorage');
     }
-        } else {
-          console.error('No user data found in localStorage');
-        }
-      });
+  });
+  
+  function manageSubscription(event)
+  {
+    event.preventDefault(); // Prevent the default form submission
+    const subscriptionSelect = document.getElementById('Filters');
+    const subscriptionId = subscriptionSelect.value; // Get selected subscription ID
+    const userId = `${userData.id}`;
+
+          // Create a JSON object with media_id and user_id
+          const requestData = {
+              subscription_id: subscriptionId,
+              user_id: userId
+          };
+
+          // Send the POST request with the JSON body
+          fetch('http://127.0.0.1:5000/api/subscription/manage', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(requestData)
+          })
+          .then(response => response.json())  // Parse the response as JSON
+          .then(data => {
+              // Handle the response data here
+              console.log('Success:', data);
+              console.log(requestData);
+              alert(`Success: ${JSON.stringify(data)}`);
+          })
+          .catch(error => {
+              // Handle any errors here
+              console.error('dfsafdsf:', error);
+              console.log(requestData);
+          });
+  }
+  
+
       
 
 </script>
@@ -54,9 +100,9 @@
     <div class="subscriptionOverview">
         <h3>Subscription</h3>
         <select class="SelectFilters" name="FilterResults" id="Filters">
-            <option value="Regular">Regular</option>
-            <option value="Premium">Premium</option>
-            <option value="Student">Student</option>
+            <option id="sub001">Basic Plan</option>
+            <option id="sub002">Standard Plan</option>
+            <option id="sub003">Premium Plan</option>
         </select>
         <h3>Price Per Month</h3>
         <input type="text" id="PPM" name="PPM">
@@ -64,4 +110,4 @@
 </div>
 
 
-<button class="saveChanges" onclick="window.location.href='ManageSubscription.html'">Save Changes</button>
+<button class="saveChanges" onclick="manageSubscription(event)">Save Changes</button>
