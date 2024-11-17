@@ -16,3 +16,5 @@ def edit_subscription(user_id, new_subscription):
     else:
         print("Subscription updated successfully.")
         return jsonify({"message": f"Subscription updated successfully."}), 200
+
+#def edit_subscription(subscription, new_subscription_price):
