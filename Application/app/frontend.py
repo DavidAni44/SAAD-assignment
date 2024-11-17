@@ -32,3 +32,11 @@ def EditUser():
     }
     
     return render_template('EditUser.html', dict_rep=dict_rep)
+
+@frontend.route('/NavBar.html')
+def showNavBar():
+    return render_template('NavBar.html')
+
+@frontend.route('/AdminNavbar.html')
+def showAdminNavBar():
+    return render_template('AdminNavbar.html')
