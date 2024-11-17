@@ -44,8 +44,7 @@ def create_transaction(user,media_id, delivery_choice):
         transaction["postage"] = 3.99
         transaction["payment method"] = user.get("payment_method") 
     transaction_collection.insert_one(transaction)
-    print(transaction)
-
+ 
 
 def send_user_email(user,media_id):
     user.get("email")
