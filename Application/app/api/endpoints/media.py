@@ -13,8 +13,8 @@ def test_media():
 def borrow_media_endpoint():
     user_id = request.json.get('user_id')
     media_id = request.json.get('media_id')
-
-    return borrow_media(user_id, media_id)
+    delivery_choice = request.json.get('delivery_choice')
+    return borrow_media(user_id, media_id, delivery_choice)
 
 @media_bp.route('/procure', methods=['POST'])
 def procure_media_endpoint():
