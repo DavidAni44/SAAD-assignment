@@ -2,12 +2,18 @@ from flask import Flask, request, jsonify
 from app import create_app
 import requests
 import os
+from dotenv import load_dotenv
+from flask_cors import CORS
+
+
+
 
 app = create_app()
-
+load_dotenv()
+CORS(app)
 
 # Define routes to forward requests to the appropriate microservices
-'''
+
 # Borrow Media
 @app.route('/borrow_media', methods=['POST'])
 def borrow_media():
@@ -15,8 +21,10 @@ def borrow_media():
     user_id = request.json.get('user_id')
     
     # Forward to Borrow Service
-    response = requests.post(f"{MEDIA_SERVICE_URL}/borrow_media", json={"media_id": media_id, "user_id": user_id})
+    response = requests.post(f"{os.getenv("MEDIA_SERVICE_URL")}/borrow_media", json={ "user_id": user_id, "media_id": media_id})
     return jsonify(response.json()), response.status_code
+
+
 
 # Reserve Media
 @app.route('/reserve_media', methods=['POST'])
@@ -46,7 +54,7 @@ def procure_media():
     # Forward to Procurement Service
     response = requests.post(f"{MEDIA_SERVICE_URL}/procure_media", json=media_details)
     return jsonify(response.json()), response.status_code
-'''
+
 
 
 
