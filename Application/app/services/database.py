@@ -18,3 +18,5 @@ library_collection = db["Library Collection"]
 transaction_collection = db["Transaction Collection"]
 subscription_collection = db["Subscription Collection"]
 purchase_order_collection = db["Purchase Order Collection"]
+
+#singleton pattern
