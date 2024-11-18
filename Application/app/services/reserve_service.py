@@ -1,5 +1,36 @@
 from app.services.database import user_collection, media_collection, transaction_collection, branch_collection
-from flask import request, jsonify
+from flask import  jsonify
+ 
+def get_available_media_by_branch():
+    branch_media = {}
+    for branch in media_collection.find():
+        branch_id = branch.get("_id")
+        available_media = [
+            item["media_id"]
+            for item in branch.get("media", [])
+            if item.get("available_copies", 0) > 0  
+        ]
+        branch_media[branch_id] = available_media
+    return branch_media
+
+def get_all_users():
+    users = list(user_collection.find())
+    return users
+
+def check_media_availability():
+    print("Running media availability check...")
+    branch_media = get_available_media_by_branch()
+    users = get_all_users()
+    for user in users:
+        branch_id = user.get("branch_id")
+        reserved_media = user.get("reserved_media", [])
+        if not branch_id or not reserved_media:
+            continue  
+        available_media_in_branch = branch_media.get(branch_id, [])
+        media_matches = [media for media in reserved_media if media in available_media_in_branch]
+        if media_matches:
+            print(f"User: {user.get('name', 'Unknown')} | Branch: {branch_id}")
+            print(f"Matching Media: {media_matches}")
 
 
 def reserve_media(user_id, media_id):
@@ -45,3 +76,20 @@ def check_media_unavaliable(user,media_id):
     })
 
     return branch
+
+
+#from apscheduler.schedulers.background import BackgroundScheduler
+#scheduler = BackgroundScheduler()
+
+#scheduler.add_job(check_media_availability, "interval", minutes=1)
+
+#scheduler.start()
+#print("Scheduler started. Press Ctrl+C to exit.")
+
+#try:
+#    while True:
+#        pass
+#except (KeyboardInterrupt, SystemExit):
+#    scheduler.shutdown()
+#    print("Scheduler stopped.")
+
