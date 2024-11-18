@@ -10,6 +10,7 @@ API_BASE_URL = 'http://127.0.0.1:5000/api'
 def index():
     return render_template('Index.html')
 
+
 @frontend.route('/BorrowMedia')
 def borrowMedia():
     response = requests.get('http://127.0.0.1:5000/api/media/test')
