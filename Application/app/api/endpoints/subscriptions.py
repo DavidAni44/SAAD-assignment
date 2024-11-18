@@ -9,3 +9,10 @@ def manage_subscription_endpoint():
     new_subscription = request.json.get('new_subscription') 
 
     return edit_subscription(user_id, new_subscription)
+
+@subscription_bp.route('/edit subscription', methods=['POST'])
+def edit_subscription_endpoint():
+    subscription = request.json.get('subscription') 
+    new_subscription = request.json.get('new_subscription')
+
+    return edit_subscription(subscription, new_subscription)
