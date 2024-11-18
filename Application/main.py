@@ -55,8 +55,5 @@ def procure_media():
     response = requests.post(f"{MEDIA_SERVICE_URL}/procure_media", json=media_details)
     return jsonify(response.json()), response.status_code
 
-
-
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
