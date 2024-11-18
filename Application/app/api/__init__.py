@@ -11,3 +11,5 @@ api_bp.register_blueprint(media.media_bp)
 
 def init_api(app):
     app.register_blueprint(api_bp)
+
+#Add API Gateway
