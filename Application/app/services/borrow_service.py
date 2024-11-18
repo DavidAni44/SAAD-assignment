@@ -2,11 +2,12 @@ from datetime import datetime, timedelta
 from flask import jsonify
 from bson import ObjectId
 from app.services.database import user_collection, media_collection, transaction_collection, branch_collection
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 def borrow_media(user_id, media_id,delivery_choice):
-
-    
     media_id = ObjectId(media_id)
     user = user_collection.find_one({"_id": user_id})
 
@@ -17,18 +18,18 @@ def borrow_media(user_id, media_id,delivery_choice):
 
     update_branch_stock(user,media_id)
     update_user_media_borrowed(user_id,media_id)
-    send_user_email(user,media_id) #doesnt work yet
-    create_transaction(user,media_id, delivery_choice)
+    transaction_id = create_transaction(user,media_id, delivery_choice)
+    print(transaction_id)
+    subject,body,email = prepare_email(transaction_id,user)
+    send_user_email(subject,body,email)
     return jsonify({"message": f"Successfully borrowed media: {media_id}"}), 200
-
 
 
 def create_transaction(user,media_id, delivery_choice):
     borrowed_date = datetime.now()
-    due_date = borrowed_date + timedelta(days=14)
-    media = media_collection.find_one({"_id": media_id}) 
+    due_date = borrowed_date + timedelta(days=14) 
     transaction = {
-        "user_id": user.get("user_id"),
+        "user_id": user.get("_id"),  
         "media_id": str(media_id),
         "branch_id": user.get("branch_id"),
         "borrowed_date": borrowed_date.strftime("%Y-%m-%d"),
@@ -44,11 +45,49 @@ def create_transaction(user,media_id, delivery_choice):
         transaction["postage"] = 3.99
         transaction["payment method"] = user.get("payment_method") 
     transaction_collection.insert_one(transaction)
+    print(transaction)
+    return transaction.get('_id')
  
 
-def send_user_email(user,media_id):
-    user.get("email")
-    #this doenst work yet
+def prepare_email(transaction_id,user):
+    transaction = transaction_collection.find_one({"_id": ObjectId(transaction_id)}) 
+    media = media_collection.find_one({"_id": ObjectId(transaction.get("media_id"))}) 
+    subject = "Media Borrowed: " + transaction.get("media_id")
+    body = "Dear "+ user.get("name") + "\n"  + "You have borrowed: " + str(media.get("title")) + \
+    "\n" + "From: " + str(transaction.get("borrowed_date")) + "\n" + "Until: " + str(transaction.get("due_date")) + "\n" + \
+    "Late Return Fee Per Day: " + str(transaction.get("Late return fee per day")) + "\n" + "Kind Regards\n" + "ALM"
+    email = user.get("email")
+    return subject,body,email
+
+
+def send_user_email(subject,body,email):
+    smtpServer = "smtp.gmail.com"
+    smtpPort = 587
+    senderEmail = "xclwright@gmail.com" # ALM's email
+    senderPassword = "ijmf mqtd egvo erjc"  
+
+    email = "xclwright@outlook.com" # "philandy83@gmail.com" Davids Test #change to user get email
+    message = MIMEMultipart()
+    message["From"] = senderEmail
+    message["To"] = email
+    message["Subject"] = subject
+    message.attach(MIMEText(str(body), "plain"))
+
+    try:
+        server = smtplib.SMTP(smtpServer, smtpPort)
+        server.starttls()
+
+        server.login(senderEmail, senderPassword)
+
+        server.sendmail(senderEmail, email, message.as_string())
+        print("Email sent successfully!")
+
+    except Exception as e:
+        print(f"Failed to send email: {e}")
+
+    finally:
+        server.quit()
+
 
 
 
