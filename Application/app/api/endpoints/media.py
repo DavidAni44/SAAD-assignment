@@ -19,9 +19,11 @@ def borrow_media_endpoint():
 
 @media_bp.route('/procure', methods=['POST'])
 def procure_media_endpoint():
-    media_details = request.get_json()  
-
-    return procure_media(media_details)
+    quantity_to_order = request.json.get("quantity_to_order")  
+    branch_to_deliver_to = request.json.get("branch_to_deliver_to")  
+    media_to_order = request.json.get("media_to_order")  
+    delivery_date = request.json.get("media_to_order")
+    return procure_media(media_to_order,branch_to_deliver_to,quantity_to_order,delivery_date)
 
 @media_bp.route('/reserve', methods=['POST'])
 def reserve_media_endpoint():
