@@ -3,12 +3,12 @@ from app.services.borrow_service import borrow_media
 from app.services.media_procurement_service import procure_media
 from app.services.reserve_service import reserve_media
 from app.services.monitor_system import get_media
+from app.services.reserve_service import return_staged
+from app.services.report_service import report
 
 media_bp = Blueprint('media', __name__, url_prefix='/media')
 
-@media_bp.route('/test', methods=['GET'])
-def test_media():
-    return jsonify({"message": "Media route is working!"})
+
 
 @media_bp.route('/borrow', methods=['POST'])
 def borrow_media_endpoint():
@@ -22,7 +22,7 @@ def procure_media_endpoint():
     quantity_to_order = request.json.get("quantity_to_order")  
     branch_to_deliver_to = request.json.get("branch_to_deliver_to")  
     media_to_order = request.json.get("media_to_order")  
-    delivery_date = request.json.get("media_to_order")
+    delivery_date = request.json.get("delivery_date")
     return procure_media(media_to_order,branch_to_deliver_to,quantity_to_order,delivery_date)
 
 @media_bp.route('/reserve', methods=['POST'])
@@ -36,3 +36,12 @@ def reserve_media_endpoint():
 def get_all_media():
     media = get_media()
     return jsonify(media), 200
+
+@media_bp.route('/mediareturned', methods=['POST'])
+def return_staged_endpoint():
+    return return_staged()
+
+@media_bp.route('/report', methods=['POST'])
+def report_endpoint():
+    return report()
+
