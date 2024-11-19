@@ -11,11 +11,11 @@ client = MongoClient(
     '@saaddatabase.8f32e.mongodb.net/?retryWrites=true&w=majority&appName=SAADdatabase'
 )
 db = client["AMLdb"]
-user_collection = db["Users Collection"]
-media_collection = db["Media Collection"]
-branch_collection = db["Branch Collection"]
+user_collection = db["Test Users Collection"]
+media_collection = db["Test Media Collection"]
+branch_collection = db["Test Branch Collection"]
 library_collection = db["Library Collection"]
-transaction_collection = db["Transaction Collection"]
+transaction_collection = db["Test Transaction Collection"]
 subscription_collection = db["Subscription Collection"]
 purchase_order_collection = db["Purchase Order Collection"]
 
