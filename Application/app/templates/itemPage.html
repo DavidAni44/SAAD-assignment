@@ -13,7 +13,13 @@
     document.addEventListener('DOMContentLoaded', () => 
     {
         const mediaName = document.getElementById('mediaName');
-        if (mediaName) mediaName.textContent = `${mediaDetails.mediaName}`;
+        const imageName = document.getElementById('imageName');
+        if (mediaName && imageName) 
+        { 
+            mediaName.textContent = `${mediaDetails.mediaName}`;
+            imageName.src = `../static/${mediaDetails.mediaId}.jpg`;
+            imageName.alt = `Thumbnail for ${mediaDetails.mediaId}`;
+        }
     });
 
 
@@ -52,8 +58,7 @@
     function borrowMedia(event) {
         event.preventDefault(); // Prevent the default form submission
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const mediaId = urlParams.get('media_id');
+        const mediaId = `${mediaDetails.mediaId}`
         const userId = document.cookie; // Assuming the user_id is stored in cookies
 
         // Create a JSON object with media_id and user_id
@@ -61,7 +66,7 @@
             media_id: mediaId,
             user_id: userId
         };
-        
+        console.log(requestData);
         // Send the POST request with the JSON body
         fetch('http://127.0.0.1:5000/api/media/borrow', {
             method: 'POST',
@@ -79,6 +84,7 @@
         .catch(error => {
             // Handle any errors here
             console.error('Error:', error);
+            console.log(error);
         });
     }
 </script>
@@ -87,7 +93,7 @@
     <div class="itemDetails">
         <div class="grid-container">
             <div class="grid-item">Item w/ image and description
-                <img class="thumbnail" src="tdk.jpg" alt="Media Thumbnail">
+                <img class="thumbnail" src="" alt="Media Thumbnail" id="imageName">
                 <p class="mediaName" id="mediaName">Media Name</p>
             </div>
             <div class="grid-item">Date to borrow till
@@ -99,6 +105,12 @@
             </div>
             <div class="grid-item">Applicable late fee
                 <p class="lateFee">£1.50 per day</p>
+            </div>
+            <div class="grid-item">Delivery Type
+                <select class="deliveryType" name="deliveryType" id="deliveryType">
+                    <option id="HomeDelivery">Home Delivery</option>
+                    <option id="ClickCollect">Click and Collect</option>
+                </select>
             </div>
         </div>
     </div>

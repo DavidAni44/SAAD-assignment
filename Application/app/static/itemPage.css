@@ -52,7 +52,7 @@ a.myBasket
     background-color: orange;
     display: flex;
     position: relative;
-    margin: 40% 0 0 45%;
+    margin: 400px 0 0 452px;
     height: 40px;
     width: 100px;
     justify-content: center;
@@ -68,7 +68,7 @@ a.myBasket
 
 .mediaName
 {
-    margin-left: 70px;
+    margin-left: 43px;
 }
 
 input[type="date"] {
@@ -93,5 +93,14 @@ span#dateDisplay {
 
 .lateFee
 {
-    margin-top: 222px;
+    margin-top: 164px;
+}
+
+.deliveryType{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 143px -50px 0 -25px;
 }
