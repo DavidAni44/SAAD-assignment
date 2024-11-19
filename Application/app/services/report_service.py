@@ -1,6 +1,5 @@
 import pandas as pd
 from flask import request, jsonify
-from pymongo import MongoClient
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from app.services.database import user_collection, media_collection, transaction_collection, branch_collection
@@ -36,7 +35,7 @@ def export_to_pdf(data, file_name):
         c.drawString(120, y_position, f"Borrowed Media: {borrowed_media}")
         y_position -= 40
 
-        if y_position < 50:  # Start a new page if needed
+        if y_position < 50:
             c.showPage()
             c.setFont("Helvetica", 12)
             y_position = 750
@@ -46,18 +45,20 @@ def export_to_pdf(data, file_name):
 
 def report():
     try:
-        format_type = request.json.get('format', 'excel')  # Default format is Excel
+        format_type = request.json.get('format', 'excel') 
         users = user_collection.find({"borrowed_media": {"$exists": True, "$ne": []}})
         
         report_data = []
         for user in users:
-            report_data.append({
-                "User Name": user.get("name"),
-                "Email": user.get("email"),
-                "Borrowed Media": ", ".join(user.get("borrowed_media", []))
-            })
+            user_name = user.get("name", "Unknown User")
+            user_email = user.get("email", "No Email")
+            borrowed_media = ", ".join(user.get("borrowed_media", [])) if user.get("borrowed_media") else "None"
 
-        print(report_data)
+            report_data.append({
+                "User Name": user_name,
+                "Email": user_email,
+                "Borrowed Media": borrowed_media
+            })
 
         if not report_data:
             return jsonify({"message": "No users with borrowed media found."}), 404
