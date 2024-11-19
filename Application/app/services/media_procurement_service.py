@@ -7,8 +7,8 @@ from email.mime.text import MIMEText
 
 
 def procure_media(media_to_order,branch_to_deliver_to,quantity_to_order,delivery_date):
-    print(media_to_order)
-    print(branch_to_deliver_to)
+    #print(media_to_order)
+    #print(branch_to_deliver_to)
     order_id = create_order(media_to_order,branch_to_deliver_to,quantity_to_order,delivery_date) 
     prepare_email(branch_to_deliver_to,quantity_to_order,media_to_order,order_id,delivery_date)
     return jsonify({"message": "Media procured successfully."}), 200
@@ -18,7 +18,7 @@ def create_order(media_to_order,branch_to_deliver_to,quantity_to_order,delivery_
 
     purchase_order = {
         "media_to_order": (media_collection.find_one({"_id": ObjectId(media_to_order)})).get("_id"),  #not working
-        "branch_to_deliverto": branch_to_deliver_to,
+        "branch_to_deliver_to": branch_to_deliver_to,
         "quantity_to_order": quantity_to_order,
         "delivery_date": delivery_date,
         "supplier": (media_collection.find_one({"_id": ObjectId(media_to_order)})).get("vendor_name"),
@@ -29,7 +29,7 @@ def create_order(media_to_order,branch_to_deliver_to,quantity_to_order,delivery_
     }
     
     purchase_order_collection.insert_one(purchase_order)
-    print (purchase_order)
+    #print (purchase_order)
 
     return purchase_order.get('_id')
 
@@ -42,7 +42,7 @@ def get_branch_email(branch_to_deliver_to):
 
 
 def prepare_email(branch_to_deliver_to,quantity_to_order,media_to_order,order_id,delivery_date):
-    print("Preparing Email")
+    #print("Preparing Email")
     subject = "Media Order From ALM: "+ str(order_id)
     body = "Dear Vendor, \n\n This is an order for " + str(quantity_to_order) + " " + \
        (media_collection.find_one({"_id": ObjectId(media_to_order)})).get("title") + \
@@ -54,7 +54,7 @@ def prepare_email(branch_to_deliver_to,quantity_to_order,media_to_order,order_id
 
 
 def send_email(subject,body,email):
-    print("sending email")
+    #print("sending email")
     smtpServer = "smtp.gmail.com"
     smtpPort = 587
     senderEmail = "xclwright@gmail.com"

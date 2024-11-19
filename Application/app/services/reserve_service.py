@@ -1,36 +1,10 @@
+from bson import ObjectId
 from app.services.database import user_collection, media_collection, transaction_collection, branch_collection
 from flask import  jsonify
- 
-def get_available_media_by_branch():
-    branch_media = {}
-    for branch in media_collection.find():
-        branch_id = branch.get("_id")
-        available_media = [
-            item["media_id"]
-            for item in branch.get("media", [])
-            if item.get("available_copies", 0) > 0  
-        ]
-        branch_media[branch_id] = available_media
-    return branch_media
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
-def get_all_users():
-    users = list(user_collection.find())
-    return users
-
-def check_media_availability():
-    print("Running media availability check...")
-    branch_media = get_available_media_by_branch()
-    users = get_all_users()
-    for user in users:
-        branch_id = user.get("branch_id")
-        reserved_media = user.get("reserved_media", [])
-        if not branch_id or not reserved_media:
-            continue  
-        available_media_in_branch = branch_media.get(branch_id, [])
-        media_matches = [media for media in reserved_media if media in available_media_in_branch]
-        if media_matches:
-            print(f"User: {user.get('name', 'Unknown')} | Branch: {branch_id}")
-            print(f"Matching Media: {media_matches}")
 
 
 def reserve_media(user_id, media_id):
@@ -78,18 +52,83 @@ def check_media_unavaliable(user,media_id):
     return branch
 
 
-#from apscheduler.schedulers.background import BackgroundScheduler
-#scheduler = BackgroundScheduler()
+#Implemented Observer pattern for notifying users if their reserved media becomes avaliable
+observers = []
 
-#scheduler.add_job(check_media_availability, "interval", minutes=1)
+SMTP_SERVER = "smtp.gmail.com"
+SMTP_PORT = 587
+EMAIL_ADDRESS = "xclwright@gmail.com"
+EMAIL_PASSWORD = "ijmf mqtd egvo erjc"
 
-#scheduler.start()
-#print("Scheduler started. Press Ctrl+C to exit.")
+def add_observer(observer):
+    if observer not in observers:
+        observers.append(observer)
 
-#try:
-#    while True:
-#        pass
-#except (KeyboardInterrupt, SystemExit):
-#    scheduler.shutdown()
-#    print("Scheduler stopped.")
+def remove_observer(observer):
+    if observer in observers:
+        observers.remove(observer)
 
+def notify_observers(media_id):
+    for observer in observers:
+        observer(media_id)
+
+def return_media(media_id):
+    try:
+        media_id = ObjectId(media_id)
+        print(f"Media with ID {media_id} has been returned.")
+        notify_observers(media_id)
+        return {"message": f"Media with ID {media_id} has been returned."}, 200
+    except Exception as e:
+        return {"error": f"Error handling media return: {str(e)}"}, 400
+
+def user_observer_factory(user_id, media_id):
+    def observer(returned_media_id):
+        if str(returned_media_id) != str(media_id):  # Match specific media ID
+            return
+        user = user_collection.find_one({"_id": user_id})
+        if user:
+            notify_user(user, returned_media_id)
+    return observer
+
+def notify_user(user, media_id):
+    user_email = user.get('email')
+    if not user_email:
+        print(f"User {user['_id']} does not have an email address.")
+        return
+
+    subject = "Media Now Available"
+    body = f"""Hello {user['name']},
+
+The media with ID {media_id} that you reserved is now available for checkout.
+
+Thank you."""
+    try:
+        send_email(user_email, subject, body)
+        print(f"Email notification sent to {user_email}")
+    except Exception as e:
+        print(f"Failed to send email to {user_email}: {e}")
+
+def send_email(to_email, subject, body):
+    message = MIMEMultipart()
+    message["From"] = EMAIL_ADDRESS
+    message["To"] = to_email
+    message["Subject"] = subject
+    message.attach(MIMEText(body, "plain"))
+
+    try:
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            server.starttls()
+            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            server.sendmail(EMAIL_ADDRESS, to_email, message.as_string())
+    except Exception as e:
+        print(f"SMTP error occurred: {e}")
+
+def return_staged():
+    for user in user_collection.find({"reserved_media": {"$exists": True, "$ne": []}}):
+        user_id = user["_id"]
+        for media_id in user["reserved_media"]:
+            add_observer(user_observer_factory(user_id, media_id))
+
+    media_id_to_return = "67339ffc268d647e800b6fdc"  # Example media ID to return
+    response, status = return_media(media_id_to_return)
+    return jsonify(response), status
