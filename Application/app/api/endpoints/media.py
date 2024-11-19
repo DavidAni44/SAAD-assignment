@@ -2,12 +2,9 @@ from flask import Blueprint, jsonify, request
 from app.services.borrow_service import borrow_media
 from app.services.media_procurement_service import procure_media
 from app.services.reserve_service import reserve_media
-<<<<<<< Updated upstream
 from app.services.monitor_system import get_media
-=======
 from app.services.reserve_service import return_staged
 from app.services.report_service import report
->>>>>>> Stashed changes
 
 media_bp = Blueprint('media', __name__, url_prefix='/media')
 
@@ -35,12 +32,10 @@ def reserve_media_endpoint():
 
     return reserve_media(user_id, media_id)
 
-<<<<<<< Updated upstream
 @media_bp.route('/all_media', methods=['GET'])
 def get_all_media():
     media = get_media()
     return jsonify(media), 200
-=======
 
 @media_bp.route('/mediareturned', methods=['POST'])
 def return_staged_endpoint():
@@ -50,4 +45,3 @@ def return_staged_endpoint():
 def report_endpoint():
     return report()
 
->>>>>>> Stashed changes
