@@ -43,7 +43,7 @@ def EditUser():
 def showNavBar():
     return render_template('NavBar.html')
 
-@frontend.route('/AdminNavbar.html')
+@frontend.route('/AdminNavbar')
 def showAdminNavBar():
     return render_template('AdminNavbar.html')
 

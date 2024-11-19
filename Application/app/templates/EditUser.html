@@ -16,12 +16,15 @@
       const firstNameElement = document.getElementById('firstName');
       const lastNameElement = document.getElementById('lastName');
       const homeBranchElement = document.getElementById('homeBranch');
-      console.log(userData);
+      const selectedUserElement = document.getElementById('selectedUser');
+      
+
+      console.log(selectedUserElement);
       
       if (firstNameElement) firstNameElement.textContent = `First Name: ${userData.firstName}`;
       if (lastNameElement) lastNameElement.textContent = `Last Name: ${userData.lastName}`;
       if (homeBranchElement) homeBranchElement.textContent = `Home Branch: ${userData.subscription}`;
-        
+      if (selectedUserElement) selectedUserElement.textContent = `Selected User: ${userData.id}`;
       // Set the subscription type in the select field
       const subscriptionSelect = document.getElementById('Filters');
       if (subscriptionSelect) 
@@ -83,13 +86,13 @@
 
 </script>
 
-<h1 class="selectedUser">Selected User: #1989</h1>
+<h1 class="selectedUser" id="selectedUser"></h1>
 <div class="userDetails">
 <h2>User Details</h2>
 <div class="mainUserOverview">
-    <li id="firstName">First Name: </li>
-    <li id="lastName">Last Name: </li>
-    <li id="homeBranch">Home Branch: </li>
+    <li id="firstName"></li>
+    <li id="lastName"></li>
+    <li id="homeBranch"></li>
 </div>
 </div>
 <br>

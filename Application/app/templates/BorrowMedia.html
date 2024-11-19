@@ -1,5 +1,5 @@
 <iframe src="NavBar.html" width="100%" frameborder="0"></iframe>
-<link href="../static/BorrowMedia.css" rel="stylesheet" type="text/css" />
+<link href="../static/borrowMedia.css" rel="stylesheet" type="text/css" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,29 +7,20 @@
 </head>
 <body>
     <script>
+        function setCookie(userId) {
+            document.cookie = userId
+            }
+              
+              // Usage
+            setCookie("user_1")
+            console.log(document.cookie);
 
-        function setCookie(deviceType) {
-        document.cookie = "DeviceType =" + deviceType
-        }
-          
-          // Usage
-        setCookie("Desktop")
-
-
-        if (document.cookie.includes("DeviceType=Mobile")) 
-        {
-            console.log("two");
-        }
-        else
-        {
-            console.log("one")
-        }
-        
-        function borrowMedia(event) {
+            
+        function mediaAction(event, type) {
             event.preventDefault(); // Prevent the default form submission
-
+            apiURL = 'http://127.0.0.1:5000/api/media/borrow';
             const mediaId = event.target.querySelector('input[name="media_id"]').value;
-            const userId = event.target.querySelector('input[name="user_id"]').value;
+            const userId = document.cookie;
 
             // Create a JSON object with media_id and user_id
             const requestData = {
@@ -37,8 +28,12 @@
                 user_id: userId
             };
 
+            if (type === "reserve")
+            {
+                apiURL = 'http://127.0.0.1:5000/api/media/reserve';
+            }
             // Send the POST request with the JSON body
-            fetch('http://127.0.0.1:5000/api/media/borrow', {
+            fetch(apiURL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -55,6 +50,7 @@
                 // Handle any errors here
                 console.error('Error:', error);
             });
+        
         }
     </script>
     
@@ -69,9 +65,8 @@ need some kinda function that this takes the first 6 titles in the database
 and then during the demo update the database and show that this is updated      
 -->
       <div class="grid-container">
-        <form onsubmit="borrowMedia(event)">
+        <form onsubmit="mediaAction(event)">
             <input type="hidden" name="media_id" value="64f9c2a9f6a17c98d0e1b005">
-            <input type="hidden" name="user_id" value="user_1">
             <button type="submit" class="gridLink">
                 <div class="grid-item">
                     <img class ="thumbnail" src="LW.jpg">
@@ -81,9 +76,8 @@ and then during the demo update the database and show that this is updated
             </button>
         </form>
 
-        <form onsubmit="borrowMedia(event)">
+        <form onsubmit="mediaAction(event)">
             <input type="hidden" name="media_id" value="67339ffc268d647e800b6fe4">
-            <input type="hidden" name="user_id" value="user_1">
             <button type="submit" class="gridLink">
                 <div class="grid-item">
                     <img class ="thumbnail" src=".jpg">
@@ -94,9 +88,8 @@ and then during the demo update the database and show that this is updated
         </form>
 
 
-        <form onsubmit="borrowMedia(event)">
+        <form onsubmit="mediaAction(event)">
             <input type="hidden" name="media_id" value="67339ffc268d647e800b6fdb">
-            <input type="hidden" name="user_id" value="user_3">
             <button type="submit" class="gridLink">
                 <div class="grid-item">
                     <img class ="thumbnail" src="TSG.jpg">
@@ -107,11 +100,10 @@ and then during the demo update the database and show that this is updated
         </form>
 
 
-        <form onsubmit="borrowMedia(event)">
+        <form onsubmit="mediaAction(event 'reserve')">
             <input type="hidden" name="media_id" value="67339ffc268d647e800b6fdc">
-            <input type="hidden" name="user_id" value="user_4">
             <button type="submit" class="gridLink">
-                <div class="grid-item">
+                <div class="grid-item-reserve">
                     <img class ="thumbnail" src="lionkingdvd.jpg">
                     <h2>The Lion King</h2>
                     <p>Paragraph of info</p>
@@ -120,11 +112,10 @@ and then during the demo update the database and show that this is updated
         </form>
 
 
-        <form onsubmit="borrowMedia(event)">
+        <form onsubmit="mediaAction(event, 'reserve')">
             <input type="hidden" name="media_id" value="67339ffc268d647e800b6fec">
-            <input type="hidden" name="user_id" value="user_5">
             <button type="submit" class="gridLink">
-                <div class="grid-item">
+                <div class="grid-item-reserve">
                     <img class ="thumbnail" src="tdk.jpg">
                     <h2>The Dark Knight</h2>
                     <p>Paragraph of info</p>
