@@ -35,6 +35,17 @@ color: black;
     background-position: 100% 100%;
 }
 
+.grid-item-reserve {
+    background-color: #ddd;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+    background-image: url("reserveIcon.png");
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    background-position: 100% 100%;
+}
+
 .grid-item:hover {
    background-color: #ffdcad;
 }
