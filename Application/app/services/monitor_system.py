@@ -4,10 +4,10 @@ from flask import request, jsonify
 
 def get_users():
     users = user_collection.find()
-    all_users = {}
+    all_users = []
     for user in users:
-        all_users.update({user.get("name"): user.get("address")})
-    return len(all_users)
+        all_users.append({"name": user.get("name"), "email": user.get("email")})
+    return all_users
 
 def get_media():
     media_list = media_collection.find()
@@ -15,6 +15,9 @@ def get_media():
     for media in media_list:
         all_media.update({media.get("title"): media.get("genre")})
     return len(all_media)
+
+
+
 
 
 

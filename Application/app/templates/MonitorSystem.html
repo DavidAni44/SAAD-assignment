@@ -1,0 +1,34 @@
+<iframe src="NavBar.html" width="100%" frameborder="0"></iframe>
+<link href="../static/MonitorSystem.css" rel="stylesheet" type="text/css" />
+
+<div class="dashboard-container">
+    <!-- Two Rectangles -->
+    <div class="user-count-container">
+        <div class="user-count-box">
+            <h1 class="user-title">Total Users</h1>
+            <h2 class="user-count">{{user_len}}</h2>
+        </div>
+        <div class="user-count-box">
+            <h1 class="user-title">Media titles in Library</h1>
+            <h2 class="user-count">{{media_response}}</h2>
+        </div>
+    </div>
+
+    <!-- Table Placeholder -->
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+
