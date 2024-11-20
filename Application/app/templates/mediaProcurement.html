@@ -9,7 +9,7 @@
 <head>
     <script>
         // Predefined media ID (assumed from the instructions)
-        const mediatoorder = "6489caa49d1e2c7e183f2337";
+        const mediatoorder = "673c85daede0ec4def1bca71";
 
         // Function to update the date display with validation
         function updateDateDisplay() {
@@ -65,6 +65,7 @@
                 notes: notes.value.trim(),
             };
 
+
             // Make the API call
             try {
                 const response = await fetch("http://127.0.0.1:5000/api/media/procure", {
@@ -91,7 +92,7 @@
 <body>
     <div class="wholePage">
         <div class="mediaDetails" id="mediaDetails">
-            <img class="thumbnail" src="../static/67339ffc268d647e800b6fec.jpg">
+            <img class="thumbnail" src="../static/images/67339ffc268d647e800b6fec.jpg">
             <div class="mediaDescriptions" id="mediaDescriptions">
                 <h3>Media Name</h3>
                 <h4>Media Description</h4>
