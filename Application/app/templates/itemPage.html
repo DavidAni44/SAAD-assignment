@@ -1,4 +1,8 @@
-<iframe src="NavBar.html" width="100%" frameborder="0"></iframe>
+{% include 'NavBar.html' %}
+<br>
+<br>
+<br>
+
 <link href="../static/itemPage.css" rel="stylesheet" type="text/css" />
 
 <div class="headliner">
@@ -6,22 +10,114 @@
     <strong><a class="myBasket">My Basket</a></strong>
 </div>
 
+<script>
+    // Retrieve media_id from the URL query string
+    const mediaDetails = JSON.parse(localStorage.getItem('mediaDetails'));
+    
+    document.addEventListener('DOMContentLoaded', () => 
+    {
+        const mediaName = document.getElementById('mediaName');
+        const imageName = document.getElementById('imageName');
+        if (mediaName && imageName) 
+        { 
+            mediaName.textContent = `${mediaDetails.mediaName}`;
+            imageName.src = `../static/images/${mediaDetails.mediaId}.jpg`;
+            imageName.alt = `Thumbnail for ${mediaDetails.mediaId}`;
+        }
+    });
 
+
+    
+
+    // Opens the date picker when the icon is clicked
+    function openDatePicker() {
+        document.getElementById('datePicker').click();
+    }
+
+    // Updates the text with the selected date, with validation
+    function updateDateDisplay() {
+        const datePicker = document.getElementById('datePicker');
+        const dateDisplay = document.getElementById('dateDisplay');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        const selectedDate = new Date(datePicker.value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set today's time to midnight for comparison
+        
+        // Add 2 days to today's date
+        const minDate = new Date(today);
+        minDate.setDate(today.getDate() + 2);
+
+        // Check if the selected date is at least 2 days from today
+        if (selectedDate < minDate) {
+            errorMessage.style.display = 'block';
+            dateDisplay.textContent = "Select a date (at least 2 days from today)";
+        } else {
+            errorMessage.style.display = 'none';
+            dateDisplay.textContent = `Selected Date: ${datePicker.value}`;
+        }
+    }
+
+    // Function to handle media borrowing
+    function borrowMedia(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const mediaId = `${mediaDetails.mediaId}`
+        const userId = document.cookie; // Assuming the user_id is stored in cookies
+
+        // Create a JSON object with media_id and user_id
+        const requestData = {
+            media_id: mediaId,
+            user_id: userId
+        };
+        console.log(requestData);
+        // Send the POST request with the JSON body
+        fetch('http://127.0.0.1:5000/api/media/borrow', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => response.json())  // Parse the response as JSON
+        .then(data => {
+            // Handle the response data here
+            console.log('Success:', data);
+            alert(`Success: ${JSON.stringify(data)}`);
+        })
+        .catch(error => {
+            // Handle any errors here
+            console.error('Error:', error);
+            console.log(error);
+        });
+    }
+</script>
 
 <div class="mainContainerBorrow">
-<div class="itemDetails">
-    <div class="grid-container">
-        <div class="grid-item">Item 1</div>
-        <!--
-        each item has its dividers and shows the image and gets the relevant info from the database and stuff
-        -->
-        <div class="grid-item">Item 2</div>
-        <div class="grid-item">Item 3</div>
+    <div class="itemDetails">
+        <div class="grid-container">
+            <div class="grid-item">Item w/ image and description
+                <img class="thumbnail" src="" alt="Media Thumbnail" id="imageName">
+                <p class="mediaName" id="mediaName">Media Name</p>
+            </div>
+            <div class="grid-item">Date to borrow till
+                <form id="calendarForm">
+                    <input type="date" id="datePicker" onchange="updateDateDisplay()">
+                    <span class="date-display" id="dateDisplay">Select a date</span>
+                    <div class="error-message" id="errorMessage">Please select a date at least 2 days from today.</div>
+                </form>
+            </div>
+            <div class="grid-item">Applicable late fee
+                <p class="lateFee">£1.50 per day</p>
+            </div>
+            <div class="grid-item">Delivery Type
+                <select class="deliveryType" name="deliveryType" id="deliveryType">
+                    <option id="HomeDelivery">Home Delivery</option>
+                    <option id="ClickCollect">Click and Collect</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <button class="checkoutButton" onclick="borrowMedia(event)">Checkout</button>
 </div>
-
-
-
-
-</div>
-
-<button class="checkoutButton" onclick="window.location.href='page.html'">Checkout</button>

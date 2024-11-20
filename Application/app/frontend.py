@@ -54,3 +54,11 @@ def MonitorSystem():
     users = user_response.json() if user_response.status_code == 200 else []
     user_len = len(users)
     return render_template('MonitorSystem.html', users=users, user_len=user_len, media_response=media_response)
+
+@frontend.route('/itemPage')
+def itemPage():
+    return render_template('itemPage.html')
+
+@frontend.route('/MediaProcurement')
+def mediaProcurement():
+    return render_template('mediaProcurement.html')

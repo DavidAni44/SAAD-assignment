@@ -1,0 +1,131 @@
+{% include 'AdminNavbar.html' %}
+<br>
+<br>
+<br>
+
+<link href="../static/mediaProcurement.css" rel="stylesheet" type="text/css" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Predefined media ID (assumed from the instructions)
+        const mediatoorder = "673c85daede0ec4def1bca71";
+
+        // Function to update the date display with validation
+        function updateDateDisplay() {
+            const datePicker = document.getElementById('datePicker');
+            const dateDisplay = document.getElementById('dateDisplay');
+            const errorMessage = document.getElementById('errorMessage');
+
+            const selectedDate = new Date(datePicker.value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Set today's time to midnight for comparison
+
+            // Add 2 days to today's date
+            const minDate = new Date(today);
+            minDate.setDate(today.getDate() + 2);
+
+            // Check if the selected date is at least 2 days from today
+            if (selectedDate < minDate) {
+                errorMessage.style.display = 'block';
+                dateDisplay.textContent = "Select a date (at least 2 days from today)";
+            } else {
+                errorMessage.style.display = 'none';
+                dateDisplay.textContent = `Selected Date: ${datePicker.value}`;
+            }
+        }
+
+        // Function to handle order submission
+        async function placeOrder() {
+            // Gather input values
+            const branchSelect = document.getElementById('branch');
+            const quantitySelect = document.getElementById('quantity');
+            const datePicker = document.getElementById('datePicker');
+            const notes = document.getElementById('notes');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Basic validation
+            const selectedBranch = branchSelect.value;
+            const selectedQuantity = quantitySelect.value;
+            const selectedDate = datePicker.value;
+
+            if (!selectedDate || new Date(selectedDate) < new Date(new Date().setDate(new Date().getDate() + 2))) {
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            errorMessage.style.display = 'none';
+
+            // Prepare request body
+            const requestBody = {
+                media_to_order: mediatoorder,
+                branch_to_deliver_to: selectedBranch,
+                quantity_to_order: parseInt(selectedQuantity),
+                delivery_date: selectedDate,
+                notes: notes.value.trim(),
+            };
+
+
+            // Make the API call
+            try {
+                const response = await fetch("http://127.0.0.1:5000/api/media/procure", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(requestBody),
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    alert("Order placed successfully: " + JSON.stringify(responseData));
+                } else {
+                    const errorData = await response.json();
+                    alert("Error placing order: " + JSON.stringify(errorData));
+                }
+            } catch (error) {
+                alert("An error occurred: " + error.message);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="wholePage">
+        <div class="mediaDetails" id="mediaDetails">
+            <img class="thumbnail" src="../static/images/67339ffc268d647e800b6fec.jpg">
+            <div class="mediaDescriptions" id="mediaDescriptions">
+                <h3>Media Name</h3>
+                <h4>Media Description</h4>
+            </div>
+        </div>
+
+        <div class="orderDetails" id="orderDetails">
+            <div class="orderInputs" id="orderInputs">
+                <p>Supplier Name: </p>
+                <p>Supplier Contact: </p>
+                <p>Price Per Unit: </p>
+                <p>Quantity Needed </p>
+                <input type="text" name="quantity" id="quantity">
+                <p>Branch </p>
+                <select class="branch" name="branch" id="branch">
+                    <option value="6489cbc59d1e2c7e183f2456">Branch A</option>
+                    <option value="6489cbc59d1e2c7e183f2457">Branch B</option>
+                    <option value="6489cbc59d1e2c7e183f2458">Branch C</option>
+                </select>
+                <p>Date Required: </p>
+                <form id="calendarForm">
+                    <input type="date" id="datePicker" onchange="updateDateDisplay()">
+                    <span class="date-display" id="dateDisplay">Select a date</span>
+                    <div class="error-message" id="errorMessage" style="display: none; color: red;">
+                        Please select a date at least 2 days from today.
+                    </div>
+                </form>
+                <p>Additional Notes </p>
+                <textarea id="notes" name="notes" rows="4" cols="50"></textarea>
+                <p class="total" id="total">Total: </p>
+            </div>
+        </div>
+    </div>
+    <button class="order" onclick="placeOrder()">Order</button>
+</body>
+</html>

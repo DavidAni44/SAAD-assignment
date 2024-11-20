@@ -15,9 +15,9 @@ def procure_media(media_to_order,branch_to_deliver_to,quantity_to_order,delivery
 
 def create_order(media_to_order,branch_to_deliver_to,quantity_to_order,delivery_date):
 
-
+    
     purchase_order = {
-        "media_to_order": (media_collection.find_one({"_id": ObjectId(media_to_order)})).get("_id"),  #not working
+        "media_to_order": (media_collection.find_one({"_id": ObjectId(media_to_order)})),  #not working
         "branch_to_deliver_to": branch_to_deliver_to,
         "quantity_to_order": quantity_to_order,
         "delivery_date": delivery_date,
@@ -55,14 +55,7 @@ def prepare_email(branch_to_deliver_to,quantity_to_order,media_to_order,order_id
 
 
 def send_email(subject, body, emails):
-    """
-    Sends an email to a list of recipients.
-    
-    Args:
-    - subject (str): Email subject.
-    - body (str): Email body.
-    - emails (list): List of recipient email addresses.
-    """
+
     smtpServer = "smtp.gmail.com"
     smtpPort = 587
     senderEmail = "xclwright@gmail.com"
