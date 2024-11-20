@@ -15,7 +15,8 @@ def borrow_media_endpoint():
     user_id = request.json.get('user_id')
     media_id = request.json.get('media_id')
     delivery_choice = request.json.get('delivery_choice')
-    return borrow_media(user_id, media_id, delivery_choice)
+    borrow_until = request.json.get('borrow_until')
+    return borrow_media(user_id, media_id, delivery_choice,borrow_until)
 
 @media_bp.route('/procure', methods=['POST'])
 def procure_media_endpoint():
@@ -39,7 +40,9 @@ def get_all_media():
 
 @media_bp.route('/mediareturned', methods=['POST'])
 def return_staged_endpoint():
-    return return_staged()
+    branch_id = request.json.get('branch_id')
+    media_id = request.json.get('media_id')
+    return return_staged(branch_id, media_id)
 
 @media_bp.route('/report', methods=['POST'])
 def report_endpoint():
