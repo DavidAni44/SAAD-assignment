@@ -24,3 +24,7 @@ table {
     padding: 8px;
     background-color: #ffb24b;
   }
+
+  .mainContents{
+    margin-left: 50px;
+  }
