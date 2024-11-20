@@ -58,3 +58,7 @@ def MonitorSystem():
 @frontend.route('/itemPage')
 def itemPage():
     return render_template('itemPage.html')
+
+@frontend.route('/MediaProcurement')
+def mediaProcurement():
+    return render_template('mediaProcurement.html')
