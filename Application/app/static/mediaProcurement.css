@@ -1,0 +1,55 @@
+.thumbnail{
+    height: 200px;
+    width: 150px;
+    display: flex;
+    position: relative;
+    margin: 0 0 0 45px;
+    padding-top: 20px;
+}
+
+.mediaDetails {
+    background-color: #ddd;
+    height: 600px;
+    width: 250px;
+    margin-left: 100px;
+    margin-right: 50px;
+}
+
+.mediaDescriptions, .orderInputs
+{
+    margin-left: 10px;
+}
+
+.orderDetails {
+    background-color: #ddd;
+    height: 600px;
+    width: 70%;
+    margin-right: 100px;
+    float: right;
+}
+
+.wholePage
+{
+    display: flex;
+}
+
+.order{
+    float: right;
+    margin-right: 9%;
+    margin-top: 50px;
+    height: 50px;
+    width: 115px;
+    background-color: orange;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    display: none;
+}
+
+.total {
+    float: right;
+    margin-top: 120px;
+    margin-right: 150px;
+}
