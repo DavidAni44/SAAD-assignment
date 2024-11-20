@@ -12,6 +12,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    background-color: #e9b215;
   }
 
   /* Left side links */
@@ -22,14 +23,13 @@
   }
   .right-items {
     display: flex;
-    margin-bottom: -13px;
   }
 }
 
 
   /* Individual link styles */
   .navbar a {
-    color: black;
+    color: white;
     padding: 10px 15px;
     text-decoration: none;
     height: 20px;
@@ -45,5 +45,9 @@
   {
     width:50px;
     height:40px;
-
   }
+
+  .Logo {
+    margin-top: -6px;
+  }
+

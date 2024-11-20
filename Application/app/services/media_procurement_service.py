@@ -10,14 +10,14 @@ def procure_media(media_to_order,branch_to_deliver_to,quantity_to_order,delivery
     #print(media_to_order)
     #print(branch_to_deliver_to)
     order_id = create_order(media_to_order,branch_to_deliver_to,quantity_to_order,delivery_date) 
-    prepare_email(branch_to_deliver_to,quantity_to_order,media_to_order,order_id,delivery_date)
+    #prepare_email(branch_to_deliver_to,quantity_to_order,media_to_order,order_id,delivery_date)
     return jsonify({"message": "Media procured successfully."}), 200
 
 def create_order(media_to_order,branch_to_deliver_to,quantity_to_order,delivery_date):
 
-
+    
     purchase_order = {
-        "media_to_order": (media_collection.find_one({"_id": ObjectId(media_to_order)})).get("_id"),  #not working
+        "media_to_order": (media_collection.find_one({"_id": ObjectId(media_to_order)})),  #not working
         "branch_to_deliver_to": branch_to_deliver_to,
         "quantity_to_order": quantity_to_order,
         "delivery_date": delivery_date,
@@ -34,7 +34,7 @@ def create_order(media_to_order,branch_to_deliver_to,quantity_to_order,delivery_
     return purchase_order.get('_id')
 
 
-def get_branch_email(branch_to_deliver_to):
+'''def get_branch_email(branch_to_deliver_to):
     branch = branch_collection.find_one({'_id': branch_to_deliver_to})
     email = branch.get('branch_email', 'Email not available')
     return email
@@ -80,7 +80,7 @@ def send_email(subject,body,email):
         print(f"Failed to send email: {e}")
 
     finally:
-        server.quit()
+        server.quit()'''
     
     
 
