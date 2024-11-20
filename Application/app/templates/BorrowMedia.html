@@ -1,4 +1,8 @@
-<iframe src="NavBar.html" width="100%" frameborder="0"></iframe>
+{% include 'NavBar.html' %}
+<br>
+<br>
+<br>
+
 <link href="../static/borrowMedia.css" rel="stylesheet" type="text/css" />
 
 <!DOCTYPE html>
@@ -31,7 +35,7 @@
             if (type === "reserve")
             {
                 apiURL = 'http://127.0.0.1:5000/api/media/reserve';
-            }
+            
             // Send the POST request with the JSON body
             fetch(apiURL, {
                 method: 'POST',
@@ -50,6 +54,16 @@
                 // Handle any errors here
                 console.error('Error:', error);
             });
+        }
+        else {
+            const mediaName = event.target.querySelector('h2#media_name').textContent;
+            console.log("test");
+            console.log(mediaName);
+                const mediaDetails = {mediaId, mediaName };
+                localStorage.setItem('mediaDetails', JSON.stringify(mediaDetails)); // Save user data to localStorage
+                window.location.href = `itemPage`;
+
+        }
         
         }
     </script>
@@ -69,19 +83,20 @@ and then during the demo update the database and show that this is updated
             <input type="hidden" name="media_id" value="64f9c2a9f6a17c98d0e1b005">
             <button type="submit" class="gridLink">
                 <div class="grid-item">
-                    <img class ="thumbnail" src="LW.jpg">
-                    <h2>Gourmet Recipes by Chef Oliver</h2>
+                    <img class ="thumbnail" src=".jpg">
+                    <h2 id="media_name">Gourmet Recipes by Chef Oliver</h2>
                     <p>Paragraph of info</p>
                 </div>
             </button>
         </form>
+        
 
         <form onsubmit="mediaAction(event)">
             <input type="hidden" name="media_id" value="67339ffc268d647e800b6fe4">
             <button type="submit" class="gridLink">
                 <div class="grid-item">
-                    <img class ="thumbnail" src=".jpg">
-                    <h2>The Great Book by John Doe</h2>
+                    <img class ="thumbnail" src="../static/images/.jpg">
+                    <h2 id="media_name">The Great Book by John Doe</h2>
                     <p>Paragraph of info</p>
                 </div>
             </button>
@@ -92,8 +107,8 @@ and then during the demo update the database and show that this is updated
             <input type="hidden" name="media_id" value="67339ffc268d647e800b6fdb">
             <button type="submit" class="gridLink">
                 <div class="grid-item">
-                    <img class ="thumbnail" src="TSG.jpg">
-                    <h2>The Secret Garden by Frances Hodgson Burnett</h2>
+                    <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fdb.jpg">
+                    <h2 id="media_name">The Secret Garden by Frances Hodgson Burnett</h2>
                     <p>Paragraph of info</p>
                 </div>
             </button>
@@ -104,8 +119,8 @@ and then during the demo update the database and show that this is updated
             <input type="hidden" name="media_id" value="67339ffc268d647e800b6fdc">
             <button type="submit" class="gridLink">
                 <div class="grid-item-reserve">
-                    <img class ="thumbnail" src="lionkingdvd.jpg">
-                    <h2>The Lion King</h2>
+                    <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fdc.jpg">
+                    <h2 id="media_name">The Lion King</h2>
                     <p>Paragraph of info</p>
                 </div>
             </button>
@@ -116,8 +131,8 @@ and then during the demo update the database and show that this is updated
             <input type="hidden" name="media_id" value="67339ffc268d647e800b6fec">
             <button type="submit" class="gridLink">
                 <div class="grid-item-reserve">
-                    <img class ="thumbnail" src="tdk.jpg">
-                    <h2>The Dark Knight</h2>
+                    <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fec.jpg";>
+                    <h2 id="media_name">The Dark Knight</h2>
                     <p>Paragraph of info</p>
                 </div>
             </button>
@@ -127,3 +142,4 @@ and then during the demo update the database and show that this is updated
 
 </body>
 </html>
+

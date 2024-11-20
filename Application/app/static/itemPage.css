@@ -21,6 +21,7 @@
 .grid-item
 {
     padding: 10px 20px 0px 20px;
+    border-right: 1px solid hotpink;
 }
 
 .returnButton
@@ -51,8 +52,55 @@ a.myBasket
     background-color: orange;
     display: flex;
     position: relative;
-    margin: 40% 0 0 45%;
+    margin: 400px 0 0 452px;
     height: 40px;
     width: 100px;
     justify-content: center;
+}
+
+.thumbnail{
+    height: 200px;
+    width: 150px;
+    display: flex;
+    position: relative;
+    margin: 85px 34px 35px 43px;
+}
+
+.mediaName
+{
+    margin-left: 43px;
+}
+
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 143px 30px 0 -25px;
+}
+
+span#dateDisplay {
+    margin-left: -23px;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    display: none;
+    margin-left: -23px;
+}
+
+.lateFee
+{
+    margin-top: 164px;
+}
+
+.deliveryType{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 143px -50px 0 -25px;
 }
