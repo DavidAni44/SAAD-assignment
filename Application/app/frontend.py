@@ -51,9 +51,11 @@ def showAdminNavBar():
 def MonitorSystem():
     user_response = requests.get('http://127.0.0.1:5000/api/users/all_users')
     media_response = requests.get('http://127.0.0.1:5000/api/media/all_media').json()
+    branch_response = requests.get('http://127.0.0.1:5000/api/media/all_branches').json()
+    all_branch_media = requests.get('http://127.0.0.1:5000/api/media/all_branch_media').json()
     users = user_response.json() if user_response.status_code == 200 else []
     user_len = len(users)
-    return render_template('MonitorSystem.html', users=users, user_len=user_len, media_response=media_response)
+    return render_template('MonitorSystem.html', users=users, user_len=user_len, media_response=media_response, branches=branch_response, all_branch_media=all_branch_media)
 
 @frontend.route('/itemPage')
 def itemPage():
