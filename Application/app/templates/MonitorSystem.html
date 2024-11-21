@@ -1,5 +1,6 @@
 <iframe src="NavBar.html" width="100%" frameborder="0"></iframe>
 <link href="../static/MonitorSystem.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 <div class="dashboard-container">
     <!-- Two Rectangles -->
@@ -14,7 +15,94 @@
         </div>
     </div>
 
-    <!-- Table Placeholder -->
+
+    
+    <div id="chartContainer">
+        <canvas id="myChart"></canvas>
+    </div>
+
+<script>
+    const ctx = document.getElementById('myChart');
+    // Safely load data into JavaScript
+    var branchData = '{{ branches|tojson|safe }}';
+    console.log(branchData);
+    var branchArray = JSON.parse(branchData);
+    var branchNames = branchArray.map(branch => branch.name);
+
+    var branchMedia = '{{ all_branch_media|tojson|safe }}';
+    console.log(branchMedia);
+
+        // Parse the JSON string if needed
+    var parsedBranchMedia = JSON.parse(branchMedia);
+
+    // Create an array to store the results
+    var branchMediaCounts = [];
+
+    // Loop through each branch
+    parsedBranchMedia.forEach(branchData => {
+        // Count the number of media_ids
+        let mediaCount = branchData.media.length;
+
+        // Add the branch name and media count to the results array
+        branchMediaCounts.push({
+            branch_name: branchData.branch.name,
+            media_count: mediaCount
+        });
+    });
+
+    // Log the result
+    console.log(branchMediaCounts);
+
+    const branch_Names = branchMediaCounts.map(branch => branch.branch_name);
+    const mediaCounts = branchMediaCounts.map(branch => branch.media_count);
+
+    // Initialize the Chart.js bar chart
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: branch_Names,
+            datasets: [{
+                label: '# of media in branch',
+                data: mediaCounts.map(Number),
+                borderWidth: 1,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    min: 0, // Forces y-axis to start at 0
+                    ticks: {
+                        stepSize: 1,
+                        callback: function(value) {
+                            return Number.isInteger(value) ? value : ''; // Only show whole numbers
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 45,
+                        minRotation: 45
+                    }
+                }
+            }
+        }
+    });
+
+</script>
+
+    <!-- Table Placeholder 
     <div class="table-container">
         <table>
             <tr>
@@ -29,6 +117,7 @@
             {% endfor %}
         </table>
     </div>
+    -->
 </div>
 
 

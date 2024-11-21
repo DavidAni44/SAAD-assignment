@@ -62,3 +62,19 @@ th {
     font-weight: bold;
     background-color: #f0f0f0;
 }
+
+#chartContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full vertical height */
+    position: relative; /* Allow positioning adjustments */
+    top: -50px; /* Adjust the vertical position */
+}
+
+#myChart {
+    max-width: 800px; /* Adjust the width */
+    width: 100%;
+    height: 400px; /* Adjust the height */
+}
+
