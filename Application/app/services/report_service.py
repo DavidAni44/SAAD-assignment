@@ -1,12 +1,12 @@
 import pandas as pd
 from flask import jsonify
-from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import letter,landscape
 import os
 from app.services.database import user_collection, media_collection, transaction_collection, branch_collection
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
 
 def export_to_excel(data, file_name):
     flat_data = []
@@ -94,98 +94,44 @@ def export_to_csv(data, file_name):
     return file_path
 
 
-def export_to_pdf(data, file_name):
-    file_path = os.path.join(os.getcwd(), f"{file_name}.pdf")
 
-    if not os.path.exists(os.getcwd()):
-        os.makedirs(os.getcwd())
 
-    print(f"Creating PDF at: {file_path}")
-
-    doc = SimpleDocTemplate(file_path, pagesize=letter)
-
-    if file_name == "Borrowed Report":
-        table_data = [["User Name", "Email", "Media ID", "Borrowed Date", "Due Date", "Return Date", "Returned", "Delivery Type", "Delivery Address", "Postage", "Payment Method"]]
-        for item in data:
-            user_name = item['User Name']
-            email = item['Email']
-            media_details = item.get("Borrowed Media Details", [])
-            for media in media_details:
-                row = [
-                    user_name,
-                    email,
-                    media.get("Media ID", "N/A"),
-                    media.get("Borrowed Date", "N/A"),
-                    media.get("Due Date", "N/A"),
-                    media.get("Return Date", "N/A"),
-                    media.get("Returned", "N/A"),
-                    media.get("Delivery Type", "N/A"),
-                    str(media.get("Delivery Address", "N/A")),
-                    ", ".join(map(str, media.get("Postage", []))),
-                    media.get("Payment Method", "N/A")
-                ]
-                table_data.append(row)
-
-    elif file_name == "Reserved Report":
-        table_data = [["User Name", "Email", "Media ID", "Available Copies", "Total Copies"]]
-        for item in data:
-            user_name = item['User Name']
-            email = item['Email']
-            media_details = item.get("Reserved Media Details", [])
-            for media in media_details:
-                row = [
-                    user_name,
-                    email,
-                    media.get("Media ID", "N/A"),
-                    media.get("Available Copies", "N/A"),
-                    media.get("Total Copies", "N/A"),
-                ]
-                table_data.append(row)
-
-    elif file_name == "Branch Report":
-        table_data = [["Branch ID", "Branch Name", "Library ID", "Address", "Email", "Media ID", "Available Copies", "Total Copies"]]
-        for item in data:
-            branch_id = item['Branch ID']
-            branch_name = item['Branch Name']
-            library_id = item['Library ID']
-            address = item['Address']
-            email = item['Email']
-            media_details = item.get("Media Details", [])
-            for media in media_details:
-                row = [
-                    branch_id,
-                    branch_name,
-                    library_id,
-                    address,
-                    email,
-                    media.get("Media ID", "N/A"),
-                    media.get("Available Copies", "N/A"),
-                    media.get("Total Copies", "N/A"),
-                ]
-                table_data.append(row)
-
-    table = Table(table_data)
-    table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
-        ('ALIGN', (1, 1), (-1, -1), 'LEFT'),
-        ('TEXTCOLOR', (1, 1), (-1, -1), colors.black),
-    ]))
-
+def convert_excel_to_pdf(excel_file):
     try:
+        excel_data = pd.read_excel(excel_file)
+        data = [excel_data.columns.tolist()] + excel_data.values.tolist()
+        base_name = os.path.splitext(os.path.basename(excel_file))[0]
+        pdf_file = os.path.join(os.path.dirname(excel_file), f"{base_name}.pdf")
+        doc = SimpleDocTemplate(pdf_file, pagesize=landscape(letter))
+        page_width = landscape(letter)[0] - 50
+        num_columns = len(data[0]) if data else 1
+        col_width = page_width / num_columns if num_columns > 0 else page_width
+        styles = getSampleStyleSheet()
+        
+        styled_data = []
+        for row in data:
+            styled_row = [Paragraph(str(cell), styles['BodyText']) for cell in row]
+            styled_data.append(styled_row)
+        
+        table = Table(styled_data, colWidths=[col_width] * num_columns)
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
         doc.build([table])
-        print(f"PDF successfully created: {file_path}")
+        os.remove(excel_file)
+        return pdf_file
     except Exception as e:
-        print(f"Error during PDF creation: {e}")
-
-    return file_path
-
+        print(f"Error: {e}")
+        return None
+    
+    
+    
 
 
 def export_as(format_type, report_data, report_name):
@@ -198,7 +144,8 @@ def export_as(format_type, report_data, report_name):
         elif format_type == 'csv':
             file_path = export_to_csv(report_data, report_name)
         elif format_type == 'pdf':
-            file_path = export_to_pdf(report_data, report_name)
+            file_path = export_to_excel(report_data, report_name)
+            convert_excel_to_pdf(file_path)
         else:
             return jsonify({"error": "Invalid format type requested"}), 400
 
