@@ -3,7 +3,7 @@ from app.services.borrow_service import borrow_media
 from app.services.media_procurement_service import procure_media
 from app.services.reserve_service import reserve_media, return_staged
 from app.services.monitor_system import get_media, get_branches, get_media_by_branch
-from app.services.report_service import report
+from app.services.report_service import export_as, report_selection
 
 media_bp = Blueprint('media', __name__, url_prefix='/media')
 
@@ -55,5 +55,11 @@ def return_staged_endpoint():
 
 @media_bp.route('/report', methods=['POST'])
 def report_endpoint():
-    return report()
+    report_choice = request.json.get('report')
+    format_type = request.json.get('export')
+
+    report_data,report_name = report_selection(report_choice)
+    export_as(format_type,report_data,report_name)
+
+    return str(report_data), 200
 
