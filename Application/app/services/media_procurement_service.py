@@ -88,6 +88,33 @@ def send_email(subject, body, emails):
             print("SMTP server already disconnected.")
 
 
+def track_order(PO):
+    try:
+        order = purchase_order_collection.find_one({'_id': ObjectId(PO)})
+        current_satus = order.get("status")
+        return current_satus, 200
+    except:
+        return(f"No order found with the entered order ID"),500
+    
+
+
+def edit_order_status(PO, new_status):
+   
+        po_id = ObjectId(PO)
+        
+        order = purchase_order_collection.find_one({"_id": po_id})
+        if not order:
+            return jsonify({"error": "No order found with the entered PO ID."}), 404
+
+        result = purchase_order_collection.update_one(
+            {"_id": po_id},
+            {"$set": {"status": new_status}}
+        )
+
+        if result.modified_count == 0:
+            return jsonify({"message": "Order status was already the specified value."}), 200
+
+        return jsonify({"message": "Order status updated successfully."}), 200
 
 
 

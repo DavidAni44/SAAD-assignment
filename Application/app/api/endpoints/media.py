@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.services.borrow_service import borrow_media
-from app.services.media_procurement_service import procure_media
+from app.services.media_procurement_service import procure_media, track_order, edit_order_status
 from app.services.reserve_service import reserve_media, return_staged
 from app.services.monitor_system import get_media, get_branches, get_media_by_branch
 from app.services.report_service import export_as, report_selection
@@ -63,3 +63,15 @@ def report_endpoint():
 
     return str(report_data), 200
 
+@media_bp.route('/track_order', methods=['GET'])
+def track_order_endpoint():
+    PO = request.json.get('PO')
+    order_location = track_order(PO)
+    return jsonify(order_location), 200
+
+@media_bp.route('/edit_order', methods=['POST'])
+def edit_order_endpoint():
+    PO = request.json.get('PO')
+    new_status = request.json.get('new_status')
+    updated_order = edit_order_status(PO,new_status)
+    return str(updated_order), 200
