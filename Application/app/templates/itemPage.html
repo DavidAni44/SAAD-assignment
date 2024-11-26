@@ -81,9 +81,12 @@
         })
         .then(response => response.json())  // Parse the response as JSON
         .then(data => {
-            // Handle the response data here
-            console.log('Success:', data);
-            alert(`Success: ${JSON.stringify(data)}`);
+
+        const mediaName = `${mediaDetails.mediaName}`;
+        const successMessage = `You have borrowed ${mediaName}`;
+        localStorage.setItem('successMessage', JSON.stringify(successMessage)); 
+        window.location.href = `BorrowMedia`;
+            
         })
         .catch(error => {
             // Handle any errors here
@@ -96,21 +99,25 @@
 <div class="mainContainerBorrow">
     <div class="itemDetails">
         <div class="grid-container">
-            <div class="grid-item">Item w/ image and description
+            <div class="grid-item">
+                <p class="dividerTitles">Item w/ image and description</p>
                 <img class="thumbnail" src="" alt="Media Thumbnail" id="imageName">
                 <p class="mediaName" id="mediaName">Media Name</p>
             </div>
-            <div class="grid-item">Date to borrow till
+            <div class="grid-item">
+                <p class="dividerTitles">Date to borrow till</p>
                 <form id="calendarForm">
                     <input type="date" id="datePicker" onchange="updateDateDisplay()">
                     <span class="date-display" id="dateDisplay">Select a date</span>
                     <div class="error-message" id="errorMessage">Please select a date at least 2 days from today.</div>
                 </form>
             </div>
-            <div class="grid-item">Applicable late fee
+            <div class="grid-item">
+                <p class="dividerTitles">Applicable late fee</p>
                 <p class="lateFee">£1.50 per day</p>
             </div>
-            <div class="grid-item">Delivery Type
+            <div class="grid-item">
+                <p class="dividerTitles">Delivery Type</p>
                 <select class="deliveryType" name="deliveryType" id="deliveryType">
                     <option id="HomeDelivery">Home Delivery</option>
                     <option id="ClickCollect">Click and Collect</option>

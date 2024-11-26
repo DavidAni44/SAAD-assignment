@@ -1,14 +1,15 @@
 .mainContainerBorrow
 {
-    background-color: #b4b8b5;
+    background-color: orange;
     width: 80%;
     height: 60%;
     margin-left: 100px;
+    color: white;
 }
 
 .itemDetails
 {
-    background-color: orange;
+    height: 100px;
 }
 
 .grid-container
@@ -21,7 +22,9 @@
 .grid-item
 {
     padding: 10px 20px 0px 20px;
-    border-right: 1px solid hotpink;
+    border-right: 1px solid black;
+    height: 530px;
+    width: 100%;
 }
 
 .returnButton
@@ -72,17 +75,14 @@ a.myBasket
 }
 
 input[type="date"] {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
-    margin: 143px 30px 0 -25px;
+    margin: 143px 30px 0 0;
 }
 
-span#dateDisplay {
-    margin-left: -23px;
-}
 
 .error-message {
     color: red;
@@ -102,5 +102,5 @@ span#dateDisplay {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
-    margin: 143px -50px 0 -25px;
+    margin: 143px -50px 0 0;
 }

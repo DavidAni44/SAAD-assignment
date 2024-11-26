@@ -1,0 +1,67 @@
+<style>
+    .success-banner {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 5px;
+        margin: 20px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+    .success-banner span {
+        color: white;
+    }
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        color: white;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+    .close-btn:hover {
+        color: #FF7043;
+    }
+</style>
+
+<div id="bannerMessage" class="success-banner" style="display:none;">
+    <span id="bannerText"></span>
+    <button class="close-btn" onclick="closeBanner()">×</button>
+</div>
+
+<div id="reserveMessage" class="success-banner" style="display:none;">
+    <span id="bannerTextReserve"></span>
+    <button class="close-btn" onclick="closeBanner()">×</button>
+</div>
+
+
+
+<script>
+    const successMessage = localStorage.getItem('successMessage');
+    const reserveMessage = localStorage.getItem('reserveMessage');
+        
+    if (successMessage) {
+        document.getElementById("bannerMessage").style.display = "block";
+        document.getElementById("bannerText").textContent = successMessage;
+    }
+    if (reserveMessage) {
+        document.getElementById("reserveMessage").style.display = "block";
+        document.getElementById("bannerTextReserve").textContent = reserveMessage;
+        console.log(reserveMessage);
+    }
+    else {
+        document.getElementById("bannerMessage").style.display = "none";
+    }
+
+    function closeBanner() {
+        document.getElementById("bannerMessage").style.display = "none";
+        document.getElementById("reserveMessage").style.display = "none";
+        localStorage.removeItem('successMessage');
+        localStorage.removeItem('reserveMessage');
+    }
+</script>

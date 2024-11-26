@@ -1,6 +1,9 @@
 {% include 'NavBar.html' %}
 <br>
 <br>
+<div id="iframe-container" style="display:block;">
+    <iframe src="SuccessBorrow" width="100%" frameborder="0"></iframe>
+</div>
 <br>
 
 <link href="../static/borrowMedia.css" rel="stylesheet" type="text/css" />
@@ -19,7 +22,6 @@
             setCookie("user_2")
             console.log(document.cookie);
 
-            
         function mediaAction(event, type) {
             event.preventDefault(); // Prevent the default form submission
             apiURL = 'http://127.0.0.1:5000/api/media/borrow';
@@ -32,6 +34,8 @@
                 user_id: userId
             };
 
+
+            const mediaName = event.target.querySelector('h2#media_name').textContent;
             if (type === "reserve")
             {
                 apiURL = 'http://127.0.0.1:5000/api/media/reserve';
@@ -48,7 +52,10 @@
             .then(data => {
                 // Handle the response data here
                 console.log('Success:', data);
-                alert(`Success: ${JSON.stringify(data)}`);
+                const reserveMessage = `You have borrowed ${mediaName}`;
+                localStorage.setItem('reserveMessage', JSON.stringify(reserveMessage)); // Save user data to localStorage
+                window.location.href = `BorrowMedia`;
+                
             })
             .catch(error => {
                 // Handle any errors here
@@ -56,9 +63,6 @@
             });
         }
         else {
-            const mediaName = event.target.querySelector('h2#media_name').textContent;
-            console.log("test");
-            console.log(mediaName);
                 const mediaDetails = {mediaId, mediaName };
                 localStorage.setItem('mediaDetails', JSON.stringify(mediaDetails)); // Save user data to localStorage
                 window.location.href = `itemPage`;
@@ -83,7 +87,7 @@ and then during the demo update the database and show that this is updated
             <input type="hidden" name="media_id" value="673c85daede0ec4def1bca81">
             <button type="submit" class="gridLink">
                 <div class="grid-item">
-                    <img class ="thumbnail" src="../static/images/673c85daede0ec4def1bca81.jpg"">
+                    <img class ="thumbnail" src="../static/images/673c85daede0ec4def1bca81.jpg">
                     <h2 id="media_name">Gourmet Recipes by Chef Oliver</h2>
                     <p>Paragraph of info</p>
                 </div>
@@ -128,7 +132,7 @@ and then during the demo update the database and show that this is updated
 
 
         <form onsubmit="mediaAction(event, 'reserve')">
-            <input type="hidden" name="media_id" value="673c85daede0ec4def1bca92">
+            <input type="hidden" name="media_id" value="673c85daede0ec4def1bca7a">
             <button type="submit" class="gridLink">
                 <div class="grid-item-reserve">
                     <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fec.jpg";>
