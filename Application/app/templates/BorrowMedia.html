@@ -1,7 +1,10 @@
 {% include 'NavBar.html' %}
 <br>
 <br>
-<div id="iframe-container" style="display:block;">
+<button id="closeBanner" class="close-btn" onclick="closeBanner()" style="display:none;">
+    <img class ="cross" src="../static/images/crossIcon.png">
+</button>
+<div id="iframe-container" style="display:none;">
     <iframe src="SuccessBorrow" width="100%" frameborder="0"></iframe>
 </div>
 <br>
@@ -14,6 +17,16 @@
 </head>
 <body>
     <script>
+        const successMessage = localStorage.getItem('successMessage');
+        const reserveMessage = localStorage.getItem('reserveMessage');
+            
+        if (successMessage || reserveMessage) {
+            document.getElementById("iframe-container").style.display = "block";
+            document.getElementById("closeBanner").style.display = "block";
+            
+        }
+
+
         function setCookie(userId) {
             document.cookie = userId
             }
@@ -70,6 +83,13 @@
         }
         
         }
+        
+    function closeBanner() {
+        localStorage.removeItem('successMessage');
+        localStorage.removeItem('reserveMessage');
+        document.getElementById("iframe-container").style.display = "none";
+        document.getElementById("closeBanner").style.display = "none";
+    }
     </script>
     
 

@@ -73,3 +73,26 @@ form
     height: 114px;
     width: 91px;
 }
+
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    color: black;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 116px;
+    margin-left: 8px;
+}
+.close-btn:hover {
+    color: #FF7043;
+}
+
+.cross
+{
+    height: 30px;
+    width: 30px;
+}
