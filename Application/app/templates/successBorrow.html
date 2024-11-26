@@ -31,15 +31,11 @@
 
 <div id="bannerMessage" class="success-banner" style="display:none;">
     <span id="bannerText"></span>
-    <button class="close-btn" onclick="closeBanner()">×</button>
 </div>
 
 <div id="reserveMessage" class="success-banner" style="display:none;">
     <span id="bannerTextReserve"></span>
-    <button class="close-btn" onclick="closeBanner()">×</button>
 </div>
-
-
 
 <script>
     const successMessage = localStorage.getItem('successMessage');
@@ -49,19 +45,12 @@
         document.getElementById("bannerMessage").style.display = "block";
         document.getElementById("bannerText").textContent = successMessage;
     }
-    if (reserveMessage) {
+    else if (reserveMessage) {
         document.getElementById("reserveMessage").style.display = "block";
         document.getElementById("bannerTextReserve").textContent = reserveMessage;
         console.log(reserveMessage);
     }
     else {
         document.getElementById("bannerMessage").style.display = "none";
-    }
-
-    function closeBanner() {
-        document.getElementById("bannerMessage").style.display = "none";
-        document.getElementById("reserveMessage").style.display = "none";
-        localStorage.removeItem('successMessage');
-        localStorage.removeItem('reserveMessage');
     }
 </script>
