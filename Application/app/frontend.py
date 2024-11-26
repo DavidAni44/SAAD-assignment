@@ -68,3 +68,7 @@ def mediaProcurement():
 @frontend.route('/GenerateReport')
 def GenerateReport():
     return render_template('GenerateReport.html')
+
+@frontend.route('/SuccessBorrow')
+def successBorrow():
+    return render_template('successBorrow.html')
