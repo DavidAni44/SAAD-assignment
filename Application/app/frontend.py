@@ -47,7 +47,7 @@ def showNavBar():
 def showAdminNavBar():
     return render_template('AdminNavbar.html')
 
-@frontend.route('/MonitorSystem.html')
+@frontend.route('/MonitorSystem')
 def MonitorSystem():
     user_response = requests.get('http://127.0.0.1:5000/api/users/all_users')
     media_response = requests.get('http://127.0.0.1:5000/api/media/all_media').json()
@@ -64,3 +64,7 @@ def itemPage():
 @frontend.route('/MediaProcurement')
 def mediaProcurement():
     return render_template('mediaProcurement.html')
+
+@frontend.route('/GenerateReport')
+def GenerateReport():
+    return render_template('GenerateReport.html')

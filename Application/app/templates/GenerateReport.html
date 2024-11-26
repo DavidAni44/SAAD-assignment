@@ -1,0 +1,62 @@
+{% include 'AdminNavbar.html' %}
+<link href="../static/GenerateReport.css" rel="stylesheet" type="text/css" />
+
+<body>
+<script>
+    function validateAndSubmit(event, reportType) {
+        event.preventDefault(); // Prevent form submission
+    
+        const format = document.getElementById("formatSelector").value;
+    
+        if (!format) {
+            alert('Please select a format.');
+            return;
+        }
+    
+        const requestData = {
+            "export": format,
+            "report": reportType
+        };
+    
+        fetch('http://127.0.0.1:5000/api/media/report', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            alert(`Report generated successfully: ${JSON.stringify(data)}`);
+        })
+        .catch(error => {
+            console.error('Error generating report:', error);
+            console.log(requestData);
+        });
+    }
+    
+</script>
+
+<div class="ReportTypes">
+    <form class="BorrowingReport" id="BorrowingReport" onsubmit="validateAndSubmit(event, 'Borrowed Media')">
+        <button type="submit" class="BorrowButton">Generate Borrow Report</button>
+    </form>
+
+    <div class="MiddleSection">
+        <form class="ReservedReport" id="ReservedReport" onsubmit="validateAndSubmit(event, 'Reserved Media')">
+            <button type="submit" class="ReserveButton">Generate Reserved Report</button>
+        </form>
+        <select id="formatSelector" required>
+            <option value="">Select Format</option>
+            <option value="pdf">PDF</option>
+            <option value="csv">CSV</option>
+            <option value="excel">Excel</option>
+        </select>
+    </div>
+
+    <form class="BranchReport" id="BranchReport" onsubmit="validateAndSubmit(event, 'Branch Media')">
+        <button type="submit" class="BranchButton">Generate Branch Report</button>
+    </form>
+</div>
+</body>
