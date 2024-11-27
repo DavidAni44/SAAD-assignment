@@ -18,10 +18,7 @@ def ping_endpoint():
 
 @frontend.route('/')
 def index():
-    start = datetime.now()
-    uptime = (datetime.now() - start).seconds
-    print(uptime)
-    return render_template('Index.html',uptime = (datetime.now() - start).seconds)
+    return render_template('Index.html')
 
 
 

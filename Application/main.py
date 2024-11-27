@@ -11,12 +11,6 @@ from datetime import datetime
 
 app = create_app()
 
-from flask import Flask
-from apscheduler.schedulers.background import BackgroundScheduler
-import requests
-
-app = Flask(__name__)
-
 def ping_endpoint():
     try:
         response = requests.get('http://127.0.0.1:5000/api/users/ping')  # Replace with your actual endpoint

@@ -23,7 +23,6 @@
 
 <script>
     const ctx = document.getElementById('myChart');
-    // Safely load data into JavaScript
     var branchData = '{{ branches|tojson|safe }}';
     console.log(branchData);
     var branchArray = JSON.parse(branchData);
@@ -31,11 +30,8 @@
 
     var branchMedia = '{{ all_branch_media|tojson|safe }}';
     console.log(branchMedia);
-
-        // Parse the JSON string if needed
     var parsedBranchMedia = JSON.parse(branchMedia);
 
-    // Create an array to store the results
     var branchMediaCounts = [];
 
     // Loop through each branch
