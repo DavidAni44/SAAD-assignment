@@ -17,3 +17,7 @@ def get_user(user_id):
 def return_all_users():
     users = get_users()
     return jsonify(users), 200
+
+@user_bp.route('/ping', methods=['GET'])
+def ping():
+    return jsonify({"message": "API REACHED SUCCESSFULLY!"}), 200
