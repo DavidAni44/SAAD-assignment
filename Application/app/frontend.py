@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime
 import requests
 import json
 
@@ -6,9 +8,20 @@ frontend = Blueprint('frontend', __name__)
 
 API_BASE_URL = 'http://127.0.0.1:5000/api'
 
+def ping_endpoint():
+    try:
+        response = requests.get('http://127.0.0.1:5000/api/users/ping')  # Replace with your actual endpoint
+        print(f"Pinged API. Status Code: {response.status_code}")
+    except Exception as e:
+        print(f"Error pinging API: {e}")
+        
+
 @frontend.route('/')
 def index():
-    return render_template('Index.html')
+    start = datetime.now()
+    uptime = (datetime.now() - start).seconds
+    print(uptime)
+    return render_template('Index.html',uptime = (datetime.now() - start).seconds)
 
 
 
