@@ -39,18 +39,19 @@ This is the main bulk of the code that will perform the various functions of the
 * Good as it is specifically designed for web applications
 * Good as developers are all already familiar with the language
 * Bad as it is less effecient for heavy processing tasks
-* Bad as security is a big concern with this language
+* Bad as PHP has security vulnerabilities
 
 ### Python/Flask
 
 * Good as the framework is designed for web development
 * Good as developers have familiarity with the language
+* Good as Python is portable and can be run on on many different types of systems, allowing for easier development as we have developers on both Windows and Mac
 * Bad due to reliance on external libraries
 
 
 ## Decision Outcome
 
-Chosen option: Python/Flask due to the choice of Architectural Style being a Web App
+Chosen option: Python/Flask due to the choice to make a Web App and its expanded functionality
 
 ### Confirmation
 
@@ -63,3 +64,7 @@ Chosen option: Python/Flask due to the choice of Architectural Style being a Web
 * Good as it will be able to perform more complex tasks
 * Bad, because of reliance on libraries in Python
 
+### References
+* GeeksforGeeks. (2024a, August 8). Top 7 programming languages for Backend Web Development. GeeksforGeeks. https://www.geeksforgeeks.org/top-7-programming-languages-for-backend-web-development/ 
+* Saini, H. (2022, November 29). Top backend technologies and their pros and cons. What should you use for your next project. Medium. https://medium.com/@hs913271/top-backend-technologies-and-their-pros-and-cons-what-should-you-use-for-your-next-project-3ac920509ff5 
+* Tarif, Z. (2024, April 18). Backend Programming Languages in 2024 | Which is the best? Back4App Blog. https://blog.back4app.com/backend-programming-languages/ 

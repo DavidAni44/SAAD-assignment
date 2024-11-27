@@ -1,6 +1,6 @@
 ---
 status: "proposed"
-date: {2024-10-10 when the decision was last updated}
+date: {2024-04-11}
 decision-makers: {Waris Ali, Connor Wright, David Ani}
 ---
 
@@ -19,40 +19,41 @@ and the page layouts
 
 ## Considered Options
 
-* HTML/CSS
-* JavaScript
+* HTML/CSS & JavaScript
 * React
 
 ## Pros and Cons of the Options
 
-### HTML/CSS
+### HTML/CSS & JavaScript
 
-* Good as developer familiarity will make development less complex and faster
-* Good as it is commonly used and therefore resources are plentiful and easy to access
-* Bad as it is simple and may lack some more advanced desired features 
-
-### JavaScript
-
-* Good as it can handle both styling and interactive elements
-* Good as it can be used with other languages
-* Bad as it can increase development complexity and time
+* Good as the developers are familiar with HTML/CSS, and have some experience with JavaScript, which will make development faster and less complex
+* Good as it is easily compatible with the Flask framework
+* Good as it improves SEO effeciency
+* Bad as simplicity may lead to more advanced features not being able to be implemented
 
 ### React
 
 * Good as it uses a more structure and component based approach
+* Good as it allows for more a dynamic UI
 * Bad as developers aren't familiar with the language which would increase development time
+* Bad as it has slower loading times
 
 ## Decision Outcome
 
-Chosen option: HTML/CSS, due to developer familiarity
+Chosen option: HTML/CSS & JavaScript, due to developer familiarity
 
 ### Consequences
 
 * Good, because it will allow development to go more smoothly as developers don't need to spend time learning new technologies
-* Good, because HTML/CSS is widely used and will have a variety of features available to create the AML
+* Good, because it is widely used and will have a variety of features available to create the AML
 * Bad, because simplicity may lead to certain desired features being unavailable
 
 ### Confirmation
 
-* Github repistory should show that all front-end features are created in HTML/CSS
-* ADR to be reviewed as more detailed functions are developed - may choose to work with other languages as well
+* Github repistory should show that all front-end features are created in HTML/CSS & JavaScript
+* Inspect code when running, should be able to see the script and html tags
+
+### References
+* GeeksforGeeks. (2024, September 25). HTML vs. React: What Every Web Developer Needs to Know. GeeksforGeeks. https://www.geeksforgeeks.org/html-vs-react/ 
+* Jomagene. (2024, June 29). Comparing Frontend Technologies: ReactJS vs. Pure HTML, CSS, and JavaScript. DEV Community. https://dev.to/jomagene/comparing-frontend-technologies-reactjs-vs-pure-html-css-and-javascript-3ofb
+* 
