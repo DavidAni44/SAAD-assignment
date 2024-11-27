@@ -28,15 +28,11 @@ def get_media_by_branch():
     result = []
 
     for branch in branches:
-        # Extract branch information
         branch_info = {
             "name": branch["name"],
         }
         
-        # Extract media information
         media_info = branch.get("media", [])
-        
-        # Combine branch and media data
         branch_result = {
             "branch": branch_info,
             "media": media_info
