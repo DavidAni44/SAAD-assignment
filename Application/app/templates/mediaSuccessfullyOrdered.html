@@ -1,0 +1,48 @@
+{% include 'AdminNavbar.html' %}
+<br>
+<br>
+<br>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="../static/successfulOrder.css" rel="stylesheet" type="text/css" />
+    <title>Order Successful</title>
+</head>
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const mediaDetails = JSON.parse(localStorage.getItem("mediaDetails"));
+            const orderDetails = JSON.parse(localStorage.getItem("orderDetails"));
+
+            if (mediaDetails && orderDetails) {
+                document.getElementById("mediaName").textContent = mediaDetails.mediaName;
+                document.getElementById("mediaId").textContent = mediaDetails.mediaId;
+                document.getElementById("branchName").textContent = orderDetails.branchName;
+                document.getElementById("quantity").textContent = orderDetails.quantity;
+                document.getElementById("deliveryDate").textContent = orderDetails.deliveryDate;
+                document.getElementById("notes").textContent = orderDetails.notes || "No additional notes provided.";
+            }
+        });
+    </script>
+
+    <div class="success-container">
+        <div class="success-header">
+            <h1>Order Successfully Placed</h1>
+        </div>
+        <div class="order-details">
+            <p><strong>Media Name:</strong> <span id="mediaName"></span></p>
+            <p><strong>Media ID:</strong> <span id="mediaId"></span></p>
+            <p><strong>Branch:</strong> <span id="branchName"></span></p>
+            <p><strong>Quantity:</strong> <span id="quantity"></span></p>
+            <p><strong>Delivery Date:</strong> <span id="deliveryDate"></span></p>
+            <p><strong>Additional Notes:</strong></p>
+            <p class="notes" id="notes"></p>
+        </div>
+        <div class="success-footer">
+            <button onclick="window.location.href='ProcureMediaChoices';">Back to Dashboard</button>
+        </div>        
+    </div>
+
+</body>
+</html>

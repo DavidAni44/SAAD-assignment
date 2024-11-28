@@ -8,24 +8,26 @@
 <html lang="en">
 <head>
     <script>
-        // Predefined media ID (assumed from the instructions)
-        const mediatoorder = "673c85daede0ec4def1bca71";
+        const mediaDetails = JSON.parse(localStorage.getItem('mediaDetails'));
+        const mediatoorder = mediaDetails ? mediaDetails.mediaId : null;
 
-        // Function to update the date display with validation
+        function populateMediaDetails() {
+            if (mediaDetails) {
+                document.getElementById('mediaThumbnail').src = `../static/images/${mediaDetails.mediaId}.jpg`;
+                document.getElementById('mediaName').textContent = mediaDetails.mediaName;
+            }
+        }
+
         function updateDateDisplay() {
             const datePicker = document.getElementById('datePicker');
             const dateDisplay = document.getElementById('dateDisplay');
             const errorMessage = document.getElementById('errorMessage');
-
             const selectedDate = new Date(datePicker.value);
             const today = new Date();
-            today.setHours(0, 0, 0, 0); // Set today's time to midnight for comparison
-
-            // Add 2 days to today's date
+            today.setHours(0, 0, 0, 0);
             const minDate = new Date(today);
             minDate.setDate(today.getDate() + 2);
 
-            // Check if the selected date is at least 2 days from today
             if (selectedDate < minDate) {
                 errorMessage.style.display = 'block';
                 dateDisplay.textContent = "Select a date (at least 2 days from today)";
@@ -35,38 +37,32 @@
             }
         }
 
-        // Function to handle order submission
         async function placeOrder() {
-            // Gather input values
             const branchSelect = document.getElementById('branch');
-            const quantitySelect = document.getElementById('quantity');
+            const quantityInput = document.getElementById('quantity');
             const datePicker = document.getElementById('datePicker');
-            const notes = document.getElementById('notes');
+            const notesInput = document.getElementById('notes');
             const errorMessage = document.getElementById('errorMessage');
-
-            // Basic validation
-            const selectedBranch = branchSelect.value;
-            const selectedQuantity = quantitySelect.value;
+            const selectedBranch = branchSelect.options[branchSelect.selectedIndex].text;
+            const selectedBranchValue = branchSelect.value;
+            const selectedQuantity = quantityInput.value;
             const selectedDate = datePicker.value;
-
+    
             if (!selectedDate || new Date(selectedDate) < new Date(new Date().setDate(new Date().getDate() + 2))) {
                 errorMessage.style.display = 'block';
                 return;
             }
-
+    
             errorMessage.style.display = 'none';
-
-            // Prepare request body
+    
             const requestBody = {
                 media_to_order: mediatoorder,
-                branch_to_deliver_to: selectedBranch,
+                branch_to_deliver_to: selectedBranchValue,
                 quantity_to_order: parseInt(selectedQuantity),
                 delivery_date: selectedDate,
-                notes: notes.value.trim(),
+                notes: notesInput.value.trim(),
             };
-
-
-            // Make the API call
+    
             try {
                 const response = await fetch("http://127.0.0.1:5000/api/media/procure", {
                     method: "POST",
@@ -75,10 +71,30 @@
                     },
                     body: JSON.stringify(requestBody),
                 });
-
+    
                 if (response.ok) {
                     const responseData = await response.json();
-                    alert("Order placed successfully: " + JSON.stringify(responseData));
+    
+                    localStorage.setItem(
+                        "orderDetails",
+                        JSON.stringify({
+                            branchName: selectedBranch,
+                            branchId: selectedBranchValue,
+                            quantity: selectedQuantity,
+                            deliveryDate: selectedDate,
+                            notes: notesInput.value.trim(),
+                        })
+                    );
+    
+                    localStorage.setItem(
+                        "mediaDetails",
+                        JSON.stringify({
+                            mediaName: mediaDetails.mediaName,
+                            mediaId: mediaDetails.mediaId,
+                        })
+                    );
+    
+                    window.location.href = "mediaSuccessfullyOrdered";
                 } else {
                     const errorData = await response.json();
                     alert("Error placing order: " + JSON.stringify(errorData));
@@ -87,14 +103,16 @@
                 alert("An error occurred: " + error.message);
             }
         }
+    
+        document.addEventListener("DOMContentLoaded", populateMediaDetails);
     </script>
 </head>
 <body>
     <div class="wholePage">
         <div class="mediaDetails" id="mediaDetails">
-            <img class="thumbnail" src="../static/images/67339ffc268d647e800b6fec.jpg">
+            <img class="thumbnail" id="mediaThumbnail">
             <div class="mediaDescriptions" id="mediaDescriptions">
-                <h3>The Dark Knight</h3>
+                <h3 id="mediaName"></h3>
                 <h4>Media Description</h4>
             </div>
         </div>
@@ -104,9 +122,9 @@
                 <p>Supplier Name: Vendor D</p>
                 <p>Supplier Contact: contactD@example.com</p>
                 <p>Price Per Unit: £2.50</p>
-                <p>Quantity Needed </p>
+                <p>Quantity Needed</p>
                 <input type="text" name="quantity" id="quantity">
-                <p>Branch </p>
+                <p>Branch</p>
                 <select class="branch" name="branch" id="branch">
                     <option value="branch_id_1">Central Branch</option>
                     <option value="branch_id_2">North Branch</option>
@@ -117,9 +135,9 @@
                     <option value="branch_id_7">Southeast Branch</option>
                     <option value="branch_id_8">Southwest Branch</option>
                     <option value="branch_id_9">Mountain Branch</option>
-                    <option value="branch_id_10">Coast Branch</option>                    
+                    <option value="branch_id_10">Coast Branch</option>
                 </select>
-                <p>Date Required: </p>
+                <p>Date Required:</p>
                 <form id="calendarForm">
                     <input type="date" id="datePicker" onchange="updateDateDisplay()">
                     <span class="date-display" id="dateDisplay">Select a date</span>
@@ -127,9 +145,9 @@
                         Please select a date at least 2 days from today.
                     </div>
                 </form>
-                <p>Additional Notes </p>
+                <p>Additional Notes</p>
                 <textarea id="notes" name="notes" rows="4" cols="50"></textarea>
-                <p class="total" id="total">Total: </p>
+                <p class="total" id="total">Total:</p>
             </div>
         </div>
     </div>

@@ -83,7 +83,7 @@
         .then(data => {
 
         const mediaName = `${mediaDetails.mediaName}`;
-        const successMessage = `You have borrowed ${mediaName}`;
+        const successMessage = `You have successfully borrowed ${mediaName}`;
         localStorage.setItem('successMessage', JSON.stringify(successMessage)); 
         window.location.href = `BorrowMedia`;
             

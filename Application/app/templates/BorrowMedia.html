@@ -65,7 +65,7 @@
             .then(data => {
                 // Handle the response data here
                 console.log('Success:', data);
-                const reserveMessage = `You have borrowed ${mediaName}`;
+                const reserveMessage = `You have successfully reserved ${mediaName}`;
                 localStorage.setItem('reserveMessage', JSON.stringify(reserveMessage)); // Save user data to localStorage
                 window.location.href = `BorrowMedia`;
                 
