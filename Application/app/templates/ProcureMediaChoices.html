@@ -1,0 +1,81 @@
+{% include 'AdminNavbar.html' %}
+<br><br><br>
+<link href="../static/BorrowMedia.css" rel="stylesheet" type="text/css" />
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Selection</title>
+</head>
+<body>
+    <script>
+        function selectMedia(event, mediaId, mediaName) {
+            event.preventDefault();
+            const mediaDetails = {mediaId, mediaName };
+            localStorage.setItem('mediaDetails', JSON.stringify(mediaDetails)); 
+            window.location.href = 'MediaProcurement';
+        }
+    </script>
+
+    <!-- this will also need a function retreiving the relevant data from the database-->
+
+    <div class="search-container">
+        <input type="text" id="search" name="search" placeholder="Search...">
+        <button class="SearchButton" type="submit" onclick="searchFunction()">Search</button>
+    </div>
+    
+    <div class="grid-container">
+        <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca81', 'Gourmet Recipes by Chef Oliver')">
+            <button type="submit" class="gridLink">
+                <div class="grid-item">
+                    <img class="thumbnail" src="../static/images/673c85daede0ec4def1bca81.jpg" alt="Gourmet Recipes by Chef Oliver">
+                    <h2>Gourmet Recipes by Chef Oliver</h2>
+                    <p>Paragraph of info</p>
+                </div>
+            </button>
+        </form>
+        
+        <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca83', 'The Great Book by John Doe')">
+            <button type="submit" class="gridLink">
+                <div class="grid-item">
+                    <img class="thumbnail" src="../static/images/.jpg" alt="The Great Book by John Doe">
+                    <h2>The Great Book by John Doe</h2>
+                    <p>Paragraph of info</p>
+                </div>
+            </button>
+        </form>
+        
+        <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca7a', 'The Secret Garden by Frances Hodgson Burnett')">
+            <button type="submit" class="gridLink">
+                <div class="grid-item">
+                    <img class="thumbnail" src="../static/images/67339ffc268d647e800b6fdb.jpg" alt="The Secret Garden by Frances Hodgson Burnett">
+                    <h2>The Secret Garden by Frances Hodgson Burnett</h2>
+                    <p>Paragraph of info</p>
+                </div>
+            </button>
+        </form>
+        
+        <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca8d', 'The Lion King')">
+            <button type="submit" class="gridLink">
+                <div class="grid-item-reserve">
+                    <img class="thumbnail" src="../static/images/67339ffc268d647e800b6fdc.jpg" alt="The Lion King">
+                    <h2>The Lion King</h2>
+                    <p>Paragraph of info</p>
+                </div>
+            </button>
+        </form>
+        
+        <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca7a', 'The Dark Knight')">
+            <button type="submit" class="gridLink">
+                <div class="grid-item-reserve">
+                    <img class="thumbnail" src="../static/images/67339ffc268d647e800b6fec.jpg" alt="The Dark Knight">
+                    <h2>The Dark Knight</h2>
+                    <p>Paragraph of info</p>
+                </div>
+            </button>
+        </form>
+    </div>
+</body>
+</html>

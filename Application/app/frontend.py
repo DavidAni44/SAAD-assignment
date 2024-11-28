@@ -82,3 +82,11 @@ def GenerateReport():
 @frontend.route('/SuccessBorrow')
 def successBorrow():
     return render_template('successBorrow.html')
+
+@frontend.route('/ProcureMediaChoices')
+def ProcureMediaChoices():
+    return render_template('ProcureMediaChoices.html')
+
+@frontend.route('/mediaSuccessfullyOrdered')
+def mediaSuccessfullyOrdered():
+    return render_template('mediaSuccessfullyOrdered.html')
