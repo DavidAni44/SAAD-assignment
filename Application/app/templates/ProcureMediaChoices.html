@@ -21,61 +21,72 @@
 
     <!-- this will also need a function retreiving the relevant data from the database-->
 
-    <div class="search-container">
-        <input type="text" id="search" name="search" placeholder="Search...">
-        <button class="SearchButton" type="submit" onclick="searchFunction()">Search</button>
+    <div class="wrapped">
+        <div class="search-container">
+            <input type="text" id="search" name="search" placeholder="Search for Media" class="searchBar">
+                <button class = "SearchButton" type="submit" onclick="searchFunction()"></button>
+            </input>
+        </div>
+
+          
+    
+    
+          <div class="grid-container">
+            <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca81', 'Gourmet Recipes by Chef Oliver')">
+                <input type="hidden" name="media_id" value="673c85daede0ec4def1bca81">
+                    <div class="grid-item">
+                        <img class ="thumbnail" src="../static/images/673c85daede0ec4def1bca81.jpg">
+                        <h2 id="media_name">Gourmet Recipes by Chef Oliver</h2>
+                        <p>Paragraph of info</p>
+                        <button type="submit" class="gridLink">Order</button>
+                    </div>
+            </form>
+            
+    
+            <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca83', 'The Great Book by John Doe')">
+                <input type="hidden" name="media_id" value="673c85daede0ec4def1bca83">
+                    <div class="grid-item">
+                        <img class ="thumbnail" src="../static/images/.jpg">
+                        <h2 id="media_name">The Great Book by John Doe</h2>
+                        <p>Paragraph of info</p>
+                        <button type="submit" class="gridLink">Order</button>
+                    </div>
+            </form>
+    
+    
+            <form onsubmit="selectMedia(event, '67339ffc268d647e800b6fdb', 'The Secret Garden by Frances Hodgson Burnett')">
+                <input type="hidden" name="media_id" value="673c85daede0ec4def1bca7a">
+                    <div class="grid-item">
+                        <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fdb.jpg">
+                        <h2 id="media_name">The Secret Garden by Frances Hodgson Burnett</h2>
+                        <p>Paragraph of info</p>
+                        <button type="submit" class="gridLink">Order</button>
+                    </div>
+            </form>
+    
+    
+            <form onsubmit="selectMedia(event, '67339ffc268d647e800b6fdc', 'The Lion King')">
+                <input type="hidden" name="media_id" value="673c85daede0ec4def1bca8d">
+                    <div class="grid-item-reserve">
+                        <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fdc.jpg">
+                        <h2 id="media_name">The Lion King</h2>
+                        <p>Paragraph of info</p>
+                        <button type="submit" class="gridLink">Order</button>
+                    </div>
+            </form>
+    
+    
+            <form onsubmit="selectMedia(event, '67339ffc268d647e800b6fec', 'The Dark Knight')">
+                <input type="hidden" name="media_id" value="673c85daede0ec4def1bca7a">
+                    <div class="grid-item-reserve">
+                        <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fec.jpg";>
+                        <h2 id="media_name">The Dark Knight</h2>
+                        <p>Paragraph of info</p>
+                        <button type="submit" class="gridLink">Order</button>
+                    </div>
+            </form>
+        </div>
     </div>
     
-    <div class="grid-container">
-        <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca81', 'Gourmet Recipes by Chef Oliver')">
-            <button type="submit" class="gridLink">
-                <div class="grid-item">
-                    <img class="thumbnail" src="../static/images/673c85daede0ec4def1bca81.jpg" alt="Gourmet Recipes by Chef Oliver">
-                    <h2>Gourmet Recipes by Chef Oliver</h2>
-                    <p>Paragraph of info</p>
-                </div>
-            </button>
-        </form>
-        
-        <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca83', 'The Great Book by John Doe')">
-            <button type="submit" class="gridLink">
-                <div class="grid-item">
-                    <img class="thumbnail" src="../static/images/.jpg" alt="The Great Book by John Doe">
-                    <h2>The Great Book by John Doe</h2>
-                    <p>Paragraph of info</p>
-                </div>
-            </button>
-        </form>
-        
-        <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca7a', 'The Secret Garden by Frances Hodgson Burnett')">
-            <button type="submit" class="gridLink">
-                <div class="grid-item">
-                    <img class="thumbnail" src="../static/images/67339ffc268d647e800b6fdb.jpg" alt="The Secret Garden by Frances Hodgson Burnett">
-                    <h2>The Secret Garden by Frances Hodgson Burnett</h2>
-                    <p>Paragraph of info</p>
-                </div>
-            </button>
-        </form>
-        
-        <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca8d', 'The Lion King')">
-            <button type="submit" class="gridLink">
-                <div class="grid-item-reserve">
-                    <img class="thumbnail" src="../static/images/67339ffc268d647e800b6fdc.jpg" alt="The Lion King">
-                    <h2>The Lion King</h2>
-                    <p>Paragraph of info</p>
-                </div>
-            </button>
-        </form>
-        
-        <form onsubmit="selectMedia(event, '673c85daede0ec4def1bca7a', 'The Dark Knight')">
-            <button type="submit" class="gridLink">
-                <div class="grid-item-reserve">
-                    <img class="thumbnail" src="../static/images/67339ffc268d647e800b6fec.jpg" alt="The Dark Knight">
-                    <h2>The Dark Knight</h2>
-                    <p>Paragraph of info</p>
-                </div>
-            </button>
-        </form>
-    </div>
 </body>
 </html>
