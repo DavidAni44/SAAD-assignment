@@ -4,110 +4,112 @@
 <br>
 
 <link href="../static/ManageSubscription.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+      $('#subscriptionTable').DataTable();
+  });
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 </head>
 <body>
-
-  <script>
-    function setUserData(event, id, firstName, lastName, price, subscription, date) {
-      event.preventDefault(); // Prevent the default link behavior
-      const userData = { id, firstName, lastName, price, subscription, date };
-      localStorage.setItem('editUser', JSON.stringify(userData)); // Save user data to localStorage
-      window.location.href = "EditUser.html"; // Redirect to EditUser.html
-    }
+  <div class="container mt-5">
+      <h1 class="mb-4">Manage Subscriptions</h1>
+      
+      <table id="subscriptionTable" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subscription Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr data-user-id="{{ user._id }}">
+                <td>{{ user._id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <select class="form-control subscription-dropdown" data-user-id="{{ user._id }}">
+                        {% for subscription in subscriptions %}
+                        <option value="{{ subscription.subscription_id }}" 
+                            {% if subscription.subscription_id == user.subscription_id %}selected{% endif %}>
+                            {{ subscription.subscription_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-save" onclick="saveSubscription(this)">Update</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     
-  </script>
-<div class="mainContents">
-<div class="SearchFilter">
-    <select class="SelectFilters" name="FilterResults" id="Filters">
-        <option value="MemberID">MemberID</option>
-        <option value="FirstName">First Name</option>
-        <option value="LastName">Last Name</option>
-        <option value="PPM">Price Per Month</option>
-        <option value="SubscriptionPrice">Subscription Price</option>
-        <option value="StartDate">Start Date</option>
-        <option value="Type">Subscription Type</option>
-    </select>
-    <div class="search-container">
-        <input type="text" id="search" name="search" placeholder="Search...">
-    </div>
-</div>
-<!-- 
-http://127.0.0.1:5000/api/subscription/manage
--->
-
-<table>
-
-   <tr>
-      <th>Library Member ID</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Price Per Month</th>
-      <th>Subscription Type</th>
-      <th>Membership Start Date</th>
-      <th>Edit User</th>
-    </tr>
-    
-      <tr>
-        <td>user_12</td>
-        <td>Luke</td>
-        <td>Harris</td>
-        <td>19.99</td>
-        <td>Standard Plan</td>
-        <td>19/09/2022</td>
-        <td><a href="EditUser.html" onclick="setUserData(event, 'user_12', 'Luke', 'Harris', '19.99', 'Standard Plan', '19/09/2022')">Edit</a></td>
-      </tr>
-      <tr>
-        <td>user_13</td>
-        <td>Megan</td>
-        <td>Clark</td>
-        <td>19.99</td>
-        <td>Standard Plan</td>
-        <td>05/02/2023</td>
-        <td><a href="EditUser.html" onclick="setUserData(event, 'user_13', 'Megan', 'Clark', '19.99', 'Standard Plan', '05/02/2023')">Edit</a></td>
-      </tr>
-      <tr>
-        <td>user_18</td>
-        <td>Rachel</td>
-        <td>Walker</td>
-        <td>29.99</td>
-        <td>Premium Plan</td>
-        <td>22/11/2021</td>
-        <td><a href="EditUser.html" onclick="setUserData(event, 'user_18', 'Rachel', 'Walker', '29.99', 'Premium Plan', '22/11/2021')">Edit</a></td>
-      </tr>
-      <tr>
-        <td>user_4</td>
-        <td>David</td>
-        <td>Brown</td>
-        <td>9.99</td>
-        <td>Basic Plan</td>
-        <td>15/08/2022</td>
-        <td><a href="EditUser.html" onclick="setUserData(event, 'user_4', 'David', 'Brown', '9.99', 'Basic Plan', '15/08/2022')">Edit</a></td>
-      </tr>
-      <tr>
-        <td>user_5</td>
-        <td>Emily</td>
-        <td>Jones</td>
-        <td>19.99</td>
-        <td>Standard Plan</td>
-        <td>12/12/2022</td>
-        <td><a href="EditUser.html" onclick="setUserData(event, 'user_5', 'Emily', 'Jones', '19.99', 'Standard Plan', '12/12/2022')">Edit</a></td>
-      </tr>
-      <tr>
-        <td>user_6</td>
-        <td>Frank</td>
-        <td>Miller</td>
-        <td>29.99</td>
-        <td>Premium Plan</td>
-        <td>03/07/2021</td>
-        <td><a href="EditUser.html" onclick="setUserData(event, 'user_6', 'Frank', 'Miller', '29.99', 'Premium Plan', '03/07/2021')">Edit</a></td>
-      </tr>
     
       
-  </table>
+      <!-- Pagination Controls -->
+      <nav>
+        <ul class="pagination">
+            {% if current_page > 1 %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('frontend.manage_subscription', page=current_page-1, limit=limit) }}">
+                    Previous
+                </a>
+            </li>
+            {% endif %}
+            
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('frontend.manage_subscription', page=current_page+1, limit=limit) }}">
+                    Next
+                </a>
+            </li>
+        </ul>
+    </nav>
+  </div>
 
-</div>
+  <script>
+    // Function to handle saving subscription-related data
+    function saveSubscription(button) {
+    const row = button.closest("tr");
+    const userId = row.dataset.userId;
+
+    const dropdown = row.querySelector(".subscription-dropdown");
+    const selectedSubscriptionId = dropdown.value;
+
+    fetch(`http://10.108.77.89:5000/api/subscription/update_user_subscription/${userId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ subscription_id: selectedSubscriptionId }),
+    })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Failed to update subscription.");
+            }
+        })
+        .then((data) => {
+            alert("Subscription updated successfully!");
+        })
+        .catch((error) => {
+            alert("Error updating subscription. Please try again.");
+        });
+    } 
+  </script>
+
+
+  <!-- Include Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  
 </body>
