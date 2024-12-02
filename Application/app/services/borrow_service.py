@@ -63,7 +63,7 @@ def send_user_email(subject,body,email):
     smtpPort = 587
     senderEmail = "xclwright@gmail.com" # ALM's email
     senderPassword = "ijmf mqtd egvo erjc"  
-    email = "xclwright@outlook.com" # "philandy83@gmail.com" Davids Test #change to user get email
+    #email = "xclwright@outlook.com" # "philandy83@gmail.com" Davids Test #change to user get email
     message = MIMEMultipart()
     message["From"] = senderEmail
     message["To"] = email
