@@ -101,6 +101,7 @@
                 }
             } catch (error) {
                 alert("An error occurred: " + error.message);
+                console.log(requestBody);
             }
         }
     
@@ -108,7 +109,9 @@
     </script>
 </head>
 <body>
+    <a class="returnButton" href="javascript:history.back()">← Return</a>
     <div class="wholePage">
+        
         <div class="mediaDetails" id="mediaDetails">
             <img class="thumbnail" id="mediaThumbnail">
             <div class="mediaDescriptions" id="mediaDescriptions">

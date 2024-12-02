@@ -75,6 +75,14 @@ def GenerateReport():
 def successBorrow():
     return render_template('successBorrow.html')
 
+@frontend.route('/ProcureMediaChoices')
+def procureMediaChoices():
+    return render_template('ProcureMediaChoices.html')
+
+@frontend.route('/mediaSuccessfullyOrdered')
+def mediaSuccessfullyOrdered():
+    return render_template('mediaSuccessfullyOrdered.html')
+
 @frontend.route('/ManageSubscription')
 def manage_subscription():
     # Get pagination parameters from query arguments

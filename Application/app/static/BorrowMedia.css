@@ -13,7 +13,14 @@ color: black;
 }
 
 .SearchButton {
-    background-image: url("saadtest/Images/SearchIcon.png");
+    
+    all: unset;
+    background-image: url("images/SearchIcon.png");
+    width: 30px; 
+    height: 30px; 
+    background-size: cover;
+    position: relative;
+    top: 10px;
 }
 
 .grid-container {
@@ -29,7 +36,6 @@ color: black;
     padding: 20px;
     text-align: center;
     border: 1px solid #ddd;
-    background-image: url("images/plusIcon.png");
     background-size: 30px 30px;
     background-repeat: no-repeat;
     background-position: 100% 100%;
@@ -40,7 +46,6 @@ color: black;
     padding: 20px;
     text-align: center;
     border: 1px solid #ddd;
-    background-image: url("images/reserveIcon.png");
     background-size: 30px 30px;
     background-repeat: no-repeat;
     background-position: 100% 100%;
@@ -57,11 +62,14 @@ a.gridLink{
 .search-container
 {
     margin-bottom: 60px;
+    margin-left: 20%;
 }
 
 button.gridLink
 {
-    display: contents;
+    background-color: #e9b215;
+    width: 80px;
+    height: 34px
 }
 
 form
@@ -95,4 +103,82 @@ form
 {
     height: 30px;
     width: 30px;
+}
+
+.searchBar
+{
+    height: 28px;
+    width: 206px;
+    box-shadow: none;
+}
+
+
+.container {
+    display: ruby-text;
+    margin-top: 286px;
+    margin-left: 6px;
+  }
+  
+  .filters {
+    width: 16%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .filters h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .filter-group {
+    margin-bottom: 15px;
+  }
+  
+  .filter-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .filter-group select,
+  .filter-group input[type="range"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .filter-group input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  
+  .apply-filters {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #e9b215;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .apply-filters:hover {
+    background-color: #b48502;
+  }
+  
+  .content {
+    flex-grow: 1;
+    margin-left: 20px;
+  }
+  
+input#author{
+    width: 94%;
 }

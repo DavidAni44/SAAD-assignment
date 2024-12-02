@@ -93,76 +93,107 @@
     </script>
     
 
-    <div class="search-container">
-        <input type="text" id="search" name="search" placeholder="Search...">
-        <button class = "SearchButton" type="submit" onclick="searchFunction()">Search</button>
-      </div>
+
 
 <!-- 
 need some kinda function that this takes the first 6 titles in the database
 and then during the demo update the database and show that this is updated      
 -->
+<div class="wrapped">
+    <div class="search-container">
+        <input type="text" id="search" name="search" placeholder="Search for Media" class="searchBar">
+            <button class = "SearchButton" type="submit" onclick="searchFunction()"></button>
+        </input>
+    </div>
+
+    <div class="container">
+        <div class="filters">
+          <h3>Filters</h3>
+          <form>
+            <div class="filter-group">
+              <label for="availability">Availability</label>
+              <input type="checkbox" id="available" name="available">
+              <label for="available">Available Only</label>
+            </div>
+      
+            <div class="filter-group">
+              <label for="type">Type</label>
+              <select id="type" name="type">
+                <option value="">All</option>
+                <option value="books">Books</option>
+                <option value="films">Films</option>
+                <option value="videogames">Videogames</option>
+                <option value="music">Music</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="author">Author</label>
+              <input type="text" id="author" name="author" placeholder="Search by Author">
+            </div>
+
+            <button type="submit" class="apply-filters">Apply Filters</button>
+          </form>
+        </div>
+      </div>
+      
+
+
       <div class="grid-container">
         <form onsubmit="mediaAction(event)">
             <input type="hidden" name="media_id" value="673c85daede0ec4def1bca81">
-            <button type="submit" class="gridLink">
                 <div class="grid-item">
                     <img class ="thumbnail" src="../static/images/673c85daede0ec4def1bca81.jpg">
                     <h2 id="media_name">Gourmet Recipes by Chef Oliver</h2>
                     <p>Paragraph of info</p>
+                    <button type="submit" class="gridLink">Borrow</button>
                 </div>
-            </button>
         </form>
         
 
         <form onsubmit="mediaAction(event)">
             <input type="hidden" name="media_id" value="673c85daede0ec4def1bca83">
-            <button type="submit" class="gridLink">
                 <div class="grid-item">
                     <img class ="thumbnail" src="../static/images/.jpg">
                     <h2 id="media_name">The Great Book by John Doe</h2>
                     <p>Paragraph of info</p>
+                    <button type="submit" class="gridLink">Borrow</button>
                 </div>
-            </button>
         </form>
 
 
         <form onsubmit="mediaAction(event)">
             <input type="hidden" name="media_id" value="673c85daede0ec4def1bca7a">
-            <button type="submit" class="gridLink">
                 <div class="grid-item">
                     <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fdb.jpg">
                     <h2 id="media_name">The Secret Garden by Frances Hodgson Burnett</h2>
                     <p>Paragraph of info</p>
+                    <button type="submit" class="gridLink">Borrow</button>
                 </div>
-            </button>
         </form>
 
 
         <form onsubmit="mediaAction(event 'reserve')">
             <input type="hidden" name="media_id" value="673c85daede0ec4def1bca8d">
-            <button type="submit" class="gridLink">
                 <div class="grid-item-reserve">
                     <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fdc.jpg">
                     <h2 id="media_name">The Lion King</h2>
                     <p>Paragraph of info</p>
+                    <button type="submit" class="gridLink">Reserve</button>
                 </div>
-            </button>
         </form>
 
 
         <form onsubmit="mediaAction(event, 'reserve')">
             <input type="hidden" name="media_id" value="673c85daede0ec4def1bca7a">
-            <button type="submit" class="gridLink">
                 <div class="grid-item-reserve">
                     <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fec.jpg";>
                     <h2 id="media_name">The Dark Knight</h2>
                     <p>Paragraph of info</p>
+                    <button type="submit" class="gridLink">Reserve</button>
                 </div>
-            </button>
         </form>
     </div>
-
+</div>
 
 </body>
 </html>
