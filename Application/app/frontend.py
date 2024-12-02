@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
+from app.services.database import user_collection, subscription_collection
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 import requests
@@ -30,15 +31,6 @@ def borrowMedia():
     }
     
     return render_template('BorrowMedia.html', dict_rep=dict_rep)
-
-@frontend.route('/ManageSubscription')
-def ManageSubscription():
-    response = requests.get('http://127.0.0.1:5000/api/media/test')
-    dict_rep = response.json() if response.status_code == 200 else {
-        "message" : "fail"
-    }
-    
-    return render_template('ManageSubscription.html', dict_rep=dict_rep)
 
 @frontend.route('/EditUser.html')
 def EditUser():
@@ -83,10 +75,27 @@ def GenerateReport():
 def successBorrow():
     return render_template('successBorrow.html')
 
-@frontend.route('/ProcureMediaChoices')
-def ProcureMediaChoices():
-    return render_template('ProcureMediaChoices.html')
+@frontend.route('/ManageSubscription')
+def manage_subscription():
+    # Get pagination parameters from query arguments
+    page = request.args.get("page", default=1, type=int)
+    limit = request.args.get("limit", default=10, type=int)
+    skip = (page - 1) * limit
 
-@frontend.route('/mediaSuccessfullyOrdered')
-def mediaSuccessfullyOrdered():
-    return render_template('mediaSuccessfullyOrdered.html')
+    # Fetch paginated users
+    users = list(user_collection.find().skip(skip).limit(limit))
+    subscriptions = list(subscription_collection.find())
+
+    # Ensure IDs are strings for consistent comparison in the template
+    for user in users:
+        user["subscription_id"] = str(user.get("subscription_id", ""))
+    for subscription in subscriptions:
+        subscription["subscription_id"] = str(subscription.get("subscription_id", ""))
+
+    return render_template(
+        "ManageSubscription.html",
+        users=users,
+        subscriptions=subscriptions,
+        current_page=page,
+        limit=limit
+    )

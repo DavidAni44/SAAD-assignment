@@ -4,12 +4,14 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import requests
 from dotenv import load_dotenv
 from datetime import datetime
-
-
-
-
+from flask_cors import CORS 
 
 app = create_app()
+CORS(app, resources={r"/*": {
+    "origins": "*",
+    "methods": ["DELETE", "POST", "GET", "OPTIONS"],
+    "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"]
+}})
 
 def ping_endpoint():
     try:
