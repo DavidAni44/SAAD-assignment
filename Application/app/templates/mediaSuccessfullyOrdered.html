@@ -22,20 +22,24 @@
                 document.getElementById("quantity").textContent = orderDetails.quantity;
                 document.getElementById("deliveryDate").textContent = orderDetails.deliveryDate;
                 document.getElementById("notes").textContent = orderDetails.notes || "No additional notes provided.";
+                document.getElementById('mediaThumbnail').src = `../static/images/${mediaDetails.mediaId}.jpg`;
             }
         });
     </script>
 
+<div class="wholePage">
+    <div class="success-header">
+        <h1>Order Successfully Placed</h1>
+        <img class="thumbnail" id="mediaThumbnail">
+    </div>
+    
     <div class="success-container">
-        <div class="success-header">
-            <h1>Order Successfully Placed</h1>
-        </div>
         <div class="order-details">
             <p><strong>Media Name:</strong> <span id="mediaName"></span></p>
             <p><strong>Media ID:</strong> <span id="mediaId"></span></p>
             <p><strong>Branch:</strong> <span id="branchName"></span></p>
             <p><strong>Quantity:</strong> <span id="quantity"></span></p>
-            <p><strong>Delivery Date:</strong> <span id="deliveryDate"></span></p>
+            <p><strong>Desired Delivery Date:</strong> <span id="deliveryDate"></span></p>
             <p><strong>Additional Notes:</strong></p>
             <p class="notes" id="notes"></p>
         </div>
@@ -43,6 +47,6 @@
             <button onclick="window.location.href='ProcureMediaChoices';">Back to Dashboard</button>
         </div>        
     </div>
-
+</div>
 </body>
 </html>
