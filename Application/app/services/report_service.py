@@ -44,9 +44,10 @@ def export_to_excel(data, file_name):
 
     if df.empty:
         raise ValueError("The data could not be converted into a table format.")
-    file_path = os.path.join(os.getcwd(), f"{file_name}.xlsx")
-    df.to_excel(file_path, index=False)
 
+    static_folder = os.path.join(os.getcwd(), "app/static")
+    file_path = os.path.join(static_folder, f"{file_name}.xlsx")
+    df.to_csv(file_path, index=False)
     print(f"Data exported to Excel successfully at: {file_path}")
     return file_path
 
@@ -88,7 +89,8 @@ def export_to_csv(data, file_name):
     if df.empty:
         raise ValueError("The data could not be converted into a table format.")
 
-    file_path = os.path.join(os.getcwd(), f"{file_name}.csv")
+    static_folder = os.path.join(os.getcwd(), "app/static")
+    file_path = os.path.join(static_folder, f"{file_name}.csv")
     df.to_csv(file_path, index=False)
     print(f"Data exported to CSV successfully at: {file_path}")
     return file_path

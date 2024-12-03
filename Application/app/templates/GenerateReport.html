@@ -3,6 +3,18 @@
 
 <body>
 <script>
+
+    
+    function openFile(filePath) 
+    {
+        const link = document.createElement('a');
+        link.href = filePath; 
+        link.target = '_blank'; 
+        link.click(); 
+    }
+
+
+
     function validateAndSubmit(event, reportType) {
         event.preventDefault(); // Prevent form submission
     
@@ -33,6 +45,24 @@
         .catch(error => {
             console.error('Error generating report:', error);
             console.log(requestData);
+
+            fileName = "";
+            switch (reportType) {
+                case 'Reserved Media':
+                    fileName = `../static/Reserve_Report.${format}`;
+                    break;
+                case 'Borrowed Media':
+                    fileName = `../static/Borrow_Report.${format}`;
+                    break;
+                case 'Branch Media':
+                    fileName = `../static/Branch_Report.${format}`;
+                    break;
+                default:
+                    console.log('Invalid option');
+            }
+
+            
+            openFile(fileName); 
         });
     }
     

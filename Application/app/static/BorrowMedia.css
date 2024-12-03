@@ -69,7 +69,8 @@ button.gridLink
 {
     background-color: #e9b215;
     width: 80px;
-    height: 34px
+    height: 34px;
+    border: 1.5px solid #97730d;
 }
 
 form
@@ -138,7 +139,6 @@ form
   }
   
   .filter-group label {
-    display: block;
     margin-bottom: 5px;
     font-size: 14px;
     color: #555;
