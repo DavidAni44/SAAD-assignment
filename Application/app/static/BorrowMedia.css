@@ -182,3 +182,9 @@ form
 input#author{
     width: 94%;
 }
+
+a.next-btn, a.prev-btn{
+  right: 20px;
+  top: 80%;
+  position: fixed;
+}

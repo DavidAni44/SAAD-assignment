@@ -135,64 +135,31 @@ and then during the demo update the database and show that this is updated
           </form>
         </div>
       </div>
-      
-
-
+    
       <div class="grid-container">
-        <form onsubmit="mediaAction(event)">
-            <input type="hidden" name="media_id" value="673c85daede0ec4def1bca81">
-                <div class="grid-item">
-                    <img class ="thumbnail" src="../static/images/673c85daede0ec4def1bca81.jpg">
-                    <h2 id="media_name">Gourmet Recipes by Chef Oliver</h2>
-                    <p>Paragraph of info</p>
-                    <button type="submit" class="gridLink">Borrow</button>
-                </div>
+        {% for media in media %}
+        <form onsubmit="mediaAction(event, '{{ media.type | lower }}')">
+            <input type="hidden" name="media_id" value="{{ media.media_id }}">
+            <div class="grid-item">
+                <img class="thumbnail" src="../static/images/{{ media.image }}" alt="{{ media.name }}">
+                <h2 id="media_name">{{ media.name }}</h2>
+                <p>{{ media.description }}</p>
+                <button type="submit" class="gridLink">{{ "Reserve" if media.type == "Reserve" else "Borrow" }}</button>
+            </div>
         </form>
         
-
-        <form onsubmit="mediaAction(event)">
-            <input type="hidden" name="media_id" value="673c85daede0ec4def1bca83">
-                <div class="grid-item">
-                    <img class ="thumbnail" src="../static/images/.jpg">
-                    <h2 id="media_name">The Great Book by John Doe</h2>
-                    <p>Paragraph of info</p>
-                    <button type="submit" class="gridLink">Borrow</button>
-                </div>
-        </form>
-
-
-        <form onsubmit="mediaAction(event)">
-            <input type="hidden" name="media_id" value="673c85daede0ec4def1bca7a">
-                <div class="grid-item">
-                    <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fdb.jpg">
-                    <h2 id="media_name">The Secret Garden by Frances Hodgson Burnett</h2>
-                    <p>Paragraph of info</p>
-                    <button type="submit" class="gridLink">Borrow</button>
-                </div>
-        </form>
-
-
-        <form onsubmit="mediaAction(event 'reserve')">
-            <input type="hidden" name="media_id" value="673c85daede0ec4def1bca8d">
-                <div class="grid-item-reserve">
-                    <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fdc.jpg">
-                    <h2 id="media_name">The Lion King</h2>
-                    <p>Paragraph of info</p>
-                    <button type="submit" class="gridLink">Reserve</button>
-                </div>
-        </form>
-
-
-        <form onsubmit="mediaAction(event, 'reserve')">
-            <input type="hidden" name="media_id" value="673c85daede0ec4def1bca7a">
-                <div class="grid-item-reserve">
-                    <img class ="thumbnail" src="../static/images/67339ffc268d647e800b6fec.jpg";>
-                    <h2 id="media_name">The Dark Knight</h2>
-                    <p>Paragraph of info</p>
-                    <button type="submit" class="gridLink">Reserve</button>
-                </div>
-        </form>
+        {% endfor %}
     </div>
+    
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="{{ url_for('frontend.borrowMedia', page=page-1) }}" class="prev-btn">Previous</a>
+        {% endif %}
+        {% if page < total_pages %}
+        <a href="{{ url_for('frontend.borrowMedia', page=page+1) }}" class="next-btn">Next</a>
+        {% endif %}
+    </div>
+
 </div>
 
 </body>
