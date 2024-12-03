@@ -27,11 +27,11 @@ def add_to_reserved_media(user_id, media_id):
     )
 
     if result.matched_count == 0:
-        return {"error": "User not found"}, 404
+        return "User not found", 404
     elif result.modified_count == 0:
-        return {"message": "Media was already reserved"}, 200
+        return "Media was already reserved", 200
     else:
-        return {"message": "Media reserved successfully"}, 200
+        return "Media reserved successfully", 200
 
 
 def check_media_unavaliable(user,media_id):
@@ -54,6 +54,7 @@ def check_media_unavaliable(user,media_id):
     })
 
 
+    #return jsonify({"message": "Media available"}), 200
     return branch
 
 # Implemented Observer pattern for notifying users if their reserved media becomes available in their home branch
@@ -86,10 +87,7 @@ def return_media(media_id, branch_id):
         return {"error": f"Error handling media return: {str(e)}"}, 400
 
 def user_observer_factory(user_id, media_id):
-    """
-    Creates an observer that notifies the user only if the returned media matches their reserved list
-    and is returned to their home branch.
-    """
+ 
     def observer(returned_media_id, returned_branch_id):
         if str(returned_media_id) != str(media_id): 
             return
