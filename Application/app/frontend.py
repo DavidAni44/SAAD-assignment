@@ -96,7 +96,27 @@ def successBorrow():
 
 @frontend.route('/ProcureMediaChoices')
 def procureMediaChoices():
-    return render_template('ProcureMediaChoices.html')
+    response = requests.get('http://127.0.0.1:5000/api/media/all_branch_media')
+    dict_rep = response.json() if response.status_code == 200 else []
+
+    all_media = []
+    for branch in dict_rep:  
+        all_media.extend(branch.get('media', []))
+
+    if not all_media:
+        print("No media found.")
+        return render_template('ProcureMediaChoices.html', media=[], page=1, total_pages=1)
+
+
+    page = int(request.args.get('page', 1))
+    items_per_page = 9
+    start = (page - 1) * items_per_page
+    end = start + items_per_page
+    paginated_media = all_media[start:end]
+    total_pages = (len(all_media) + items_per_page - 1) // items_per_page
+    print(total_pages)
+
+    return render_template('ProcureMediaChoices.html', media=paginated_media, page=page, total_pages=total_pages)
 
 @frontend.route('/mediaSuccessfullyOrdered')
 def mediaSuccessfullyOrdered():
@@ -126,5 +146,5 @@ def manage_subscription():
         current_page=page,
         limit=limit
     )
-    
+
 
