@@ -138,13 +138,13 @@ and then during the demo update the database and show that this is updated
     
       <div class="grid-container">
         {% for media in media %}
-        <form onsubmit="mediaAction(event, '{{ media.type | lower }}')">
+        <form onsubmit="mediaAction(event, '{{ 'reserve' if media.available_copies < 1 else 'borrow' }}')">
             <input type="hidden" name="media_id" value="{{ media.media_id }}">
             <div class="grid-item">
                 <img class="thumbnail" src="../static/images/{{ media.image }}" alt="{{ media.name }}">
-                <h2 id="media_name">{{ media.name }}</h2>
+                <h2 id="media_name">{{ media.available_copies }}</h2>
                 <p>{{ media.description }}</p>
-                <button type="submit" class="gridLink">{{ "Reserve" if media.type == "Reserve" else "Borrow" }}</button>
+                <button type="submit" class="gridLink">{{ "Reserve" if media.available_copies < 1 else "Borrow" }}</button>
             </div>
         </form>
         
