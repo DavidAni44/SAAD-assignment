@@ -28,7 +28,7 @@ def test_add_to_reserved_media(user_id, media_id, matched_count, modified_count,
 
 """
 
-
+"""
 
 # Mock data
 valid_user = {"_id": "user123", "branch_id": "branch123"}
@@ -61,20 +61,13 @@ invalid_branch_data = {
 ])
 @patch("app.services.reserve_service.branch_collection", autospec=True)
 def test_check_media_unavaliable(mock_branch_collection, user, media_id, branch_find_return_value, media_find_return_value, expected_response, expected_status_code):
-    # Mock the `branch_collection.find_one` function to return the appropriate data
     mock_branch_collection.find_one.side_effect = [branch_find_return_value, media_find_return_value]
-
-    # Set up Flask application context
     app = Flask(__name__)
     with app.app_context():
-        # Call the function
         response, status_code = check_media_unavaliable(user, media_id)
-
-        # Assert the response and status code
         assert status_code == expected_status_code
         assert response.json == expected_response
 
-    # Validate that `find_one` was called twice: first to check the branch, then to check the media
     if branch_find_return_value is not None:
         mock_branch_collection.find_one.assert_any_call({"_id": user["branch_id"]})
     if media_find_return_value is not None:
@@ -83,7 +76,8 @@ def test_check_media_unavaliable(mock_branch_collection, user, media_id, branch_
             "media": {
                 "$elemMatch": {
                     "media_id": str(media_id),
-                    "available_copies": {"$eq": 0}  # Ensures we check for media with 0 available copies
+                    "available_copies": {"$eq": 0} 
                 }
             }
         })
+"""
