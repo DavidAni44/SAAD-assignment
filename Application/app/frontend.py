@@ -25,12 +25,31 @@ def index():
 
 @frontend.route('/BorrowMedia')
 def borrowMedia():
-    response = requests.get('http://127.0.0.1:5000/api/media/test')
-    dict_rep = response.json() if response.status_code == 200 else {
-        "message" : "fail"
-    }
-    
-    return render_template('BorrowMedia.html', dict_rep=dict_rep)
+    response = requests.get('http://127.0.0.1:5000/api/media/all_branch_media')
+    dict_rep = response.json() if response.status_code == 200 else []
+
+    #hardcoded for Mountain Branch. change to be whatever branch user is on. may need to move this logic into the html page
+    mountain_branch_data = None
+    for branch in dict_rep:  
+        if (branch.get('branch')).get('name') == "Mountain Branch": 
+            print("yahoo")
+            mountain_branch_data = branch
+            break
+
+    if mountain_branch_data is None:
+        print("Mountain Branch not found.")
+        return render_template('BorrowMedia.html', media=[], page=1, total_pages=1)
+
+    media_list = mountain_branch_data.get('media', [])
+
+    page = int(request.args.get('page', 1))
+    items_per_page = 6
+    start = (page - 1) * items_per_page
+    end = start + items_per_page
+    paginated_media = media_list[start:end]
+    total_pages = (len(media_list) + items_per_page - 1) // items_per_page
+
+    return render_template('BorrowMedia.html', media=paginated_media, page=page, total_pages=total_pages)
 
 @frontend.route('/EditUser.html')
 def EditUser():
@@ -107,3 +126,5 @@ def manage_subscription():
         current_page=page,
         limit=limit
     )
+    
+
