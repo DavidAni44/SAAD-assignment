@@ -10,6 +10,13 @@ from email.mime.text import MIMEText
 def borrow_media(user_id, media_id,delivery_choice,borrow_until ):
     media_id = ObjectId(media_id)
     user = user_collection.find_one({"_id": user_id})
+    if user:
+        pass
+    else:
+        return jsonify({"error": "User not found"}), 400
+    print(user)
+    print(media_id)
+    print(user.get('branch_id'))
     if check_media_avaliable(user,media_id):
         pass
     else:
@@ -111,8 +118,15 @@ def check_media_avaliable(user,media_id):
     if branch_data is None:
         return jsonify({"error": "Branch not found"}), 404
 
+    print(home_branch_id)
+    print(str(media_id))
+
+    branch = branch_collection.find_one({"_id": home_branch_id})
+    print(branch)
+
+
     branch = branch_collection.find_one({
-        "_id": home_branch_id,
+        "_id": str(home_branch_id),
         "media": {
             "$elemMatch": {
                 "media_id": str(media_id),
@@ -120,4 +134,5 @@ def check_media_avaliable(user,media_id):
             }
         }
     })
+
     return branch
