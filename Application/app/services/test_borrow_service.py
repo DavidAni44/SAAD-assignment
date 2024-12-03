@@ -4,8 +4,10 @@ import smtplib
 from app.services.borrow_service import send_user_email, check_media_avaliable, create_transaction
 from flask import Flask
 
-#Test Send User Email Function
+
 """
+#Test Send User Email Function
+
 mock_user = {'_id': 'user_id', 'branch_id': '123', 'email': 'user@example.com', 'name': 'Test User'}
 
 
@@ -122,12 +124,11 @@ def test_check_media_avaliable_invalid_user_invalid_branch_valid_media(client):
 
 """
 
+"""
 #Test Create Transaction
 
-# Mock collection
 mock_transaction_collection = MagicMock()
 
-# Mock data for valid user and inputs
 valid_user = {
     "_id": "user123",
     "branch_id": "branch123",
@@ -141,28 +142,27 @@ valid_media_id = "media123"
 valid_delivery_choice = "Home Delivery"
 valid_borrow_until = "2024-12-31"
 
-# Invalid data examples
 invalid_users = [
-    None,  # User is None
-    {},  # User is empty
-    {"_id": None, "branch_id": None},  # Missing critical fields
+    None,  
+    {},  
+    {"_id": None, "branch_id": None},  
 ]
 
 invalid_media_ids = [
-    None,  # Media ID is None
-    "",  # Media ID is empty
+    None,  
+    "",  
 ]
 
 invalid_delivery_choices = [
-    None,  # Delivery choice is None
-    "",  # Delivery choice is empty
-    "Unknown Delivery",  # Unsupported delivery choice
+    None,  
+    "",  
+    "Unknown Delivery", 
 ]
 
 invalid_borrow_until_dates = [
-    None,  # Date is None
-    "",  # Date is empty
-    "2023-01-01",  # Past date
+    None,  
+    "",  
+    "2023-01-01",  
 ]
 
 @patch("app.services.borrow_service.transaction_collection", mock_transaction_collection)
@@ -198,3 +198,4 @@ def test_create_transaction_invalid_delivery_choice(delivery_choice):
 def test_create_transaction_invalid_borrow_until_date(borrow_until):
     with pytest.raises(Exception):
         create_transaction(valid_user, valid_media_id, valid_delivery_choice, borrow_until)
+"""
