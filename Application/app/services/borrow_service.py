@@ -136,3 +136,55 @@ def check_media_avaliable(user,media_id):
     })
 
     return branch
+
+
+def branch_media_getter(branch_name):
+    branch = branch_collection.find_one({"name": branch_name}) 
+    
+    if branch: 
+        branch_info = {
+            "name": branch["name"],
+        }
+
+        media_info = branch.get("media", [])
+
+        return {
+            "branch": branch_info,
+            "media": media_info
+        }
+    
+    return None
+
+
+def getMediaDetails(media_ids, media_availability):
+    media_details = []
+    print(media_availability)
+    
+    counter = 0
+    for media_id in media_ids:
+        try:
+            if isinstance(media_id, str):
+                media_id = ObjectId(media_id) 
+
+            media = media_collection.find_one({"_id": media_id}, {"_id": 1, "title": 1, "author": 1, "genre": 1, "type": 1, "description": 1, "year_published": 1, "late_return_fee_per_day": 1})
+            availability = media_availability[counter]
+            if media:
+                media_details.append({
+                    "media_id": str(media["_id"]), 
+                    "title": media["title"],
+                    "author": media["author"],
+                    "genre": media["genre"],
+                    "type": media["type"],
+                    "description": media["description"],
+                    "year_published": media["year_published"],
+                    "late_return_fee_per_day": media["late_return_fee_per_day"],
+                    "availability": availability
+                })
+                counter = counter + 1
+            else:
+                print(f"Media not found for media_id: {media_id}")
+        except Exception as e:
+            print(f"Error querying media collection for {media_id}: {e}")
+    
+    return media_details
+
