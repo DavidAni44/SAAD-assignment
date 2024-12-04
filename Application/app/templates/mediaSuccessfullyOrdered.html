@@ -23,6 +23,7 @@
                 document.getElementById("deliveryDate").textContent = orderDetails.deliveryDate;
                 document.getElementById("notes").textContent = orderDetails.notes || "No additional notes provided.";
                 document.getElementById('mediaThumbnail').src = `../static/images/${mediaDetails.mediaId}.jpg`;
+                document.getElementById("total").textContent = orderDetails.total;
             }
         });
     </script>
@@ -40,6 +41,7 @@
             <p><strong>Branch:</strong> <span id="branchName"></span></p>
             <p><strong>Quantity:</strong> <span id="quantity"></span></p>
             <p><strong>Desired Delivery Date:</strong> <span id="deliveryDate"></span></p>
+            <p><strong>Total:</strong> <span id="total"></span></p>
             <p><strong>Additional Notes:</strong></p>
             <p class="notes" id="notes"></p>
         </div>

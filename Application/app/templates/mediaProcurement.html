@@ -8,16 +8,17 @@
 <html lang="en">
 <head>
     <script>
-        const mediaDetails = JSON.parse(localStorage.getItem('mediaDetails'));
+        const PRICE_PER_UNIT = 2.5; //change to database value
+        const mediaDetails = JSON.parse(localStorage.getItem("mediaDetails"));
         const mediatoorder = mediaDetails ? mediaDetails.mediaId : null;
-
+    
         function populateMediaDetails() {
             if (mediaDetails) {
                 document.getElementById('mediaThumbnail').src = `../static/images/${mediaDetails.mediaId}.jpg`;
                 document.getElementById('mediaName').textContent = mediaDetails.mediaName;
             }
         }
-
+    
         function updateDateDisplay() {
             const datePicker = document.getElementById('datePicker');
             const dateDisplay = document.getElementById('dateDisplay');
@@ -27,7 +28,7 @@
             today.setHours(0, 0, 0, 0);
             const minDate = new Date(today);
             minDate.setDate(today.getDate() + 2);
-
+    
             if (selectedDate < minDate) {
                 errorMessage.style.display = 'block';
                 dateDisplay.textContent = "Select a date (at least 2 days from today)";
@@ -36,7 +37,15 @@
                 dateDisplay.textContent = `Selected Date: ${datePicker.value}`;
             }
         }
-
+    
+        function updateTotal() {
+            const quantityInput = document.getElementById("quantity");
+            const totalDisplay = document.getElementById("total");
+            const quantity = parseInt(quantityInput.value) || 0;
+            const total = quantity * PRICE_PER_UNIT;
+            totalDisplay.textContent = `Total: £${total.toFixed(2)}`;
+        }
+    
         async function placeOrder() {
             const branchSelect = document.getElementById('branch');
             const quantityInput = document.getElementById('quantity');
@@ -47,6 +56,7 @@
             const selectedBranchValue = branchSelect.value;
             const selectedQuantity = quantityInput.value;
             const selectedDate = datePicker.value;
+            const total = selectedQuantity * PRICE_PER_UNIT;
     
             if (!selectedDate || new Date(selectedDate) < new Date(new Date().setDate(new Date().getDate() + 2))) {
                 errorMessage.style.display = 'block';
@@ -83,6 +93,7 @@
                             quantity: selectedQuantity,
                             deliveryDate: selectedDate,
                             notes: notesInput.value.trim(),
+                            total: `£${total.toFixed(2)}`,
                         })
                     );
     
@@ -105,7 +116,10 @@
             }
         }
     
-        document.addEventListener("DOMContentLoaded", populateMediaDetails);
+        document.addEventListener("DOMContentLoaded", () => {
+            populateMediaDetails();
+            document.getElementById("quantity").addEventListener("input", updateTotal);
+        });
     </script>
 </head>
 <body>
@@ -126,7 +140,14 @@
                 <p>Supplier Contact: contactD@example.com</p>
                 <p>Price Per Unit: £2.50</p>
                 <p>Quantity Needed</p>
-                <input type="text" name="quantity" id="quantity">
+                <input 
+                    type="number" 
+                    name="quantity" 
+                    id="quantity" 
+                    placeholder="Enter quantity" 
+                    min="1" 
+                    required
+                />
                 <p>Branch</p>
                 <select class="branch" name="branch" id="branch">
                     <option value="branch_id_1">Central Branch</option>
@@ -142,7 +163,7 @@
                 </select>
                 <p>Date Required:</p>
                 <form id="calendarForm">
-                    <input type="date" id="datePicker" onchange="updateDateDisplay()">
+                    <input type="date" id="datePicker" onchange="updateDateDisplay()" />
                     <span class="date-display" id="dateDisplay">Select a date</span>
                     <div class="error-message" id="errorMessage" style="display: none; color: red;">
                         Please select a date at least 2 days from today.
@@ -150,9 +171,9 @@
                 </form>
                 <p>Additional Notes</p>
                 <textarea id="notes" name="notes" rows="4" cols="50"></textarea>
-                <p class="total" id="total">Total:</p>
+                <p class="total" id="total">Total: £0.00</p>
             </div>
-        </div>
+        </div>   
     </div>
     <button class="order" onclick="placeOrder()">Order</button>
 </body>

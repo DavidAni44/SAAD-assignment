@@ -50,15 +50,15 @@ a.myBasket
     position: absolute;
 }
 
-.checkoutButton
-{
+.checkoutButton {
     background-color: orange;
     display: flex;
     position: relative;
     margin: 400px 0 0 452px;
     height: 40px;
-    width: 100px;
+    /* width: 100px; */
     justify-content: center;
+    border: orange;
 }
 
 .thumbnail{
@@ -103,4 +103,20 @@ input[type="date"] {
     border-radius: 5px;
     font-size: 16px;
     margin: 143px -50px 0 0;
+}
+
+.checkoutButton2 {
+    background-color: orange;
+    margin-left: 47%;
+    margin-top: 35px;
+    height: 40px;
+    width: 120px;
+}
+
+p.paymentText
+{
+    display: flex;
+    justify-content: space-around;
+    margin-top: -5px;
+    font-size: 12px;
 }
