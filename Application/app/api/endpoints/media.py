@@ -1,12 +1,16 @@
 from flask import Blueprint, jsonify, request
 from app.services.borrow_service import borrow_media
-from app.services.media_procurement_service import procure_media, track_order, edit_order_status
+from app.services.media_procurement_service import procure_media, track_order, edit_order_status, mediaToOrder
 from app.services.reserve_service import reserve_media, return_staged
 from app.services.monitor_system import get_media, get_branches, get_media_by_branch
 from app.services.report_service import export_as, report_selection
 
 media_bp = Blueprint('media', __name__, url_prefix='/media')
 
+@media_bp.route('/mediaToOrder', methods=['GET'])
+def mediaToOrderEndpoint():
+    count = mediaToOrder() 
+    return jsonify({"media_count": count})
 
 
 @media_bp.route('/borrow', methods=['POST'])
