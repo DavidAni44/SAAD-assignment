@@ -8,14 +8,20 @@
 <html lang="en">
 <head>
     <script>
-        const PRICE_PER_UNIT = 2.5; //change to database value
+        
         const mediaDetails = JSON.parse(localStorage.getItem("mediaDetails"));
         const mediatoorder = mediaDetails ? mediaDetails.mediaId : null;
+        const PRICE_PER_UNIT = mediaDetails.PPI;
     
         function populateMediaDetails() {
             if (mediaDetails) {
                 document.getElementById('mediaThumbnail').src = `../static/images/${mediaDetails.mediaId}.jpg`;
                 document.getElementById('mediaName').textContent = mediaDetails.mediaName;
+                document.getElementById('PPI').textContent = "Price Per Unit: £" + mediaDetails.PPI;
+                document.getElementById('VendorContact').textContent = "Vendor Contact: " + mediaDetails.vendorContact;
+                document.getElementById('VendorName').textContent =  "Vendor Name: " + mediaDetails.vendorName;
+                document.getElementById('description').textContent =  mediaDetails.description;
+
             }
         }
     
@@ -130,15 +136,15 @@
             <img class="thumbnail" id="mediaThumbnail">
             <div class="mediaDescriptions" id="mediaDescriptions">
                 <h3 id="mediaName"></h3>
-                <h4>Media Description</h4>
+                <h4 id="description">Media Description</h4>
             </div>
         </div>
 
         <div class="orderDetails" id="orderDetails">
             <div class="orderInputs" id="orderInputs">
-                <p>Supplier Name: Vendor D</p>
-                <p>Supplier Contact: contactD@example.com</p>
-                <p>Price Per Unit: £2.50</p>
+                <p id="VendorName">Vendor Name:</p>
+                <p id="VendorContact">Vendor Contact:</p>
+                <p id="PPI">Price Per Unit:</p>
                 <p>Quantity Needed</p>
                 <input 
                     type="number" 
