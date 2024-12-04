@@ -29,21 +29,23 @@
           
     
     
-        <div class="grid-container">
+        <div class="grid-container" id="media-grid">
             {% for media in media %}
-            <form onsubmit="selectMedia(event, '{{ media.media_id }}', '{{ media.name }}')">
-                <input type="hidden" name="media_id" value="{{ media.media_id }}">
+            <form onsubmit="selectMedia(event, '{{ media._id}}', '{{ media.title }}')">
+                <input type="hidden" name="media_id" value="{{ media._id }}">
                 <div class="grid-item">
-                    <img class="thumbnail" src="../static/images/{{ media.image }}" alt="{{ media.name }}">
-                    <h2 id="media_name">{{ media.name }}</h2>
-                    <p>{{ media.description }}</p>
+                    <img class="thumbnail" src="../static/images/default-thumbnail.png" alt="{{ media.title }}">
+                    <h2 id="media_title">{{ media.title }}</h2>
+                    <p><strong>Author:</strong> {{ media.author }}</p>
+                    <p><strong>Price:</strong> ${{ media.price_per_item }}</p>
+                    <p><strong>Contact:</strong> {{ media.vendor_contact }}</p>
                     <button type="submit" class="gridLink">Order</button>
                 </div>
             </form>
             {% endfor %}
         </div>
-        
-        
+
+        <!-- Pagination Controls -->
         <div class="pagination">
             {% if page > 1 %}
             <a href="{{ url_for('frontend.procureMediaChoices', page=page-1) }}" class="prev-btn">Previous</a>

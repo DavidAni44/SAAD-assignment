@@ -5,6 +5,15 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+def mediaToOrder():
+    media_list = media_collection.find({}, {"_id": 1, "title": 1, "author": 1, "price_per_item": 1, "vendor_contact": 1})
+    media_data = list(media_list)
+    
+    for media in media_data:
+        media['_id'] = str(media['_id'])  # Convert ObjectId to string
+    
+    return media_data
+
 
 def procure_media(media_to_order,branch_to_deliver_to,quantity_to_order,delivery_date):
     #print(media_to_order)
