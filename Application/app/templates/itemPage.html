@@ -9,6 +9,7 @@
     <a class="returnButton" href="javascript:history.back()">&#8592; Return</a>
     <strong><a class="myBasket">My Basket</a></strong>
 </div>
+<p class="paymentText">Please note all payments will be charged to the payment method listed on your account.</p>
 
 <script>
     // Retrieve media_id from the URL query string
@@ -95,12 +96,12 @@
         });
     }
 </script>
-
+<div class="biggerContainer">
 <div class="mainContainerBorrow">
     <div class="itemDetails">
         <div class="grid-container">
             <div class="grid-item">
-                <p class="dividerTitles">Item w/ image and description</p>
+                <p class="dividerTitles">Media To Borrow</p>
                 <img class="thumbnail" src="" alt="Media Thumbnail" id="imageName">
                 <p class="mediaName" id="mediaName">Media Name</p>
             </div>
@@ -126,6 +127,7 @@
         </div>
     </div>
 
-    <button class="checkoutButton" onclick="borrowMedia(event)">Checkout</button>
+    <button class="checkoutButton" onclick="borrowMedia(event)"></button>
 </div>
-<button class="" onclick="borrowMedia(event)">Checkout</button>
+<button class="checkoutButton2" onclick="borrowMedia(event)">Checkout</button>
+</div>
