@@ -11,9 +11,9 @@
 </head>
 <body>
     <script>
-        function selectMedia(event, mediaId, mediaName) {
+        function selectMedia(event, mediaId, mediaName, vendorName, vendorContact, PPI, description) {
             event.preventDefault();
-            const mediaDetails = {mediaId, mediaName };
+            const mediaDetails = {mediaId, mediaName, vendorName, vendorContact, PPI, description };
             localStorage.setItem('mediaDetails', JSON.stringify(mediaDetails)); 
             window.location.href = 'MediaProcurement';
         }
@@ -31,13 +31,14 @@
     
         <div class="grid-container" id="media-grid">
             {% for media in media %}
-            <form onsubmit="selectMedia(event, '{{ media._id}}', '{{ media.title }}')">
+            <form onsubmit="selectMedia(event, '{{ media._id}}', '{{ media.title }}', '{{ media.vendor_name}}', '{{ media.vendor_contact}}', '{{ media.price_per_item}}', '{{ media.description}}')">
                 <input type="hidden" name="media_id" value="{{ media._id }}">
                 <div class="grid-item">
                     <img class="thumbnail" src="../static/images/default-thumbnail.png" alt="{{ media.title }}">
                     <h2 id="media_title">{{ media.title }}</h2>
                     <p><strong>Author:</strong> {{ media.author }}</p>
-                    <p><strong>Price:</strong> ${{ media.price_per_item }}</p>
+                    <p><strong>Price:</strong> {{ media.price_per_item }}</p>
+                    <p><strong>Vendor:</strong> {{ media.vendor_name }}</p>
                     <p><strong>Contact:</strong> {{ media.vendor_contact }}</p>
                     <button type="submit" class="gridLink">Order</button>
                 </div>

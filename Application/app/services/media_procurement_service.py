@@ -6,7 +6,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 def mediaToOrder():
-    media_list = media_collection.find({}, {"_id": 1, "title": 1, "author": 1, "price_per_item": 1, "vendor_contact": 1})
+    media_list = media_collection.find({}, {"_id": 1, "title": 1, "author": 1, "type": 1, "description": 1, "price_per_item": 1, "vendor_name": 1, "vendor_contact": 1})
     media_data = list(media_list)
     
     for media in media_data:
