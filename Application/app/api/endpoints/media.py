@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.services.borrow_service import borrow_media
+from app.services.borrow_service import borrow_media, branch_media_getter, getMediaDetails
 from app.services.media_procurement_service import procure_media, track_order, edit_order_status, mediaToOrder
 from app.services.reserve_service import reserve_media, return_staged
 from app.services.monitor_system import get_media, get_branches, get_media_by_branch
@@ -11,6 +11,23 @@ media_bp = Blueprint('media', __name__, url_prefix='/media')
 def mediaToOrderEndpoint():
     count = mediaToOrder() 
     return jsonify({"media_count": count})
+
+@media_bp.route('/getBranchMedia', methods=['POST'])
+def getBranchMediaEndpoint():
+    branch_id = request.json.get('branch_id')
+    
+    branch_info = branch_media_getter(branch_id)
+    
+    if branch_info:
+        media_ids = [media["media_id"] for media in branch_info["media"]]
+        media_availability = [media["available_copies"] for media in branch_info["media"]]
+        media_details = getMediaDetails(media_ids, media_availability)
+        branch_info["media_details"] = media_details
+        
+        return jsonify({"media_count": media_details}), 200
+    else:
+        return jsonify({"error": "Branch not found"}), 404
+
 
 
 @media_bp.route('/borrow', methods=['POST'])

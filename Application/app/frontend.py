@@ -21,35 +21,38 @@ def ping_endpoint():
 def index():
     return render_template('Index.html')
 
-
-
-@frontend.route('/BorrowMedia')
+@frontend.route('/BorrowMedia', methods=['GET'])
 def borrowMedia():
-    response = requests.get('http://127.0.0.1:5000/api/media/all_branch_media')
-    dict_rep = response.json() if response.status_code == 200 else []
+    branch_id = "Central Branch"  # Change
+    
+    response = requests.post(
+        'http://127.0.0.1:5000/api/media/getBranchMedia', 
+        json={"branch_id": branch_id}
+    )
+    
+    if response.status_code == 200:
+        dict_rep = response.json()
 
-    #hardcoded for Mountain Branch. change to be whatever branch user is on. may need to move this logic into the html page
-    mountain_branch_data = None
-    for branch in dict_rep:  
-        if (branch.get('branch')).get('name') == "Mountain Branch": 
-            print("yahoo")
-            mountain_branch_data = branch
-            break
+        media_list = dict_rep.get('media_details', [])
+        media_count = dict_rep.get('media_count', 0)
 
-    if mountain_branch_data is None:
-        print("Mountain Branch not found.")
-        return render_template('BorrowMedia.html', media=[], page=1, total_pages=1)
+        page = int(request.args.get('page', 1))
+        items_per_page = 6
+        start = (page - 1) * items_per_page
+        end = start + items_per_page
+        paginated_media = media_count[start:end]
+        total_pages = (len(media_count) + items_per_page - 1) // items_per_page
 
-    media_list = mountain_branch_data.get('media', [])
-
-    page = int(request.args.get('page', 1))
-    items_per_page = 6
-    start = (page - 1) * items_per_page
-    end = start + items_per_page
-    paginated_media = media_list[start:end]
-    total_pages = (len(media_list) + items_per_page - 1) // items_per_page
-
-    return render_template('BorrowMedia.html', media=paginated_media, page=page, total_pages=total_pages)
+        return render_template(
+            'BorrowMedia.html', 
+            media=paginated_media, 
+            page=page, 
+            total_pages=total_pages,
+            media_count=media_count
+        )
+    else:
+        print(f"Error: {response.status_code}")
+        return render_template('Error.html', message="Branch not found")
 
 @frontend.route('/EditUser.html')
 def EditUser():
@@ -114,7 +117,6 @@ def procureMediaChoices():
     end = start + items_per_page
     paginated_media = media_data[start:end]
     total_pages = (len(media_data) + items_per_page - 1) // items_per_page
-    print("Total Pages:", total_pages)
 
     return render_template('ProcureMediaChoices.html', media=paginated_media, page=page, total_pages=total_pages)
 
