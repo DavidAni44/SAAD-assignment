@@ -105,7 +105,7 @@ def procureMediaChoices():
         return render_template('ProcureMediaChoices.html', media=[], page=1, total_pages=1)
 
     page = int(request.args.get('page', 1))
-    items_per_page = 10
+    items_per_page = 9
     start = (page - 1) * items_per_page
     end = start + items_per_page
     paginated_media = media_data[start:end]
