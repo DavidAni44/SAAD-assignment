@@ -22,7 +22,7 @@
                 document.getElementById("quantity").textContent = orderDetails.quantity;
                 document.getElementById("deliveryDate").textContent = orderDetails.deliveryDate;
                 document.getElementById("notes").textContent = orderDetails.notes || "No additional notes provided.";
-                document.getElementById('mediaThumbnail').src = `../static/images/${mediaDetails.mediaId}.jpg`;
+                document.getElementById('mediaThumbnail').src = `../static/images/${mediaDetails.mediaName}.jpg`;
                 document.getElementById("total").textContent = orderDetails.total;
             }
         });

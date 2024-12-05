@@ -1,10 +1,5 @@
 body {
-    /* background-color: hotpink; */
 
-    p
-    {
-        color: white;
-    }
 }
 
 p
@@ -185,6 +180,6 @@ input#author{
 
 a.next-btn, a.prev-btn{
   right: 20px;
-  top: 97%;
-  position: fixed;
+  top: 25%;
+  position: absolute;
 }
