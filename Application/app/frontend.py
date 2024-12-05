@@ -143,3 +143,9 @@ def manage_subscription():
     )
 
 
+@frontend.route('/subscription/edit-price', methods=['GET'])
+def edit_price_page():
+    return render_template('EditSubscriptionPrice.html')
+
+
+

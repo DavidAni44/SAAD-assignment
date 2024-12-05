@@ -26,7 +26,7 @@ def get_subscription():
     subscriptions = subscription_collection.find()
     all_subscriptions = []
     for subscription in subscriptions:
-        all_subscriptions.append({"_id": json_util.dumps(subscription.get("_id")), "subscription_name": subscription.get("subscription_name"), "subscription_price_per_month": subscription.get("subscription_price_per_month")})
+        all_subscriptions.append({"id": subscription.get("subscription_id"), "subscription_name": subscription.get("subscription_name"), "subscription_price_per_month": subscription.get("subscription_price_per_month")})
     return all_subscriptions
 
 

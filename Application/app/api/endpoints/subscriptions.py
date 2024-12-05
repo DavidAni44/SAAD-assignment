@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.services.subscription_services import edit_subscription, get_subscription, get_users_with_subscriptions
-from app.services.database import user_collection
+from app.services.database import user_collection, subscription_collection
 from bson import ObjectId
 
 subscription_bp = Blueprint('subscription', __name__, url_prefix='/subscription')
@@ -12,12 +12,17 @@ def manage_subscription_endpoint():
 
     return edit_subscription(user_id, new_subscription)
 
-@subscription_bp.route('/edit subscription', methods=['POST'])
+@subscription_bp.route('/edit_subscription', methods=['POST'])
 def edit_subscription_endpoint():
     subscription = request.json.get('subscription') 
     new_subscription = request.json.get('new_subscription')
 
     return edit_subscription(subscription, new_subscription)
+
+@subscription_bp.route('/get_all', methods=['GET'])
+def get_all_subscriptions():
+    return jsonify(get_subscription()), 200
+
 
 @subscription_bp.route('/get_subs', methods=['GET'])
 def get_subs():
@@ -52,3 +57,29 @@ def update_user_subscription(user_id):
     except Exception as e:
         print(f"Error updating subscription: {e}")
         return jsonify({"error": "An error occurred"}), 500
+    
+    
+@subscription_bp.route('/update', methods=['POST'])
+def update_subscription_price():
+    data = request.json
+    subscription_id = data.get('subscription_id')  # Subscription ID
+    new_price = data.get('new_price')             # New subscription price
+
+    # Validate the input
+    if not subscription_id or not new_price:
+        return jsonify({"error": "Missing subscription ID or new price"}), 400
+
+    # Update the subscription price in the database
+    result = subscription_collection.update_one(
+        {"id": subscription_id},  # Match the `id` field (not `_id`)
+        {"$set": {"subscription_price_per_month": float(new_price)}}
+    )
+
+    # Check if the update was successful
+    if result.matched_count == 0:
+        return jsonify({"error": "Subscription not found"}), 404
+
+    return jsonify({"message": "Subscription price updated successfully"}), 200
+
+
+    return jsonify({"message": "Subscription price updated successfully"}), 20
