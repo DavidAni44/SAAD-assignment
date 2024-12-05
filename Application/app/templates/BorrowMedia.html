@@ -140,7 +140,7 @@ and then during the demo update the database and show that this is updated
         <form onsubmit="mediaAction(event, '{{ 'reserve' if item.availability < 1 else 'borrow' }}')">
             <input type="hidden" name="media_id" value="{{ item.media_id }}">
             <div class="grid-item">
-                <img class="thumbnail" src="../static/images/{{ item.image }}" alt="{{ item.name }}">
+                <img class="thumbnail" src="../static/images/{{ item.name }}.jpg" alt="{{ item.name }}">
                 <h2 id="media_name">{{ item.title }}</h2>  <!-- Display the media name -->
                 <p>{{ item.description }}</p>  <!-- Display the media description -->
                 <p>{{ item.type }}</p>  <!-- Display available copies -->

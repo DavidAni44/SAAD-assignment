@@ -34,7 +34,7 @@
             <form onsubmit="selectMedia(event, '{{ media._id}}', '{{ media.title }}', '{{ media.vendor_name}}', '{{ media.vendor_contact}}', '{{ media.price_per_item}}', '{{ media.description}}')">
                 <input type="hidden" name="media_id" value="{{ media._id }}">
                 <div class="grid-item">
-                    <img class="thumbnail" src="../static/images/default-thumbnail.png" alt="{{ media.title }}">
+                    <img class="thumbnail" src="../static/images/{{ media.title }}.jpg" alt="{{ media.title }}">
                     <h2 id="media_title">{{ media.title }}</h2>
                     <p><strong>Author:</strong> {{ media.author }}</p>
                     <p><strong>Price Per Unit:</strong> {{ media.price_per_item }}</p>
@@ -67,6 +67,6 @@
     a.next-btn, a.prev-btn {
         right: 20px;
         top: 15.5%;
-        position: fixed;
+        position: absolute;
     }
 </style>
