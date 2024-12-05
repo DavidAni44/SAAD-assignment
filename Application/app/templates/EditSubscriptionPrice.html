@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Subscription Price</title>
+
+    <httpProtocol>
+        <customHeaders>
+          <add name="Access-Control-Allow-Origin" value="*" />
+          <add name="Access-Control-Allow-Headers" value="Content-Type" />
+          <add name="Access-Control-Allow-Methods" value="GET, POST, PUT, DELETE, OPTIONS" />
+        </customHeaders>
+    </httpProtocol>
+</head>
+<body>
+    <h1>Edit Subscription Price</h1>
+    <form id="editPriceForm">
+        <label for="subscription_id">Select Subscription:</label>
+        <select id="subscription_id" name="subscription_id" required>
+            <option value="">-- Select a Subscription --</option>
+        </select>
+        <br><br>
+        <label for="new_price">New Price:</label>
+        <input type="number" id="new_price" name="new_price" step="0.01" required>
+        <br><br>
+        <button type="submit">Update Price</button>
+    </form>
+
+    <p id="message"></p>
+
+    <script>
+        // Fetch subscriptions and populate the dropdown
+        async function loadSubscriptions() {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/subscription/get_all');
+                const subscriptions = await response.json();
+
+                const subscriptionDropdown = document.getElementById('subscription_id');
+                
+                // Populate the dropdown
+                subscriptions.forEach(subscription => {
+                    const option = document.createElement('option');
+                    option.value = subscription.id;
+                    option.textContent = subscription.subscription_name;
+                    subscriptionDropdown.appendChild(option);
+                });
+            } catch (error) {
+                console.error("Error fetching subscriptions:", error);
+            }
+        }
+
+        // Load subscriptions on page load
+        document.addEventListener('DOMContentLoaded', loadSubscriptions);
+
+        // Handle form submission
+        document.getElementById('editPriceForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const subscriptionId = document.getElementById('subscription_id').value;
+            const newPrice = document.getElementById('new_price').value;
+
+            // Send the update request to the server
+            const response = await fetch('http://127.0.0.1:5000/api/subscriptions/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    subscription_id: subscriptionId,
+                    new_price: newPrice
+                })
+            });
+
+            const result = await response.json();
+
+            // Display the result
+            const message = document.getElementById('message');
+            if (response.status === 200) {
+                message.textContent = result.message;
+                message.style.color = 'green';
+            } else {
+                message.textContent = result.error;
+                message.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>
