@@ -91,3 +91,21 @@ table tbody tr:hover {
 .SelectFilters {
   margin-right: 30px;
 }
+
+button {
+  display: block;
+  width: 200px;
+  padding: 10px;
+  margin: 20px auto;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
