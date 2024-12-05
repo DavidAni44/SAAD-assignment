@@ -1,122 +1,195 @@
-{% include 'AdminNavbar.html' %}
-<br>
-<br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Monitor Dashboard</title>
+    <link href="../static/MonitorSystem.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</head>
+<body>
+    <iframe src="NavBar.html" width="100%" frameborder="0"></iframe>
 
-<link href="../static/MonitorSystem.css" rel="stylesheet" type="text/css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <div class="dashboard-container">
+        <!-- User Count Widgets -->
+        <div class="user-count-container">
+            <div class="user-count-box">
+                <h1 class="user-title">Total Users</h1>
+                <h2 class="user-count">{{user_len}}</h2>
+            </div>
+            <div class="user-count-box">
+                <h1 class="user-title">Media Titles in Library</h1>
+                <h2 class="user-count">{{media_response}}</h2>
+            </div>
+        </div>
 
-<div class="dashboard-container">
-    <!-- Two Rectangles -->
-    <div class="user-count-container">
-        <div class="user-count-box">
-            <h1 class="user-title">Total Users</h1>
-            <h2 class="user-count">{{user_len}}</h2>
-        </div>
-        <div class="user-count-box">
-            <h1 class="user-title">Media titles in Library</h1>
-            <h2 class="user-count">{{media_response}}</h2>
-        </div>
+        <!-- Widgets Section (Charts and Table) -->
+        <div class="widget-container">
+            <!-- Branch Media Chart -->
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
+
+            <canvas id="pingChart" style="max-width: 600px; margin: 20px auto;"></canvas>
+            <table id="pingTable" border="1" style="width: 100%; text-align: center; margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
     </div>
 
+    <script>
+        // Fetch and Render Branch Media Chart
+        const ctx = document.getElementById('myChart');
+        var branchData = '{{ branches|tojson|safe }}';
+        var branchArray = JSON.parse(branchData);
+        var branchNames = branchArray.map(branch => branch.name);
 
-    
-    <div id="chartContainer">
-        <canvas id="myChart"></canvas>
-    </div>
+        var branchMedia = '{{ all_branch_media|tojson|safe }}';
+        var parsedBranchMedia = JSON.parse(branchMedia);
 
-<script>
-    const ctx = document.getElementById('myChart');
-    var branchData = '{{ branches|tojson|safe }}';
-    console.log(branchData);
-    var branchArray = JSON.parse(branchData);
-    var branchNames = branchArray.map(branch => branch.name);
-
-    var branchMedia = '{{ all_branch_media|tojson|safe }}';
-    console.log(branchMedia);
-    var parsedBranchMedia = JSON.parse(branchMedia);
-
-    var branchMediaCounts = [];
-
-    // Loop through each branch
-    parsedBranchMedia.forEach(branchData => {
-        // Count the number of media_ids
-        let mediaCount = branchData.media.length;
-
-        // Add the branch name and media count to the results array
-        branchMediaCounts.push({
+        var branchMediaCounts = parsedBranchMedia.map(branchData => ({
             branch_name: branchData.branch.name,
-            media_count: mediaCount
-        });
-    });
+            media_count: branchData.media.length
+        }));
 
-    // Log the result
-    console.log(branchMediaCounts);
+        const branch_Names = branchMediaCounts.map(branch => branch.branch_name);
+        const mediaCounts = branchMediaCounts.map(branch => branch.media_count);
 
-    const branch_Names = branchMediaCounts.map(branch => branch.branch_name);
-    const mediaCounts = branchMediaCounts.map(branch => branch.media_count);
-
-    // Initialize the Chart.js bar chart
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: branch_Names,
-            datasets: [{
-                label: '# of media in branch',
-                data: mediaCounts.map(Number),
-                borderWidth: 1,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 205, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(201, 203, 207, 0.2)'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    min: 0, // Forces y-axis to start at 0
-                    ticks: {
-                        stepSize: 1,
-                        callback: function(value) {
-                            return Number.isInteger(value) ? value : ''; // Only show whole numbers
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: branch_Names,
+                datasets: [{
+                    label: '# of media in branch',
+                    data: mediaCounts.map(Number),
+                    borderWidth: 1,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value) {
+                                return Number.isInteger(value) ? value : '';
+                            }
                         }
-                    }
-                },
-                x: {
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 45,
-                        minRotation: 45
+                    },
+                    x: {
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
                     }
                 }
             }
+        });
+
+// Update both the ping table and the line chart
+function updatePingDataAndChart() {
+    fetch('http://127.0.0.1:5000/api/users/ping_logs')
+        .then(response => response.json())
+        .then(data => {
+            console.log('API response:', data); // Log the response for debugging
+
+            // Ensure the data is an array or wrap it in one
+            const logsArray = Array.isArray(data) ? data : [data];
+
+            // Update the ping table
+            const tableBody = document.querySelector('#pingTable tbody');
+            tableBody.innerHTML = ''; // Clear previous rows
+            const timestamps = [];
+            const statuses = [];
+
+            logsArray.forEach(log => {
+                const timestamp = log.timestamp || 'N/A';
+                const status = log.status === 200 ? 'Online' : 'Offline';
+
+                timestamps.push(timestamp);
+                statuses.push(log.status === 200 ? 1 : 0);
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${timestamp}</td>
+                    <td>${status}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            // Update the line chart
+            pingChart.data.labels = timestamps;
+            pingChart.data.datasets[0].data = statuses;
+            pingChart.update();
+        })
+        .catch(error => {
+            console.error('Error fetching or processing ping logs:', error);
+
+            // Display error message in the table
+            const tableBody = document.querySelector('#pingTable tbody');
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="2" style="color: red;">Error fetching data</td>
+                </tr>
+            `;
+        });
+}
+
+// Initialize the line chart
+const ctx1 = document.getElementById('pingChart').getContext('2d');
+const pingChart = new Chart(ctx1, {
+    type: 'line',
+    data: {
+        labels: [], // Initialize with empty labels
+        datasets: [{
+            label: 'System Status',
+            data: [], // Initialize with empty data
+            borderColor: 'green',
+            backgroundColor: 'rgba(0, 255, 0, 0.2)',
+            fill: true,
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 1,
+                ticks: {
+                    stepSize: 1,
+                    callback: value => value === 1 ? 'Online' : 'Offline'
+                }
+            }
         }
-    });
+    }
+});
 
-</script>
+// Set up an interval to periodically update the table and chart
+setInterval(updatePingDataAndChart, 5000);
 
-    <!-- Table Placeholder 
-    <div class="table-container">
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-            </tr>
-            {% for user in users %}
-            <tr>
-                <td>{{user.name}}</td>
-                <td>{{user.email}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    -->
-</div>
+// Perform the initial update
+updatePingDataAndChart();
 
 
+
+
+
+    </script>
+</body>
+</html>

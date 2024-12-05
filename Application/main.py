@@ -5,6 +5,7 @@ import requests
 from dotenv import load_dotenv
 from datetime import datetime
 from flask_cors import CORS 
+from app.api.endpoints.users import ping_endpoint
 
 app = create_app()
 CORS(app, resources={r"/*": {
@@ -12,13 +13,6 @@ CORS(app, resources={r"/*": {
     "methods": ["DELETE", "POST", "GET", "OPTIONS"],
     "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"]
 }})
-
-def ping_endpoint():
-    try:
-        response = requests.get('http://127.0.0.1:5000/api/users/ping')  # Replace with your actual endpoint
-        print(f"Pinged API. Status Code: {response.status_code}")
-    except Exception as e:
-        print(f"Error pinging API: {e}")
 
 @app.teardown_appcontext
 def shutdown_scheduler(exception=None):

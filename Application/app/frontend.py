@@ -8,13 +8,6 @@ import json
 frontend = Blueprint('frontend', __name__)
 
 API_BASE_URL = 'http://127.0.0.1:5000/api'
-
-def ping_endpoint():
-    try:
-        response = requests.get('http://127.0.0.1:5000/api/users/ping')  # Replace with your actual endpoint
-        print(f"Pinged API. Status Code: {response.status_code}")
-    except Exception as e:
-        print(f"Error pinging API: {e}")
         
 
 @frontend.route('/')

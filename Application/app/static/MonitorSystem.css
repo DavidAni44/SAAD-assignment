@@ -1,80 +1,158 @@
-/* Container for the entire dashboard */
-.dashboard-container {
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-    padding: 20px;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
 }
 
-/* Container for the two rectangles */
+/* Dashboard Container */
+.dashboard-container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Title */
+.dashboard-container h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Widgets Section */
+.widget-container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* User Count Container */
 .user-count-container {
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
     margin-bottom: 20px;
+    gap: 20px;
 }
 
-/* Individual rectangle styling */
+/* User Count Box */
 .user-count-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 30%;
-    height: 100px;
-    border: 2px solid black;
+    max-width: 300px;
+    height: 120px;
+    background-color: #f8f9fa;
+    border: 2px solid #e6e6e6;
     border-radius: 10px;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
-    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Title inside the rectangles */
+.user-count-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
 .user-title {
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 10px;
+    color: #555;
+    margin-bottom: 8px;
 }
 
-/* Count inside the rectangles */
 .user-count {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: bold;
+    color: #333;
 }
 
-/* Table container */
-.table-container {
-    margin-top: 20px;
+/* Chart and Table Containers */
+.chart-container, .table-container {
+    flex: 1;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
 }
 
-/* Styling for the table */
+/* Table Styles */
 table {
-    width: 80%;
-    margin: 0 auto;
+    width: 100%;
     border-collapse: collapse;
     text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
-    border: 1px solid black;
     padding: 10px;
+    border: 1px solid #e6e6e6;
 }
 
 th {
-    font-weight: bold;
     background-color: #f0f0f0;
+    font-weight: bold;
+    color: #555;
 }
 
-#chartContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full vertical height */
-    position: relative; /* Allow positioning adjustments */
-    top: -50px; /* Adjust the vertical position */
+td {
+    color: #333;
 }
 
-#myChart {
-    max-width: 800px; /* Adjust the width */
-    width: 100%;
-    height: 400px; /* Adjust the height */
+/* Status Indicator */
+.status-indicator {
+    font-size: 18px;
+    margin: 20px auto;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
 }
 
+.status-online {
+    background-color: #28a745; /* Green */
+}
+
+.status-offline {
+    background-color: #dc3545; /* Red */
+}
+
+.status-loading {
+    background-color: #ffc107; /* Yellow */
+}
+
+/* Chart Canvas */
+canvas {
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .user-count-box {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .widget-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .chart-container, .table-container {
+        max-width: 100%;
+    }
+}
