@@ -11,6 +11,69 @@
           <add name="Access-Control-Allow-Methods" value="GET, POST, PUT, DELETE, OPTIONS" />
         </customHeaders>
     </httpProtocol>
+    <style>
+        /* General Styles */
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f9f9f9;
+          margin: 0;
+          padding: 0;
+        }
+
+        h1 {
+          color: #333;
+          font-size: 24px;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+
+        /* Form Styles */
+        form {
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #ffffff;
+          border: 1px solid #dddddd;
+          border-radius: 5px;
+        }
+
+        label {
+          display: block;
+          margin-bottom: 10px;
+          font-weight: bold;
+        }
+
+        select, input[type="number"] {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 20px;
+          border: 1px solid #dddddd;
+          border-radius: 5px;
+        }
+
+        button {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          background-color: #007bff;
+          color: #ffffff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 16px;
+        }
+
+        button:hover {
+          background-color: #0056b3;
+        }
+
+        /* Message Styles */
+        #message {
+          text-align: center;
+          font-size: 16px;
+          margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>Edit Subscription Price</h1>
@@ -60,27 +123,30 @@
             const newPrice = document.getElementById('new_price').value;
 
             // Send the update request to the server
-            const response = await fetch('http://127.0.0.1:5000/api/subscriptions/update', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    subscription_id: subscriptionId,
-                    new_price: newPrice
-                })
-            });
+            try {
+                const response = await fetch('http://10.75.197.143:5000/api/subscription/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        subscription_id: subscriptionId,
+                        new_price: newPrice
+                    })
+                });
 
-            const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
 
-            // Display the result
-            const message = document.getElementById('message');
-            if (response.status === 200) {
-                message.textContent = result.message;
-                message.style.color = 'green';
-            } else {
-                message.textContent = result.error;
-                message.style.color = 'red';
+                const result = await response.json();
+                console.log(result);
+                document.getElementById('message').textContent = result.message;
+                document.getElementById('message').style.color = 'green';
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('message').textContent = 'Error: Unable to update subscription.';
+                document.getElementById('message').style.color = 'red';
             }
         });
     </script>

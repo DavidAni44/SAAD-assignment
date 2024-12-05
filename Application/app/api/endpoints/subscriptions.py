@@ -65,21 +65,17 @@ def update_subscription_price():
     subscription_id = data.get('subscription_id')  # Subscription ID
     new_price = data.get('new_price')             # New subscription price
 
-    # Validate the input
     if not subscription_id or not new_price:
         return jsonify({"error": "Missing subscription ID or new price"}), 400
 
-    # Update the subscription price in the database
+    print(f"Received subscription_id: {subscription_id}, new_price: {new_price}")
+
     result = subscription_collection.update_one(
-        {"id": subscription_id},  # Match the `id` field (not `_id`)
+        {"subscription_id": subscription_id},
         {"$set": {"subscription_price_per_month": float(new_price)}}
     )
 
-    # Check if the update was successful
     if result.matched_count == 0:
         return jsonify({"error": "Subscription not found"}), 404
 
     return jsonify({"message": "Subscription price updated successfully"}), 200
-
-
-    return jsonify({"message": "Subscription price updated successfully"}), 20
