@@ -36,7 +36,6 @@ def export_to_excel(data, file_name):
                     "Available Copies": media.get("Available Copies"),
                     "Total Copies": media.get("Total Copies"),
                 })
-
         else:
             flat_data.append(entry)
 
@@ -46,8 +45,11 @@ def export_to_excel(data, file_name):
         raise ValueError("The data could not be converted into a table format.")
 
     static_folder = os.path.join(os.getcwd(), "app/static")
+    os.makedirs(static_folder, exist_ok=True)  # Ensure the directory exists
     file_path = os.path.join(static_folder, f"{file_name}.xlsx")
-    df.to_csv(file_path, index=False)
+    
+    # Save as Excel using openpyxl
+    df.to_excel(file_path, index=False, engine='openpyxl')
     print(f"Data exported to Excel successfully at: {file_path}")
     return file_path
 
@@ -80,7 +82,6 @@ def export_to_csv(data, file_name):
                     "Available Copies": media.get("Available Copies"),
                     "Total Copies": media.get("Total Copies"),
                 })
-
         else:
             flat_data.append(entry)
 
@@ -90,31 +91,37 @@ def export_to_csv(data, file_name):
         raise ValueError("The data could not be converted into a table format.")
 
     static_folder = os.path.join(os.getcwd(), "app/static")
+    os.makedirs(static_folder, exist_ok=True)  # Ensure the directory exists
     file_path = os.path.join(static_folder, f"{file_name}.csv")
     df.to_csv(file_path, index=False)
     print(f"Data exported to CSV successfully at: {file_path}")
     return file_path
 
 
-
-
 def convert_excel_to_pdf(excel_file):
     try:
-        excel_data = pd.read_excel(excel_file)
-        data = [excel_data.columns.tolist()] + excel_data.values.tolist()
+        if not os.path.exists(excel_file):
+            raise FileNotFoundError(f"Excel file not found at {excel_file}")
+
+        excel_data = pd.read_excel(excel_file, engine="openpyxl")
+        if excel_data.empty:
+            raise ValueError("The Excel file is empty and cannot be converted to a PDF.")
+
+        data = [excel_data.columns.tolist()] + excel_data.fillna("").values.tolist()
         base_name = os.path.splitext(os.path.basename(excel_file))[0]
         pdf_file = os.path.join(os.path.dirname(excel_file), f"{base_name}.pdf")
+
         doc = SimpleDocTemplate(pdf_file, pagesize=landscape(letter))
         page_width = landscape(letter)[0] - 50
         num_columns = len(data[0]) if data else 1
         col_width = page_width / num_columns if num_columns > 0 else page_width
+
         styles = getSampleStyleSheet()
-        
         styled_data = []
         for row in data:
             styled_row = [Paragraph(str(cell), styles['BodyText']) for cell in row]
             styled_data.append(styled_row)
-        
+
         table = Table(styled_data, colWidths=[col_width] * num_columns)
         table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
@@ -125,29 +132,33 @@ def convert_excel_to_pdf(excel_file):
             ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
         ]))
+
         doc.build([table])
-        os.remove(excel_file)
+
+        print(f"PDF created successfully at: {pdf_file}")
+        if os.path.exists(excel_file):
+            os.remove(excel_file)
+            print(f"Excel file deleted: {excel_file}")
         return pdf_file
+
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error while creating PDF: {e}")
         return None
-    
-    
-    
 
 
 def export_as(format_type, report_data, report_name):
     try:
         if not report_data:
             return jsonify({"message": "No data available for the report."}), 404
-        
+
         if format_type == 'excel':
             file_path = export_to_excel(report_data, report_name)
         elif format_type == 'csv':
             file_path = export_to_csv(report_data, report_name)
         elif format_type == 'pdf':
             file_path = export_to_excel(report_data, report_name)
-            convert_excel_to_pdf(file_path)
+            pdf_path = convert_excel_to_pdf(file_path)
+            file_path = pdf_path or file_path  # Use PDF path if created successfully
         else:
             return jsonify({"error": "Invalid format type requested"}), 400
 
