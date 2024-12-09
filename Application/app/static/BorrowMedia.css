@@ -178,8 +178,21 @@ input#author{
     width: 94%;
 }
 
-a.next-btn, a.prev-btn{
-  right: 20px;
-  top: 25%;
+.prev-btn, .next-btn {
+  margin: 0 10px;
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1.5px solid #97730d;
+  border-radius: 4px;
+  background-color: orange;
+  color: #fff;
+}
+
+.prev-btn:hover, .next-btn:hover {
+  background-color: #ffdcad;
+}
+a.next-btn, a.prev-btn {
+  right: 0;
+  top: 18%;
   position: absolute;
 }
