@@ -3,6 +3,7 @@
     display: flex;
     justify-content: space-between;
     padding: 15% 20px 0 20px;
+    min-width: 820px;
 }
 
 button {
@@ -38,4 +39,22 @@ button {
     margin-top: 80px;
 }
 
-  
+.error-dropdown
+{
+  border: 2px solid red;
+}
+
+.error-message
+{
+  color: red;
+}
+
+select#formatSelector:hover
+{
+  background-color: #ffdcad;
+}
+
+select#formatSelector:focus
+{
+  border: 2px solid orange;
+}
