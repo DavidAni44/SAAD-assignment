@@ -46,27 +46,68 @@
             {% endfor %}
         </div>
 
-        <!-- Pagination Controls -->
         <div class="pagination">
             {% if page > 1 %}
-            <a href="{{ url_for('frontend.procureMediaChoices', page=page-1) }}" class="prev-btn">Previous</a>
+                <a href="{{ url_for('frontend.procureMediaChoices', page=page-1) }}" class="prev-btn">Previous</a>
             {% endif %}
+            
+            {% for page_number in range(1, total_pages + 1) %}
+                {% if page_number == 1 or page_number == total_pages or (page_number >= page - 1 and page_number <= page + 1) %}
+                    <a href="{{ url_for('frontend.procureMediaChoices', page=page_number) }}" class="page-link">{{ page_number }}</a>
+                {% elif page_number == 2 %}
+                    <span class="page-gap">...</span>
+                {% elif page_number == total_pages - 1 %}
+                    <span class="page-gap">...</span>
+                {% endif %}
+            {% endfor %}
+        
             {% if page < total_pages %}
-            <a href="{{ url_for('frontend.procureMediaChoices', page=page+1) }}" class="next-btn">Next</a>
+                <a href="{{ url_for('frontend.procureMediaChoices', page=page+1) }}" class="next-btn">Next</a>
             {% endif %}
         </div>
+              
     </div>
     
 </body>
 </html>
 
 <style>
-    a.prev-btn {
-        margin-right: 77px;
+    .pagination {
+        display: flex;
+            right: 20px;
+            position: absolute;
+            top: 14%;
     }
+    
+    .page-link, .current-page {
+        margin: 0 5px;
+        padding: 8px 12px;
+        text-decoration: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        color: #000;
+    }
+    
+    .page-link:hover {
+        background-color: #ffdcad;
+    }
+    
+    .current-page {
+        background-color: #007bff;
+        color: #fff;
+        font-weight: bold;
+    }
+    
+    .page-gap {
+        padding: 8px 12px;
+    }
+
     a.next-btn, a.prev-btn {
-        right: 20px;
-        top: 15.5%;
-        position: absolute;
+        top: 39px;
+    }
+    a.prev-btn {
+        margin-right: 66%;
     }
 </style>
+
+    
