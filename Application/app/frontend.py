@@ -95,7 +95,6 @@ def procureMediaChoices():
     response = requests.get('http://127.0.0.1:5000/api/media/mediaToOrder')
 
     media_data = response.json() if response.status_code == 200 else {}
-    print("Parsed media_data:", media_data)
 
 
     media_data = media_data.get('media_count', [])
