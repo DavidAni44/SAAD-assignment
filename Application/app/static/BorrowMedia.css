@@ -111,7 +111,6 @@ form
 
 .container {
     display: ruby-text;
-    margin-top: 286px;
     margin-left: 6px;
   }
   
@@ -121,6 +120,7 @@ form
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #f9f9f9;
+    position: absolute;
   }
   
   .filters h3 {
