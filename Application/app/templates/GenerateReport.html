@@ -52,7 +52,7 @@
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            alert(`Report generated successfully: ${JSON.stringify(data)}`);
+            //alert(`Report generated successfully: ${JSON.stringify(data)}`);
         })
         .catch(error => {
             console.error('Error generating report:', error);
@@ -89,7 +89,7 @@
         <form class="ReservedReport" id="ReservedReport" onsubmit="validateAndSubmit(event, 'Reserved Media')">
             <button type="submit" class="ReserveButton">Generate Reserved Report</button>
         </form>
-        <select id="formatSelector" required>
+        <select id="formatSelector" required name="Select Format">
             <option value="">Select Format</option>
             <option value="pdf">PDF</option>
             <option value="csv">CSV</option>
