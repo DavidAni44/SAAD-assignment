@@ -15,7 +15,7 @@
     
         function populateMediaDetails() {
             if (mediaDetails) {
-                document.getElementById('mediaThumbnail').src = `../static/images/${mediaDetails.mediaName}.jpg`;
+                document.getElementById('mediaThumbnail').src = `../static/images/Covers/${mediaDetails.mediaName}.jpg`;
                 document.getElementById('mediaName').textContent = mediaDetails.mediaName;
                 document.getElementById('PPI').textContent = "Price Per Unit: £" + mediaDetails.PPI;
                 document.getElementById('VendorContact').textContent = "Vendor Contact: " + mediaDetails.vendorContact;
