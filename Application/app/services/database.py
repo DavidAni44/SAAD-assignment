@@ -3,20 +3,35 @@ from flask import Flask
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 
+try:
+    # MongoDB connection
+    client = MongoClient(
+        f'mongodb+srv://{os.getenv("DBUSERNAME")}:{os.getenv("DBPASSWORD")}'
+        '@saaddatabase.8f32e.mongodb.net/?retryWrites=true&w=majority&appName=SAADdatabase'
+    )
+    print("Database connected successfully")
+except Exception as e:
+    print(f"Database connection failed: {e}")
+    exit(1)
 
-client = MongoClient(
-    f'mongodb+srv://{os.getenv("DBUSERNAME")}:{os.getenv("DBPASSWORD")}'
-    '@saaddatabase.8f32e.mongodb.net/?retryWrites=true&w=majority&appName=SAADdatabase'
-)
-db = client["AMLdb"]
-user_collection = db["Test User Collection"]
-media_collection = db["Test Media Collection"]
-branch_collection = db["Test Branch Collection"]
-library_collection = db["Library Collection"]
-transaction_collection = db["Test Transaction Collection"]
-subscription_collection = db["Subscription Collection"]
-purchase_order_collection = db["Purchase Order Collection"]
+# Admin database and collections
+admin_db = client["SAAD_Admin"]
+branch_collection = admin_db["Branch_Collection"]
+transaction_collection = admin_db["Transaction_Collection"]
+library_collection = admin_db["Library_Collection"]
+purchase_order_collection = admin_db["Purchase_Order_Collection"]
 
-#singleton pattern
+# User database and collections
+user_db = client["SAAD_User"]
+user_collection = user_db["User_Collection"]
+
+# Media database and collections
+media_db = client["SAAD_Media"]
+media_collection = media_db["Media_Collection"]
+
+# Subscription database and collections
+sub_db = client["SAAD_Subscription"]
+subscription_collection = sub_db["Subscription_Collection"]
