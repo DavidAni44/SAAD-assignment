@@ -41,6 +41,8 @@
             "export": format,
             "report": reportType
         };
+
+        
     
         fetch('http://127.0.0.1:5000/api/media/report', {
             method: 'POST',
@@ -59,6 +61,9 @@
             console.log(requestData);
     
             let fileName = "";
+            if (format === "excel") {
+                format = "xlsx";
+            }
             switch (reportType) {
                 case 'Reserved Media':
                     fileName = `../static/Reserve_Report.${format}`;
