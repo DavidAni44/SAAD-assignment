@@ -58,19 +58,31 @@ What database will be used to store data for our solution? What database will be
 
 ## Decision Outcome
 
-* ##### Chosen option: Dynamo DB
+* ##### Chosen option: MongoDB with Four Databases
 
-* Reasoning - The data model for ALM is simple and DynamoDB suits simple data models because it’s optimized for quick, predictable access via primary keys. It also meets the non functional requirmenets for scalability as DynamoDB uses automatic partitioning for massive workloads, flexible capacity modes for predictable or spiky traffic, and multi-region replication via Global Tables for global low-latency access. DynamoDB also uses automatic scaling and serverless architecture meeting the fuctional requirements set out by the end users. DymnamoDB also has multi-region replication with global tables meaning real time notifications can be sent to users.
+* Reasoning - MongoDB was selected for its ability to meet scalability and availability requirements while providing a developer-friendly, JSON-like document model. By utilizing four separate MongoDB databases, we can achieve:
+
+    - Efficient Data Partitioning: Workloads can be distributed across databases for optimized performance.
+
+    - Scalability: MongoDB’s horizontal scaling and sharding capabilities allow us to handle anticipated growth efficiently.
+
+    - High Availability: Built-in replication and workload distribution ensure system uptime and resilience.
+
+    - Ease of Development: The JSON-like document structure aligns well with our development practices, improving productivity.
+
+Although DynamoDB offers robust scalability and low-latency performance, its AWS lock-in and limited querying capabilities posed significant constraints. MySQL was less suitable due to its performance challenges with high volumes of data and single-point failure risks.
+
 ### Confirmation
 
-* Check github repository, database will be in DynamoDB
+* Check github repository, database will be in database.py file using the pymongo library 
 
 ### Consequences
-*  Tt may lead to high costs for applications with unpredictable or extremely high traffic however ALM doesnt mention any cost contraints with regards to the new system and traffic volumes dont seem like they would majorily spike at any point. Also as a  AWS service, using DynamoDB may lead to vendor lock-in, making it challenging to migrate to other database systems or platforms in the future.
+*   Cost Implications: While MongoDB is cost-effective compared to DynamoDB, scaling across multiple databases will require infrastructure and resource planning.
+*   Operational Complexity: Managing four databases may introduce complexity in terms of setup, monitoring, and maintenance
+*   Data Model Flexibility: The schema-less nature of MongoDB allows for rapid iteration but can lead to unstructured or inconsistent data if not managed properly.
 
 ### References
-* Why is MySQL not scalable. (n.d.). https://feeddi.com/why-is-mysql-not-scalable
-* https://aspiringyouths.com/advantages-disadvantages/mysql/#google_vignette
-* GeeksforGeeks. (2023, December 1). MongoDB Advantages & Disadvantages. GeeksforGeeks. https://www.geeksforgeeks.org/mongodb-advantages-disadvantages/
-* https://thinkcloudly.com/blogs/aws/advantages-disadvantages-aws-dynamodb/?v=7885444af42e
-* https://docs.aws.amazon.com/dynamodb/
+* Advantages and Disadvantages of MongoDB (https://www.geeksforgeeks.org/mongodb-advantages-disadvantages/)
+* Why MySQL is Not Scalable (https://feeddi.com/why-is-mysql-not-scalable)
+* DynamoDB Overview and Limitations (https://docs.aws.amazon.com/dynamodb/)
+* Challenges of Using NoSQL Databases (https://thinkcloudly.com/blogs/aws/advantages-disadvantages-aws-dynamodb/)
