@@ -240,6 +240,6 @@ class TestLibraryReports(unittest.TestCase):
         mock_to_csv.assert_called_once()
 
 if __name__ == "__main__":
-    unittest.main(testRunner=CustomTestRunner())
+    unittest.main()
 
 #python -m unittest app.services.test_generate_service
