@@ -102,7 +102,7 @@ def convert_excel_to_pdf(excel_file):
     try:
         if not os.path.exists(excel_file):
             raise FileNotFoundError(f"Excel file not found at {excel_file}")
-
+        
         excel_data = pd.read_excel(excel_file, engine="openpyxl")
         if excel_data.empty:
             raise ValueError("The Excel file is empty and cannot be converted to a PDF.")
@@ -284,3 +284,5 @@ def report_selection(report_choice):
     elif report_choice == "Branch Media":
         report_data, report_name = branch_report()
         return report_data, report_name
+    else:
+        raise ValueError(f"Invalid report choice: {report_choice}. Please select a valid option.")

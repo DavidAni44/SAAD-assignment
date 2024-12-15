@@ -9,10 +9,10 @@ from app.api.endpoints.users import ping_endpoint
 
 app = create_app()
 CORS(app, resources={r"/*": {
-    "origins": "*",
-    "methods": ["DELETE", "POST", "GET", "OPTIONS"],
-    "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"]
-}})
+        "origins": ["http://10.75.197.143:5000"],  # Allow this origin
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }})
 
 @app.teardown_appcontext
 def shutdown_scheduler(exception=None):
