@@ -29,7 +29,7 @@ def ping_endpoint():
             "timestamp": datetime.now().isoformat(),
             "status": response.status_code
         }
-        ping_logs.append(log_entry)  # Add log to the global list
+        ping_logs.append(log_entry)  #Add log to the global list
         return log_entry  # Return the latest log entry (optional, for manual calls)
     except requests.RequestException:
         log_entry = {
